@@ -5,13 +5,14 @@ import com.fisherevans.fizzics.components.Vector;
 
 import com.fisherevans.wipgame.Main;
 import com.fisherevans.wipgame.game.states.play.characters.Character;
+import com.fisherevans.wipgame.resources.MathUtil;
 
 /**
  * Author: Fisher Evans
  * Date: 2/11/14
  */
 public class Camera {
-    public static final float DEFAULT_CAMERA_PADDING = 2f*4f;
+    public static final float DEFAULT_CAMERA_PADDING = 2f*3f;
 
     private Vector _targetPosition, _currentPosition;
     private float _maxZoom, _targetZoom, _currentZoom;
@@ -39,21 +40,21 @@ public class Camera {
         Rectangle characterR = null;
         for(Character character:_playState.getCharacters()) {
             characterR = character.getBody();
-            px = characterR.getCenterX();
-            py = characterR.getCenterY();
+            px = MathUtil.clamp(0, characterR.getCenterX(), _playState.getMap().getWidth());
+            py = MathUtil.clamp(0, characterR.getCenterY(), _playState.getMap().getHeight());
             if(first) {
                 topLeft = new Vector(px, py);
                 bottomRight = new Vector(px, py);
                 first = false;
             } else {
-                if(px < topLeft.getX() && px > 0)
+                if(px < topLeft.getX())
                     topLeft.setX(px);
-                else if(px > bottomRight.getX() && px < _playState.getMap().getWidth())
+                else if(px > bottomRight.getX())
                     bottomRight.setX(px);
 
-                if(py < bottomRight.getY() && py > 0)
+                if(py < bottomRight.getY())
                     bottomRight.setY(py);
-                else if(py > topLeft.getY() && py < _playState.getMap().getHeight())
+                else if(py > topLeft.getY())
                     topLeft.setY(py);
             }
         }
@@ -63,6 +64,7 @@ public class Camera {
         float xZoom = Main.gameContainer.getWidth()/(bottomRight.getX()-topLeft.getX()+DEFAULT_CAMERA_PADDING);
         float yZoom = Main.gameContainer.getHeight()/(topLeft.getY()-bottomRight.getY()+DEFAULT_CAMERA_PADDING);
         _targetZoom = Math.min(yZoom, xZoom);
+        _targetZoom *= 0.75f;
         _targetZoom = Math.min(_targetZoom, _maxZoom);
     }
 

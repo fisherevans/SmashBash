@@ -61,8 +61,7 @@ public class Launcher implements ActionListener {
         List<Resolution> resolutionList = new ArrayList<Resolution>();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         for(DisplayMode displayMode:Display.getAvailableDisplayModes()) {
-            if(displayMode.isFullscreenCapable()
-                    && displayMode.getFrequency() == 60
+            if(displayMode.getFrequency() == 60
                     && displayMode.getBitsPerPixel() == 32
                     && displayMode.getWidth()*displayMode.getHeight() >= 480000) {
                 Resolution resolution = new Resolution(displayMode);

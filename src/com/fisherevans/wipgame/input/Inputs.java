@@ -57,6 +57,8 @@ public class Inputs implements KeyListener {
 
     @Override
     public void keyPressed(int key, char c) {
+        if(key == Input.KEY_F8)
+            Main.DEBUG = !Main.DEBUG;
         if(_listener == null)
             return;
 

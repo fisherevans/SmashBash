@@ -7,6 +7,7 @@ import com.fisherevans.wipgame.game.states.start.StartState;
 import com.fisherevans.wipgame.input.Inputs;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
+import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
@@ -85,10 +86,12 @@ public class LoadingState extends BasicGameState {
                         case 1: Images.load(); break;
                         case 2: _currentlyLoading = "Fonts"; break;
                         case 3: Fonts.load(); break;
-                        case 4: _currentlyLoading = "Inputs"; break;
-                        case 5: Inputs.load(); break;
-                        case 6: _currentlyLoading = "States"; break;
-                        case 7: {
+                        case 4: _currentlyLoading = "Sprites"; break;
+                        case 5: Sprites.load(); break;
+                        case 6: _currentlyLoading = "Inputs"; break;
+                        case 7: Inputs.load(); break;
+                        case 8: _currentlyLoading = "States"; break;
+                        case 9: {
                             BasicGameState startState = new StartState();
                             startState.init(gameContainer, stateBasedGame);
 
@@ -101,9 +104,10 @@ public class LoadingState extends BasicGameState {
                             stateBasedGame.addState(startState);
                             stateBasedGame.addState(readyState);
                             stateBasedGame.addState(playState);
+
+                            _currentlyLoading = "Complete";
                             break;
                         }
-                        case 8: _currentlyLoading = "Complete"; break;
                         default: { _loadState = LoadState.FADE_OUT; break; }
                     }
                 } catch (IOException e) {

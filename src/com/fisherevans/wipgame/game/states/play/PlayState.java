@@ -2,14 +2,14 @@ package com.fisherevans.wipgame.game.states.play;
 
 import com.fisherevans.fizzics.World;
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.wipgame.Main;
 import com.fisherevans.wipgame.game.Game;
 import com.fisherevans.wipgame.game.WIPState;
-import com.fisherevans.wipgame.game.states.play.characters.CharacterDirection;
-import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
 import com.fisherevans.wipgame.game.states.play.characters.PlayerController;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
+import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -26,7 +26,7 @@ import com.fisherevans.wipgame.game.states.play.characters.Character;
  * Date: 2/10/14
  */
 public class PlayState extends WIPState {
-    public static final float DEFAULT_GRAVITY = -30f;
+    public static final float DEFAULT_GRAVITY = -37f;
 
     private TiledMap _map;
     private World _world;
@@ -35,6 +35,8 @@ public class PlayState extends WIPState {
 
     private Map<Integer, Image> _ciFalling;
     private Map<Integer, Image> _ciStrafe;
+
+    private float _screenHeight, _screenWidth;
 
     @Override
     public int getID() {
@@ -50,11 +52,11 @@ public class PlayState extends WIPState {
         _characters = new LinkedList<>();
         Character c;
 
-        c = new Character(new Rectangle(13f, _map.getHeight()-13f, 1f, 2f), new Color(0.2f, 0.6f, 0.9f));
+        c = new Character(new Rectangle(13f, _map.getHeight()-13f, 1f, 2f), "base");
         c.setController(new PlayerController(c, 0));
         _characters.add(c);
 
-        c = new Character(new Rectangle(40f, _map.getHeight()-13f, 1f, 2f), new Color(0.9f, 0.4f, 0.2f));
+        c = new Character(new Rectangle(40f, _map.getHeight()-13f, 1f, 2f), "base");
         c.setController(new PlayerController(c, 1));
         _characters.add(c);
 
@@ -123,68 +125,85 @@ public class PlayState extends WIPState {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+        graphics.setColor(Color.darkGray);
+        graphics.fillRect(0, 0, gameContainer.getWidth(), gameContainer.getHeight());
         graphics.setFont(Fonts.getFont(Fonts.HUGE));
         graphics.setColor(Color.white);
-        //graphics.drawString("Play", 10, 10);
 
         float zoom = _camera.getCurrentZoom();
 
-        graphics.drawString(zoom + "", 10, 10);
+        if(Main.DEBUG)
+            graphics.drawString(zoom + "", 10, 10);
 
-        float screenWidth = gameContainer.getWidth()/zoom;
-        float screenHeight = gameContainer.getHeight()/zoom;
+        _screenWidth = gameContainer.getWidth()/zoom;
+        _screenHeight = gameContainer.getHeight()/zoom;
 
-        float defaultCX = screenWidth/2f;
-        float defaultCY = _map.getHeight()-(screenHeight/2f);
-        int shiftX = (int)(-1*(_camera.getCurrentPosition().getX()-defaultCX)*zoom);
-        int shiftY = (int)((_camera.getCurrentPosition().getY()-defaultCY-0.5f)*zoom);
+        float defaultCX = _screenWidth/2f;
+        float defaultCY = _map.getHeight()-(_screenHeight/2f);
+        float shiftX = -1*(_camera.getCurrentPosition().getX()-defaultCX)*zoom;
+        float shiftY = (_camera.getCurrentPosition().getY()-defaultCY-0.5f)*zoom;
 
         //_map.render((int)_player.getCenterX()*64, (int)(_map.getHeight()-_player.getCenterY())*64);
         float  mapScale = zoom/_map.getTileHeight();
         graphics.scale(mapScale, mapScale);
-        _map.render((int) (shiftX / mapScale), (int) (shiftY / mapScale));
+        _map.render((int)(shiftX / mapScale), (int)(shiftY / mapScale));
         graphics.scale(1f / mapScale, 1f / mapScale);
 
-        int size = 32;
-        if(zoom >= 48)
-            size = 64;
-        if(zoom >= 96)
-            size = 128;
-
-        Image ci;
-        float shift;
-        Rectangle characterR;
-        for(Character character:_characters) {
-            graphics.setColor(character.getColor());
-            characterR = character.getBody();
-            if(character.getState() == CharacterState.FALLING)
-                ci = _ciFalling.get(size);
-            else
-                ci = _ciStrafe.get(size);
-            shift = (ci.getWidth()/6f)*(zoom/size);
-            if(character.getDirection() == CharacterDirection.LEFT) {
-                ci.draw((characterR.getBottomLeft().getX())*zoom+shiftX - shift,
-                        (_map.getHeight()-characterR.getBottomLeft().getY()-characterR.getHeight()+1f)*zoom+shiftY - shift,
-                        zoom*characterR.getWidth() + shift*2,
-                        zoom*characterR.getHeight() + shift*2);
-            } else {
-                ci.draw((characterR.getBottomLeft().getX())*zoom+shiftX - shift + ci.getWidth()*(zoom/size),
-                        (_map.getHeight()-characterR.getBottomLeft().getY()-characterR.getHeight()+1f)*zoom+shiftY - shift,
-                        -1*(zoom*characterR.getWidth() + shift*2),
-                        zoom*characterR.getHeight() + shift*2);
-            }
+        int size = Sprites.CHARACTER_SPRITE_SIZES[0];
+        for(int sizeId = 1;sizeId < Sprites.CHARACTER_SPRITE_SIZES.length;sizeId++) {
+            if(zoom >= Sprites.CHARACTER_SPRITE_SIZES[sizeId-1]) size = Sprites.CHARACTER_SPRITE_SIZES[sizeId];
         }
 
-        /*for(Rectangle r:_world.getRectangles()) {
-            if(r.isStatic())
-                graphics.setColor(Color.red);
-            else
-                graphics.setColor(Color.green);
+        if(Main.DEBUG)
+            graphics.drawString(size + "", 10, 50);
 
-            graphics.drawRect((r.getBottomLeft().getX())*zoom+shiftX,
-                    (_map.getHeight()-r.getBottomLeft().getY()-r.getHeight()+1f)*zoom+shiftY,
-                    zoom*r.getWidth()-1, zoom*r.getHeight()-1);
-        }*/
+        Image ci;
+        float padding;
+        Rectangle characterR;
+        for(Character character:_characters) {
+            characterR = character.getBody();
+            ci = character.getImage(size);
+            padding = (size*Sprites.PADDING_PERCENTAGE)*(zoom/size);
+            ci.draw((characterR.getBottomLeft().getX())*zoom+shiftX - padding,
+                    (_map.getHeight()-characterR.getBottomLeft().getY()-characterR.getHeight()+1f)*zoom+shiftY - padding,
+                    zoom*characterR.getWidth() + padding*2,
+                    zoom*characterR.getHeight() + padding*2);
+        }
+
+        if(Main.DEBUG) {
+            for(Rectangle r:_world.getRectangles()) {
+                if(r.isStatic())
+                    graphics.setColor(Color.red);
+                else
+                    graphics.setColor(Color.green);
+
+                graphics.drawRect((r.getBottomLeft().getX())*zoom+shiftX,
+                        (_map.getHeight()-r.getBottomLeft().getY()-r.getHeight()+1f)*zoom+shiftY,
+                        zoom*r.getWidth()-1, zoom*r.getHeight()-1);
+            }
+        }
+    }
+
+    private void drawMapLayer(float xShift, float yShift, int startX, int startY, float scale, int[] layerIds)
+    {
+        // NORMALIZE SHIFT TO AVOID TEARING
+        //xShift = GFX.filterDrawPosition(xShift, DisplayManager.getBackgroundScale());
+        //yShift = GFX.filterDrawPosition(yShift, DisplayManager.getBackgroundScale());
+
+        Image tile;
+        for(int y = startY;y <= startY+_screenHeight+1;y++)
+        {
+            for(int x = startX;x <= startX+_screenWidth+1;x++) // FOR EACH TIME ON THE SCREEN
+            {
+                for(Integer layerId:layerIds) // FOR EACH LAYER
+                {
+                    tile = _map.getTileImage(x, y, layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
+                    if(tile != null)
+                        tile.draw(x*scale + xShift, y*scale + yShift, scale);
+                        //GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
+                }
+            }
+        }
     }
 
     @Override

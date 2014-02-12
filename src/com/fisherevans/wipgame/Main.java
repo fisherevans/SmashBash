@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 public class Main {
     public static AppGameContainer gameContainer;
 
+    public static boolean DEBUG = false;
+
     public static void main(String[] args) {
         Launcher launcher = new Launcher();
     }
