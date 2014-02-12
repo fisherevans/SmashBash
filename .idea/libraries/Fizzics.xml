@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Fizzics">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/Fizzics.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

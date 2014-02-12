@@ -1,0 +1,8 @@
+game.name=WIP Game
+
+launcher.title=Launcher
+launcher.resolution=Resolution
+launcher.fullscreen=Render In
+launcher.fullscreen.true=Fullscreen
+launcher.fullscreen.false=Window
+launcher.launch=Launch
