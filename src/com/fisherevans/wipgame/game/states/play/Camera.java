@@ -15,12 +15,13 @@ public class Camera {
     public static final float DEFAULT_CAMERA_PADDING = 2f*3f;
 
     private Vector _targetPosition, _currentPosition;
-    private float _maxZoom, _targetZoom, _currentZoom;
+    private float _maxZoom, _targetZoom, _currentZoom, _minZoom;
     private PlayState _playState;
 
-    public Camera(PlayState playState, float maxZoom) {
+    public Camera(PlayState playState, float maxZoom, float minZoom) {
         _playState = playState;
         _maxZoom = maxZoom;
+        _minZoom = minZoom;
         calculateTargetPosition();
         _currentPosition = _targetPosition.getCopy();
         _currentZoom = _targetZoom;
@@ -66,6 +67,7 @@ public class Camera {
         _targetZoom = Math.min(yZoom, xZoom);
         _targetZoom *= 0.75f;
         _targetZoom = Math.min(_targetZoom, _maxZoom);
+        _targetZoom = Math.max(_targetZoom, _minZoom);
     }
 
     public Vector getCurrentPosition() {
@@ -74,5 +76,13 @@ public class Camera {
 
     public float getCurrentZoom() {
         return _currentZoom;
+    }
+
+    public float getMaxZoom() {
+        return _maxZoom;
+    }
+
+    public float getMinZoom() {
+        return _minZoom;
     }
 }

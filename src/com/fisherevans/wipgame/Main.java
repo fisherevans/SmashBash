@@ -5,6 +5,7 @@ import com.fisherevans.wipgame.launcher.Launcher;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Messages;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
@@ -27,6 +28,7 @@ public class Main {
 
     public static void loadResources() throws FileNotFoundException, SlickException {
         System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        System.setProperty("java.library.path", new File("natives").getAbsolutePath());
         Messages.load();
     }
 
@@ -39,7 +41,8 @@ public class Main {
             gameContainer.setAlwaysRender(true);
             gameContainer.setShowFPS(false);
             gameContainer.setTargetFrameRate(60);
-            gameContainer.setVSync(true);
+            //gameContainer.setVSync(true);
+            Display.setVSyncEnabled(true);
             gameContainer.setMouseGrabbed(true);
             gameContainer.start();
         } catch (SlickException e) {

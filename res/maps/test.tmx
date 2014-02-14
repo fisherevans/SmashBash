@@ -5,7 +5,7 @@
  </tileset>
  <layer name="collision" width="54" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WYQoAEBiDYe5/aTeQ9i2G9yk/zRLRGgAAuEGfDGWOM6uiOj81K6mLMyupizNLOfuns1Yk7bEzK6mLMyupizOr+v4oXZxrAq9x/g+BXyn3iHsHAPsND9piMAAbAAA=
+   H4sIAAAAAAAAC+2WQQ6AMAgE6/8/7b2xFWQhpM4kvbkLG9rIGAAAGq7pdEDRU5csK8il0VWhyjXfbYvvkyai3fVnRTGvlUemd5bO4kEuv7dKt3tDX4+yP5WuCnJpdFVEcnnuvuf7TO83Tp5XZ8i111n2NeV/q8t+GJ1vVT1yxepU18va67rUAwD4Cze14k0OABsAAA==
   </data>
  </layer>
 </map>

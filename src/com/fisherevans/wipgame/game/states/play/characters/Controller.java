@@ -28,7 +28,7 @@ public abstract class Controller implements InputsListener, CollisionListener {
         for(Key key:Key.values())
             _keyMap.put(key, false);
 
-        _character.getBody().addListener(this);
+        _character.getBody().addCollisionListener(this);
     }
 
     public abstract void update(float delta);
