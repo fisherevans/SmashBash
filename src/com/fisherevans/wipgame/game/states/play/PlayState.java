@@ -2,22 +2,23 @@ package com.fisherevans.wipgame.game.states.play;
 
 import com.fisherevans.fizzics.World;
 import com.fisherevans.fizzics.components.Rectangle;
-import com.fisherevans.wipgame.Main;
-import com.fisherevans.wipgame.game.Game;
+import com.fisherevans.wipgame.Config;
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
-import com.fisherevans.wipgame.game.states.play.characters.PlayerController;
+import com.fisherevans.wipgame.game.states.pause.PauseState;
+import com.fisherevans.wipgame.game.states.play.characters.controllers.PlayerController;
+import com.fisherevans.wipgame.game.states.play.lights.LightManager;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Sprites;
+import com.fisherevans.wipgame.resources.Maps;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.fisherevans.wipgame.game.states.play.characters.Character;
 
@@ -27,36 +28,55 @@ import com.fisherevans.wipgame.game.states.play.characters.Character;
  */
 public class PlayState extends WIPState {
     public static final float DEFAULT_GRAVITY = -37f;
+    public static final int DEFAULT_LIGHT_R = 255;
+    public static final int DEFAULT_LIGHT_G = 255;
+    public static final int DEFAULT_LIGHT_B = 255;
+    public static final String DEFAULT_BACKGROUND = "background/test";
 
-    private Image _gfxImage;
-    private Graphics _gfx;
-
-    private TiledMap _map;
     private World _world;
     private List<Character> _characters;
     private Camera _camera;
 
     private float _screenHeight, _screenWidth;
 
+    private String _mapName = "test";
+    private TiledMap _baseMap;
+
+    private float _gravity;
+    private Color _lightColor;
+    private Image _backgroundImage;
+
+    private LightManager _lightManager;
+
+    private StateBasedGame _stateBasedGame;
+
     @Override
     public int getID() {
-        return Game.STATE_PLAY;
+        return WIP.STATE_PLAY;
     }
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _map = new TiledMap("res/maps/test.tmx");
-        _world = new World(DEFAULT_GRAVITY);
+        _stateBasedGame = stateBasedGame;
+        _baseMap = Maps.getSizedMap(_mapName, Maps.BASE);
+
+        _gravity = Float.parseFloat(_baseMap.getMapProperty("gravity", "" + DEFAULT_GRAVITY));
+        _lightColor = new Color(Integer.parseInt(_baseMap.getMapProperty("light_r", "" + DEFAULT_LIGHT_R)),
+                Integer.parseInt(_baseMap.getMapProperty("light_g", "" + DEFAULT_LIGHT_B)),
+                Integer.parseInt(_baseMap.getMapProperty("light_b", "" + DEFAULT_LIGHT_G)));
+        _backgroundImage = Images.getImage(_baseMap.getMapProperty("background", DEFAULT_BACKGROUND));
+
+        _world = new World(_gravity);
         generateCollisionBodies();
 
         _characters = new LinkedList<>();
         Character c;
 
-        c = new Character(this, "WASD", Color.orange, new Rectangle(10f, _map.getHeight()-13f, 1f, 2f), "base", 10, 100);
+        c = new Character(this, "WASD", Color.orange, new Rectangle(12f, _baseMap.getHeight()-15f, 1f, 2f), "base", 10, 100);
         c.setController(new PlayerController(c, 0));
         _characters.add(c);
 
-        c = new Character(this, "Arrows", Color.cyan, new Rectangle(43f, _map.getHeight()-13f, 1f, 2f), "base", 10, 100);
+        c = new Character(this, "Arrows", Color.cyan, new Rectangle(39f, _baseMap.getHeight()-15f, 1f, 2f), "base", 10, 100);
         c.setController(new PlayerController(c, 1));
         _characters.add(c);
 
@@ -67,23 +87,27 @@ public class PlayState extends WIPState {
 
         _camera = new Camera(this, 128f, 16f);
 
-        _gfxImage = new Image(gameContainer.getWidth(), gameContainer.getHeight());
-        _gfx = _gfxImage.getGraphics();
+        _lightManager = new LightManager(this, _lightColor, gameContainer.getWidth(), gameContainer.getHeight());
+    }
+
+    @Override
+    public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
+
     }
 
     private void generateCollisionBodies() {
 
-        int collisionLayerId = _map.getLayerIndex("collision");
-        int[][] tiles = new int[_map.getHeight()][_map.getWidth()];
+        int collisionLayerId = _baseMap.getLayerIndex("collision");
+        int[][] tiles = new int[_baseMap.getHeight()][_baseMap.getWidth()];
         int tile;
-        for(int y = 0;y < _map.getHeight();y++) {
-            for(int x = 0;x < _map.getWidth();x++) {
-                tiles[y][x] = _map.getTileId(x, _map.getHeight()-y-1, collisionLayerId);
+        for(int y = 0;y < _baseMap.getHeight();y++) {
+            for(int x = 0;x < _baseMap.getWidth();x++) {
+                tiles[y][x] = _baseMap.getTileId(x, _baseMap.getHeight()-y-1, collisionLayerId);
             }
         }
-        for(int y = 0;y < _map.getHeight();y++) {
+        for(int y = 0;y < _baseMap.getHeight();y++) {
             float width = 0;
-            for(int x = 0;x <= _map.getWidth();x++) {
+            for(int x = 0;x <= _baseMap.getWidth();x++) {
                 tile = x < tiles[y].length ? tiles[y][x] : -1;
                 if(tile != 0) {
                     width++;
@@ -99,9 +123,9 @@ public class PlayState extends WIPState {
                 }
             }
         }
-        for(int x = 0;x < _map.getWidth();x++) {
+        for(int x = 0;x < _baseMap.getWidth();x++) {
             float height = 0;
-            for(int y = 0;y <= _map.getHeight();y++) {
+            for(int y = 0;y <= _baseMap.getHeight();y++) {
                 tile = y < tiles.length ? tiles[y][x] : 0;
                 if(tile != 0) {
                     height++;
@@ -118,28 +142,32 @@ public class PlayState extends WIPState {
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics fboGraphics) throws SlickException {
-        Graphics.setCurrent(_gfx);
-        _gfx.clear();
-        _gfx.setColor(Color.darkGray);
-        _gfx.fillRect(0, 0, gameContainer.getWidth(), gameContainer.getHeight());
-        _gfx.setFont(Fonts.getFont(Fonts.HUGE));
-        _gfx.setColor(Color.white);
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics gfx) throws SlickException {
+        Graphics.setCurrent(gfx);
+        gfx.clear();
+        gfx.setColor(Color.darkGray);
+        gfx.fillRect(0, 0, gameContainer.getWidth(), gameContainer.getHeight());
+        gfx.setFont(Fonts.getFont(Fonts.HUGE));
+        gfx.setColor(Color.white);
 
         float zoom = _camera.getCurrentZoom();
+
+        int size = Config.SIZES[0];
+        for(int sizeId = 1;sizeId < Config.SIZES.length;sizeId++) {
+            if(zoom >= Config.SIZES[sizeId-1]) size = Config.SIZES[sizeId];
+        }
 
         _screenWidth = gameContainer.getWidth()/zoom;
         _screenHeight = gameContainer.getHeight()/zoom;
 
         float defaultCX = _screenWidth/2f;
-        float defaultCY = _map.getHeight()-(_screenHeight/2f);
+        float defaultCY = _baseMap.getHeight()-(_screenHeight/2f);
         float shiftX = -1*(_camera.getCurrentPosition().getX()-defaultCX)*zoom;
         float shiftY = (_camera.getCurrentPosition().getY()-defaultCY-0.5f)*zoom;
         int startX = (int)(_camera.getCurrentPosition().getX()-_screenWidth/2f);
         int startY = (int)(_camera.getCurrentPosition().getY()+_screenHeight/2f);
 
-        Image bs = Images.getImage("backgrounds/backsplash/test");
-        float  bsScale = ((float)(Math.max(gameContainer.getHeight(), gameContainer.getWidth())))/((float)(bs.getWidth()));
+        float  bsScale = ((float)(Math.max(gameContainer.getHeight(), gameContainer.getWidth())))/((float)(_backgroundImage.getWidth()));
         bsScale *= zoom/_camera.getMinZoom()/4f > 1f ? zoom/_camera.getMinZoom()/4f : 1f;
         //graphics.scale(bsScale, bsScale);
         //bs.drawCentered(gameContainer.getWidth()/2f/bsScale, gameContainer.getHeight()/2f/bsScale);
@@ -147,74 +175,75 @@ public class PlayState extends WIPState {
 
         //_map.render((int)_player.getCenterX()*64, (int)(_map.getHeight()-_player.getCenterY())*64);
 
-        drawMapLayer(zoom, startX, startY, shiftX, shiftY, _map.getLayerIndex("collision"));
-
-        int size = Sprites.CHARACTER_SPRITE_SIZES[0];
-        for(int sizeId = 1;sizeId < Sprites.CHARACTER_SPRITE_SIZES.length;sizeId++) {
-            if(zoom >= Sprites.CHARACTER_SPRITE_SIZES[sizeId-1]) size = Sprites.CHARACTER_SPRITE_SIZES[sizeId];
-        }
+        //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("collision"));
+        //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("lights"));
+        drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("background"));
 
         Image ci;
-        float padding;
+        float padding, widthScale, imageWidth;
         Rectangle characterR;
         for(Character character:_characters) {
             characterR = character.getBody();
             ci = character.getImage(size);
             padding = (size*Sprites.PADDING_PERCENTAGE)*(zoom/size);
-            ci.draw((characterR.getBottomLeft().getX())*zoom+shiftX - padding,
-                    (_map.getHeight()-characterR.getBottomLeft().getY()-characterR.getHeight()+1f)*zoom+shiftY - padding,
-                    zoom*characterR.getWidth() + padding*2,
-                    zoom*characterR.getHeight() + padding*2);
+            widthScale = character.getImageFlipScale();
+            imageWidth = (zoom*characterR.getWidth() + padding*2);
+            ci.draw((characterR.getBottomLeft().getX()) * zoom + shiftX - padding + imageWidth / 2f - imageWidth / 2 * widthScale,
+                    (_baseMap.getHeight() - characterR.getBottomLeft().getY() - characterR.getHeight() + 1f) * zoom + shiftY - padding,
+                    imageWidth * widthScale,
+                    zoom * characterR.getHeight() + padding * 2);
         }
 
-        if(Main.DEBUG) {
+        _lightManager.render(gfx, zoom, _screenWidth, _screenHeight, startX, startY, shiftX, shiftY);
+
+        if(WIP.debug) {
             for(Rectangle r:_world.getRectangles()) {
                 if(r.isStatic())
-                    _gfx.setColor(Color.red);
+                    gfx.setColor(Color.red);
                 else
-                    _gfx.setColor(Color.green);
+                    gfx.setColor(Color.green);
 
-                _gfx.drawRect((r.getBottomLeft().getX())*zoom+shiftX,
-                        (_map.getHeight()-r.getBottomLeft().getY()-r.getHeight()+1f)*zoom+shiftY,
+                gfx.drawRect((r.getBottomLeft().getX())*zoom+shiftX,
+                        (_baseMap.getHeight()-r.getBottomLeft().getY()-r.getHeight()+1f)*zoom+shiftY,
                         zoom*r.getWidth()-1, zoom*r.getHeight()-1);
             }
 
-            _gfx.setColor(Color.lightGray);
-            _gfx.setFont(Fonts.getFont(Fonts.SMALL));
+            gfx.setColor(Color.white);
+            gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
             Character c;
             for(int i = 0;i < _characters.size();i++) {
                 c = _characters.get(i);
-                _gfx.drawString("Player " + c.getName(), 300, 10 + 40*i);
-                _gfx.drawString("Lives " + c.getLives(), 460, 10 + 40*i);
-                _gfx.drawString("Health " + c.getHealth(), 560, 10 + 40*i);
+                gfx.drawString("Player " + c.getName(), 300, 10 + 40*i);
+                gfx.drawString("Lives " + c.getLives(), 460, 10 + 40*i);
+                gfx.drawString("Health " + c.getHealth(), 560, 10 + 40*i);
             }
 
-            _gfx.drawString("Zoom: " + zoom, 10, 10);
-            _gfx.drawString("Res: " + size , 10, 30);
-            _gfx.drawString("Start: " + startX + ", " + startY, 10, 60);
-            _gfx.drawString("Cam  : " + (int)_camera.getCurrentPosition().getX() + ", " + (int)_camera.getCurrentPosition().getY(), 10, 80);
+            gfx.drawString("Zoom: " + zoom, 10, 10);
+            gfx.drawString("Res: " + size , 10, 30);
+            gfx.drawString("Start: " + startX + ", " + startY, 10, 60);
+            gfx.drawString("Cam  : " + (int)_camera.getCurrentPosition().getX() + ", " + (int)_camera.getCurrentPosition().getY(), 10, 80);
+            gfx.drawString("FPS  : " + gameContainer.getFPS(), 10, 100);
         }
-        _gfx.flush();
-        fboGraphics.drawImage(_gfxImage, 0, 0);
-        Graphics.setCurrent(fboGraphics);
+        gfx.flush();
     }
 
-    private void drawMapLayer(float zoom, int startX, int startY, float shiftX, float shiftY, int layerId)
+    private void drawMapLayer(int size, float zoom, int startX, int startY, float shiftX, float shiftY, int layerId)
     {
         // NORMALIZE SHIFT TO AVOID TEARING
         //xShift = GFX.filterDrawPosition(xShift, DisplayManager.getBackgroundScale());
         //yShift = GFX.filterDrawPosition(yShift, DisplayManager.getBackgroundScale());
+        TiledMap map = Maps.getSizedMap(_mapName, size);
 
         Image tile;
         for(int y = startY+1;y >= startY-_screenHeight-1;y--)
         {
             for(int x = startX;x <= startX+_screenWidth+1;x++) // FOR EACH TIME ON THE SCREEN
             {
-                if(x > 0 && x < _map.getWidth()
-                        && y > 0 && y < _map.getHeight()) {
-                    tile = _map.getTileImage(x, (_map.getHeight()-y-1), layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
+                if(x > 0 && x < map.getWidth()
+                        && y > 0 && y < map.getHeight()) {
+                    tile = map.getTileImage(x, (map.getHeight()-y-1), layerId); // GET THE TILE FOR THAT LAYER | v- IF IT'S NOT NULL AND IT'S IN THE RENDER DISTANCE
                     if(tile != null)
-                        tile.draw(shiftX + x*zoom, shiftY + (_map.getHeight()-y)*zoom, zoom, zoom);
+                        tile.draw(shiftX + x*zoom, shiftY + (map.getHeight()-y)*zoom, zoom, zoom);
                     //GFX.drawImageCentered(x*TILE_SIZE + xShift, y*TILE_SIZE + yShift, tile); // DRAW THE TILE WITH THE X AND Y SHIFT
                 }
             }
@@ -228,21 +257,28 @@ public class PlayState extends WIPState {
 
         for(Character character:_characters) {
             character.update(delta);
-            if(character.getBody().getCenterY() <= -_map.getHeight())
+            if(character.getBody().getCenterY() <= -_baseMap.getHeight())
                 character.kill();
         }
 
         _world.step(delta);
         _camera.calculateTargetPosition();
         _camera.update(delta);
+
+        _lightManager.update(delta);
+    }
+
+    @Override
+    public void leaveState(GameContainer container, StateBasedGame game) throws SlickException {
+
     }
 
     public List<Character> getCharacters() {
         return _characters;
     }
 
-    public TiledMap getMap() {
-        return _map;
+    public TiledMap getBaseMap() {
+        return _baseMap;
     }
 
     public void characterDied(Character character) {
@@ -251,9 +287,20 @@ public class PlayState extends WIPState {
 
     @Override
     public void keyDown(Key key, int inputSource) {
-        for(Character character:_characters) {
-            if(character.getController() != null)
-                character.getController().keyDown(key, inputSource);
+        if(key == Key.Menu) {
+            try {
+                PauseState pauseState = new PauseState(this);
+                pauseState.init(WIP.container, _stateBasedGame);
+                _stateBasedGame.addState(pauseState);
+                _stateBasedGame.enterState(pauseState.getID());
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            for(Character character:_characters) {
+                if(character.getController() != null)
+                    character.getController().keyDown(key, inputSource);
+            }
         }
     }
 

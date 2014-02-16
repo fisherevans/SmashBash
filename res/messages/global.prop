@@ -1,0 +1,9 @@
+light.0.image=lights/default
+light.0.radius=5.5
+light.0.color=200,180,50
+light.0.controller=TorchController
+
+light.1.image=lights/default
+light.1.radius=4
+light.1.color=0,100,240
+light.1.controller=StaticController

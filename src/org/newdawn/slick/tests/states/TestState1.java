@@ -49,7 +49,7 @@ public class TestState1 extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.setFont(font);
 		g.setColor(Color.white);
-		g.drawString("State Based Game Test", 100, 100);
+		g.drawString("State Based WIP Test", 100, 100);
 		g.drawString("Numbers 1-3 will switch between states.", 150, 300);
 		g.setColor(Color.red);
 		g.drawString("This is State 1", 200, 50);

@@ -51,7 +51,7 @@ public class ImageBufferEndianTest extends BasicGame {
 
    /*
     * (non-Javadoc)
-    * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
+    * @see org.newdawn.slick.WIP#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
     */
    public void render(GameContainer container, Graphics g) throws SlickException {
       g.setColor(Color.white);

@@ -1,8 +1,6 @@
 package com.fisherevans.wipgame.game.states.start.settings;
 
-import com.fisherevans.wipgame.Main;
-import com.fisherevans.wipgame.game.Game;
-import com.fisherevans.wipgame.game.states.ready.ReadyState;
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.start.StartState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -47,7 +45,7 @@ public class PlaySetting extends Setting {
 
     @Override
     public void select() {
-        Game.setGameSettings(_startState.getGameSettings());
-        _game.enterState(Game.STATE_READY);
+        WIP.setGameSettings(_startState.getGameSettings());
+        _game.enterState(WIP.STATE_READY);
     }
 }

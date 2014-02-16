@@ -2,8 +2,11 @@ package com.fisherevans.wipgame.game.states.play.characters;
 
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.wipgame.game.states.play.PlayState;
-import com.fisherevans.wipgame.resources.CharacterSprite;
+import com.fisherevans.wipgame.game.states.play.characters.controllers.CharacterController;
+import com.fisherevans.wipgame.game.states.play.characters.enums.CharacterDirection;
+import com.fisherevans.wipgame.game.states.play.characters.enums.CharacterState;
 import com.fisherevans.wipgame.resources.Sprites;
+import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
@@ -20,13 +23,14 @@ public class Character {
     public static final float DEFAULT_X_DE_ACC = 4f;
     public static final float DEFAULT_X_ACC_AIR = 30f;
     public static final float DEFAULT_X_MAX_MOVE = 8f;
+    public static final float DEFAULT_DIRECTION_FLIP_TIME = 0.15f/2f;
 
     public static final float ANIMATIONS_PER_SECOND = 8f;
 
     private String _name;
 
     private Rectangle _body;
-    private Controller _controller;
+    private CharacterController _controller;
 
     private Map<Integer, CharacterSprite> _characterSprites;
     private Color _color;
@@ -39,6 +43,8 @@ public class Character {
     private Integer _lives, _startHealth, _health;
 
     private PlayState _playState;
+
+    private float _directionTime;
 
     public Character(PlayState playState, String name,  Color color, Rectangle body, String characterSpriteName, Integer lives, Integer health) {
         _playState = playState;
@@ -67,6 +73,12 @@ public class Character {
         if(getState() == _lastState)
             _stateLength += delta;
         _lastState = getState();
+
+        _directionTime += delta*(getDirection() == CharacterDirection.RIGHT ? 1f : -1f);
+        if(_directionTime < -DEFAULT_DIRECTION_FLIP_TIME)
+            _directionTime = -DEFAULT_DIRECTION_FLIP_TIME;
+        if(_directionTime > DEFAULT_DIRECTION_FLIP_TIME)
+            _directionTime = DEFAULT_DIRECTION_FLIP_TIME;
     }
 
     public Image getImage(int size) {
@@ -84,11 +96,14 @@ public class Character {
             }
             case IDLE: image = _characterSprites.get(size).getIdle().copy(); break;
         }
-        if(getDirection() == CharacterDirection.LEFT) {
-            image = image.getFlippedCopy(true, false);
-        }
         image.setImageColor(_color.r, _color.g, _color.b);
         return image;
+    }
+
+    public float getImageFlipScale() {
+        float scale = _directionTime/DEFAULT_DIRECTION_FLIP_TIME;
+        scale = MathUtil.clamp(-1f, scale, 1f);
+        return scale;
     }
 
     public void damage(Integer damage) {
@@ -108,11 +123,11 @@ public class Character {
         return _body;
     }
 
-    public Controller getController() {
+    public CharacterController getController() {
         return _controller;
     }
 
-    public void setController(Controller controller) {
+    public void setController(CharacterController controller) {
         _controller = controller;
     }
 

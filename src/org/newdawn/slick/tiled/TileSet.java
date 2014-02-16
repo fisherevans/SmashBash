@@ -64,7 +64,7 @@ public class TileSet {
 	 * @throws SlickException
 	 *             Indicates a failure to parse the tileset
 	 */
-	public TileSet(TiledMap map, Element element, boolean loadImage)
+	public TileSet(TiledMap map, Element element, boolean loadImage, float tileSizeScale)
 			throws SlickException {
 		this.map = map;
 		name = element.getAttribute("name");
@@ -95,8 +95,8 @@ public class TileSet {
 					"TiledMap requires that the map be created with tilesets that use a "
 							+ "single image.  Check the WiKi for more complete information.");
 		}
-		tileWidth = Integer.parseInt(tileWidthString);
-		tileHeight = Integer.parseInt(tileHeightString);
+		tileWidth = (int)(Integer.parseInt(tileWidthString)*tileSizeScale);
+		tileHeight = (int)(Integer.parseInt(tileHeightString)*tileSizeScale);
 
 		String sv = element.getAttribute("spacing");
 		if ((sv != null) && (!sv.equals(""))) {

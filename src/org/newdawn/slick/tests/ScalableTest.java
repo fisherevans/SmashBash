@@ -86,7 +86,7 @@ public class ScalableTest extends BasicGame {
 
 				protected void renderOverlay(GameContainer container, Graphics g) {
 					g.setColor(Color.white);
-					g.drawString("Outside The Game", 350, 10);
+					g.drawString("Outside The WIP", 350, 10);
 					g.drawString(container.getInput().getMouseX()+","+container.getInput().getMouseY(), 400, 20);
 				}
 				

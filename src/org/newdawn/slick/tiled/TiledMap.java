@@ -104,7 +104,7 @@ public class TiledMap {
 		this.loadTileSets = loadTileSets;
 		ref = ref.replace('\\', '/');
 		load(ResourceLoader.getResourceAsStream(ref),
-				ref.substring(0, ref.lastIndexOf("/")));
+				ref.substring(0, ref.lastIndexOf("/")), 1);
 	}
 
 	/**
@@ -118,9 +118,13 @@ public class TiledMap {
 	 * @throws SlickException
 	 *             Indicates a failure to load the tilemap
 	 */
-	public TiledMap(String ref, String tileSetsLocation) throws SlickException {
-		load(ResourceLoader.getResourceAsStream(ref), tileSetsLocation);
-	}
+    public TiledMap(String ref, String tileSetsLocation) throws SlickException {
+        load(ResourceLoader.getResourceAsStream(ref), tileSetsLocation, 1);
+    }
+
+    public TiledMap(String ref, String tileSetsLocation, float tileSizeScale) throws SlickException {
+        load(ResourceLoader.getResourceAsStream(ref), tileSetsLocation, tileSizeScale);
+    }
 
 	/**
 	 * Load a tile map from an arbitary input stream
@@ -131,7 +135,7 @@ public class TiledMap {
 	 *             Indicates a failure to load the tilemap
 	 */
 	public TiledMap(InputStream in) throws SlickException {
-		load(in, "");
+		load(in, "", 1);
 	}
 
 	/**
@@ -146,7 +150,7 @@ public class TiledMap {
 	 */
 	public TiledMap(InputStream in, String tileSetsLocation)
 			throws SlickException {
-		load(in, tileSetsLocation);
+		load(in, tileSetsLocation, 1);
 	}
 
 	/**
@@ -256,10 +260,20 @@ public class TiledMap {
 	 *            The index of the layer to retireve the tile from
 	 * @return The global ID of the tile
 	 */
-	public int getTileId(int x, int y, int layerIndex) {
-		Layer layer = (Layer) layers.get(layerIndex);
-		return layer.getTileID(x, y);
-	}
+    public int getTileId(int x, int y, int layerIndex) {
+        Layer layer = (Layer) layers.get(layerIndex);
+        return layer.getTileID(x, y);
+    }
+
+    public int getTileSheetId(int x, int y, int layerIndex) {
+        Layer layer = (Layer) layers.get(layerIndex);
+        return layer.getTileSheetID(x, y);
+    }
+
+    public int[] getTileData(int x, int y, int layerIndex) {
+        Layer layer = (Layer) layers.get(layerIndex);
+        return layer.getTileData(x, y);
+    }
 
 	/**
 	 * Set the global ID of a tile at specified location in the map
@@ -597,7 +611,7 @@ public class TiledMap {
 	 * @throws SlickException
 	 *             Indicates a failure to parse the map or find a tileset
 	 */
-	private void load(InputStream in, String tileSetsLocation)
+	private void load(InputStream in, String tileSetsLocation, float tileSizeScale)
 			throws SlickException {
 		tilesLocation = tileSetsLocation;
 
@@ -629,8 +643,8 @@ public class TiledMap {
 
 			width = parseInt(docElement.getAttribute("width"));
 			height = parseInt(docElement.getAttribute("height"));
-			tileWidth = parseInt(docElement.getAttribute("tilewidth"));
-			tileHeight = parseInt(docElement.getAttribute("tileheight"));
+			tileWidth = (int)(parseInt(docElement.getAttribute("tilewidth"))*tileSizeScale);
+			tileHeight = (int)(parseInt(docElement.getAttribute("tileheight"))*tileSizeScale);
 
 			// now read the map properties
 			Element propsElement = (Element) docElement.getElementsByTagName(
@@ -658,7 +672,7 @@ public class TiledMap {
 				for (int i = 0; i < setNodes.getLength(); i++) {
 					Element current = (Element) setNodes.item(i);
 
-					tileSet = new TileSet(this, current, !headless);
+					tileSet = new TileSet(this, current, !headless, tileSizeScale);
 					tileSet.index = i;
 
 					if (lastSet != null) {

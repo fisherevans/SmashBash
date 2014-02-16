@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -122,6 +121,8 @@ public class Launcher implements ActionListener {
 
         _frame.pack();
         centerJFrame(_frame);
+
+        buttonLaunch.grabFocus();
     }
 
     private void closeLauncher() {

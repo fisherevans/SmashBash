@@ -23,7 +23,7 @@ public class TestState3 extends BasicGameState {
 	/** The font to write the message with */
 	private Font font;
 	/** The menu options */
-	private String[] options = new String[] {"Start Game","Credits","Highscores","Instructions","Exit"};
+	private String[] options = new String[] {"Start WIP","Credits","Highscores","Instructions","Exit"};
 	/** The index of the selected option */
 	private int selected;
 	/** The game holding this state */

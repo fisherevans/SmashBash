@@ -14,6 +14,7 @@ import java.util.Scanner;
  * Date: 2/10/14
  */
 public class Messages {
+    private static final String GLOBAL_FILE = "res/messages/global.prop";
     private static Map<String, Map<String, String>> _messageMap;
     private static String _defaultLanguage = "eng";
 
@@ -24,9 +25,23 @@ public class Messages {
                 loadFile(file);
             }
         }
+        loadGlobalFile(new File(GLOBAL_FILE));
     }
 
     private static void loadFile(File file) throws FileNotFoundException {
+        Map<String, String> messages = fetchMessages(file);
+        String language = file.getName().replace("messages.", "").replace(".prop", "");
+        _messageMap.put(language, messages);
+    }
+
+    private static void loadGlobalFile(File file) throws FileNotFoundException {
+        Map<String, String> messages = fetchMessages(file);
+        for(String key:_messageMap.keySet()) {
+            _messageMap.get(key).putAll(messages);
+        }
+    }
+
+    private static Map<String, String> fetchMessages(File file) throws FileNotFoundException {
         Map<String, String> messages = new HashMap<>();
         Scanner scanner = new Scanner(file);
         String line[];
@@ -39,19 +54,13 @@ public class Messages {
                 property += line[i] + (i == line.length-1 ? "" : "=");
             messages.put(key, property);
         }
-        String language = file.getName().replace("messages.", "").replace(".prop", "");
-        _messageMap.put(language, messages);
+        return messages;
     }
 
     public static String get(String key) {
         Map<String, String> messages = _messageMap.get(_defaultLanguage);
-        if(messages == null)
+        if(messages == null || messages.get(key) == null)
             return key;
-
-        String message = messages.get(key);
-        if(message == null)
-            return key;
-
-        return message;
+        return messages.get(key);
     }
 }

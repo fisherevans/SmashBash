@@ -4,8 +4,9 @@ import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 
 import com.fisherevans.wipgame.Main;
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.play.characters.Character;
-import com.fisherevans.wipgame.resources.MathUtil;
+import com.fisherevans.wipgame.tools.MathUtil;
 
 /**
  * Author: Fisher Evans
@@ -41,8 +42,8 @@ public class Camera {
         Rectangle characterR = null;
         for(Character character:_playState.getCharacters()) {
             characterR = character.getBody();
-            px = MathUtil.clamp(0, characterR.getCenterX(), _playState.getMap().getWidth());
-            py = MathUtil.clamp(0, characterR.getCenterY(), _playState.getMap().getHeight());
+            px = MathUtil.clamp(0, characterR.getCenterX(), _playState.getBaseMap().getWidth());
+            py = MathUtil.clamp(0, characterR.getCenterY(), _playState.getBaseMap().getHeight());
             if(first) {
                 topLeft = new Vector(px, py);
                 bottomRight = new Vector(px, py);
@@ -62,8 +63,8 @@ public class Camera {
         _targetPosition = new Vector((topLeft.getX()+bottomRight.getX())/2f,
                 (topLeft.getY()+bottomRight.getY())/2f);
 
-        float xZoom = Main.gameContainer.getWidth()/(bottomRight.getX()-topLeft.getX()+DEFAULT_CAMERA_PADDING);
-        float yZoom = Main.gameContainer.getHeight()/(topLeft.getY()-bottomRight.getY()+DEFAULT_CAMERA_PADDING);
+        float xZoom = WIP.container.getWidth()/(bottomRight.getX()-topLeft.getX()+DEFAULT_CAMERA_PADDING);
+        float yZoom = WIP.container.getHeight()/(topLeft.getY()-bottomRight.getY()+DEFAULT_CAMERA_PADDING);
         _targetZoom = Math.min(yZoom, xZoom);
         _targetZoom *= 0.75f;
         _targetZoom = Math.min(_targetZoom, _maxZoom);

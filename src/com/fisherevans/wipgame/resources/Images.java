@@ -1,6 +1,5 @@
 package com.fisherevans.wipgame.resources;
 
-import com.fisherevans.wipgame.Log;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -23,18 +22,22 @@ public class Images {
         loadImages(IMAGE_LOCATIONS);
     }
 
-    private static void loadImages(String prefix) throws SlickException, IOException {
+    private static void loadImages(String prefix) {
         File folder = new File(prefix);
-        Log.d("Loading images in: " + folder.getAbsoluteFile());
         String key;
         Image image;
         if(folder.isDirectory()) {
             for(File child:folder.listFiles()) {
                 if(child.isFile() && child.getName().matches((".*\\.(png|jpg|jpeg|gif)"))) {
-                    Log.d("    Loading image: " + child.getName());
-                    key = prefix + "/" + child.getName().replaceAll("\\..*", "");
-                    image = getAbsoluteImage(child.getCanonicalPath());
-                    _images.put(key, image);
+                    try {
+                        key = prefix + "/" + child.getName().replaceAll("\\..*", "");
+                        image = getAbsoluteImage(child.getCanonicalPath());
+                        _images.put(key, image);
+                    } catch (SlickException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     loadImages(prefix + "/" + child.getName());
                 }

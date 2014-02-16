@@ -666,7 +666,7 @@ public abstract class GameContainer implements GUIContext {
 					
 				} catch (Throwable e) {
 					Log.error(e);
-					throw new SlickException("Game.update() failure - check the game code.");
+					throw new SlickException("WIP.update() failure - check the game code.");
 				}
 			}
 		} else {
@@ -688,7 +688,7 @@ public abstract class GameContainer implements GUIContext {
 				game.render(this, graphics);
 			} catch (Throwable e) {
 				Log.error(e);
-				throw new SlickException("Game.render() failure - check the game code.");
+				throw new SlickException("WIP.render() failure - check the game code.");
 			}
 			graphics.resetTransform();
 			

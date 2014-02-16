@@ -389,4 +389,9 @@ public class Color implements Serializable {
 		
 		return copy;
 	}
+
+    public Color copy() {
+        Color copy = new Color(r,g,b,a);
+        return copy;
+    }
 }

@@ -1,15 +1,15 @@
 package com.fisherevans.wipgame.game.states.loading;
 
-import com.fisherevans.wipgame.game.Game;
+import com.fisherevans.wipgame.Config;
+import com.fisherevans.wipgame.game.WIP;
+import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.ready.ReadyState;
 import com.fisherevans.wipgame.game.states.start.StartState;
 import com.fisherevans.wipgame.input.Inputs;
-import com.fisherevans.wipgame.resources.Fonts;
-import com.fisherevans.wipgame.resources.Images;
-import com.fisherevans.wipgame.resources.Sprites;
+import com.fisherevans.wipgame.input.Key;
+import com.fisherevans.wipgame.resources.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -19,15 +19,15 @@ import java.io.IOException;
  * Author: Fisher Evans
  * Date: 2/10/14
  */
-public class LoadingState extends BasicGameState {
-    private final static String LOADING_IMAGE_LOCATION = "res/img/loading/loading.png";
+public class LoadingState extends WIPState {
+    private final static int FONT_SIZE = Config.SIZES[1];
+    private final static int FONT_BIG_SIZE = Config.SIZES[2];
     private final static float FADE_SPEED = 0.75f;
 
-    private Image _loadingImage;
-    private float _imageX, _imageY;
 
-    private UnicodeFont _font;
-    private String _currentlyLoading = "Images";
+    private AngelCodeFont _font, _fontBig;
+    private String _loadingMessage;
+    private String _currentlyLoading;
 
     private LoadState _loadState = LoadState.FADE_IN;
     private int _loadStage = 0;
@@ -37,34 +37,35 @@ public class LoadingState extends BasicGameState {
 
     @Override
     public int getID() {
-        return Game.STATE_LOADING;
+        return WIP.STATE_LOADING;
     }
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _loadingImage = new Image(LOADING_IMAGE_LOCATION);
-
-        _imageX = (gameContainer.getWidth() - _loadingImage.getWidth())/2f;
-        _imageY = (gameContainer.getHeight() - _loadingImage.getHeight())/2f;
-
-        _font = new UnicodeFont(Fonts.FONT_FILE, 16, false, false);
-        _font.addAsciiGlyphs();
-        _font.addGlyphs(400, 600);
-        _font.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-        _font.loadGlyphs();
+        _font = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + "_0.png");
+        _fontBig = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + "_0.png");
 
         _color = new Color(0, 0, 0);
+
+        _loadingMessage = Messages.get("loading.title");
+        _currentlyLoading = Messages.get("loading.resource.images");
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        graphics.setAntiAlias(false);
-        graphics.drawImage(_loadingImage, _imageX, _imageY, _color);
+        float textWidth = _fontBig.getWidth(_loadingMessage);
 
-        graphics.setAntiAlias(true);
-        graphics.setFont(_font);
         graphics.setColor(_color);
-        graphics.drawString(_currentlyLoading, 10, gameContainer.getHeight()-26);
+
+        graphics.setFont(_fontBig);
+        graphics.drawString(_loadingMessage,
+                (gameContainer.getWidth() - textWidth) / 2f,
+                (gameContainer.getHeight() - _fontBig.getLineHeight()) / 2f);
+
+        graphics.setFont(_font);
+        graphics.drawString(_currentlyLoading,
+                Config.SIZES[0],
+                gameContainer.getHeight()-_font.getLineHeight()-Config.SIZES[0]);
     }
 
     @Override
@@ -82,16 +83,20 @@ public class LoadingState extends BasicGameState {
             case LOAD: {
                 try {
                     switch(_loadStage) {
-                        case 0: _currentlyLoading = "Images"; break;
+                        case 0: _currentlyLoading = Messages.get("loading.resource.images"); break;
                         case 1: Images.load(); break;
-                        case 2: _currentlyLoading = "Fonts"; break;
+                        case 2: _currentlyLoading = Messages.get("loading.resource.fonts"); break;
                         case 3: Fonts.load(); break;
-                        case 4: _currentlyLoading = "Sprites"; break;
+                        case 4: _currentlyLoading = Messages.get("loading.resource.sprites"); break;
                         case 5: Sprites.load(); break;
-                        case 6: _currentlyLoading = "Inputs"; break;
-                        case 7: Inputs.load(); break;
-                        case 8: _currentlyLoading = "States"; break;
-                        case 9: {
+                        case 6: _currentlyLoading = Messages.get("loading.resource.lights"); break;
+                        case 7: Lights.load(); break;
+                        case 8: _currentlyLoading = Messages.get("loading.resource.maps"); break;
+                        case 9: Maps.load(); break;
+                        case 10: _currentlyLoading = Messages.get("loading.resource.input"); break;
+                        case 11: Inputs.load(); break;
+                        case 12: _currentlyLoading = Messages.get("loading.resource.states"); break;
+                        case 13: {
                             BasicGameState startState = new StartState();
                             startState.init(gameContainer, stateBasedGame);
 
@@ -105,7 +110,7 @@ public class LoadingState extends BasicGameState {
                             stateBasedGame.addState(readyState);
                             stateBasedGame.addState(playState);
 
-                            _currentlyLoading = "Complete";
+                            _currentlyLoading = Messages.get("loading.complete");
                             break;
                         }
                         default: { _loadState = LoadState.FADE_OUT; break; }
@@ -126,10 +131,30 @@ public class LoadingState extends BasicGameState {
                 break;
             }
             case SWITCH_STATE: {
-                stateBasedGame.enterState(Game.STATE_START);
+                stateBasedGame.enterState(WIP.STATE_START);
                 break;
             }
         }
+    }
+
+    @Override
+    public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
+
+    }
+
+    @Override
+    public void leaveState(GameContainer container, StateBasedGame game) throws SlickException {
+
+    }
+
+    @Override
+    public void keyDown(Key key, int inputSource) {
+
+    }
+
+    @Override
+    public void keyUp(Key key, int inputSource) {
+
     }
 
     private enum LoadState { FADE_IN, LOAD, FADE_OUT, SWITCH_STATE }

@@ -144,9 +144,17 @@ public class Layer {
 	 *            The y coorindate of the tile
 	 * @return The global ID of the tile
 	 */
-	public int getTileID(int x, int y) {
-		return data[x][y][2];
-	}
+    public int getTileID(int x, int y) {
+        return data[x][y][2];
+    }
+
+    public int getTileSheetID(int x, int y) {
+        return data[x][y][1];
+    }
+
+    public int[] getTileData(int x, int y) {
+        return data[x][y];
+    }
 
 	/**
 	 * Set the global tile ID at a specified location

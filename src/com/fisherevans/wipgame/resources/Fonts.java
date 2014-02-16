@@ -1,12 +1,10 @@
 package com.fisherevans.wipgame.resources;
 
-import com.fisherevans.wipgame.Log;
+import com.fisherevans.wipgame.Config;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.awt.*;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,49 +13,37 @@ import java.util.Map;
  * Date: 2/10/14
  */
 public class Fonts {
-    public final static Integer TINY = 8;
-    public final static Integer SMALL = 16;
-    public final static Integer REGULAR = 24;
-    public final static Integer LARGE = 32;
-    public final static Integer HUGE = 40;
+    public final static Integer TINY = Config.SIZES[0];
+    public final static Integer SMALL = Config.SIZES[1];
+    public final static Integer REGULAR = Config.SIZES[2];
+    public final static Integer LARGE = Config.SIZES[3];
+    public final static Integer HUGE = Config.SIZES[4];
 
-    private final static Integer[] DEFAULT_FONT_SIZES =
-            { TINY, SMALL, REGULAR, LARGE, HUGE };
+    public final static String FONT_FOLDER = "res/fonts/";
 
-    public final static String FONT_FILE = "res/fonts/Stark.ttf";
-
-    private static Map<Integer, UnicodeFont> _fonts;
+    private static Map<Integer, AngelCodeFont> _fonts, _strokedFonts;
 
     private static Font _baseFont;
 
     public static void load() throws SlickException {
         _fonts = new HashMap<>();
-        for(Integer size:DEFAULT_FONT_SIZES)
+        _strokedFonts = new HashMap<>();
+        for(Integer size:Config.SIZES)
             loadFont(size);
     }
 
-    private static UnicodeFont loadFont(Integer size) throws SlickException {
-        Log.d("Loading font " + FONT_FILE + " size: " + size);
-        UnicodeFont font = new UnicodeFont(FONT_FILE, size, false, false);
-        font.addAsciiGlyphs();
-        font.addGlyphs(400, 600);
-        font.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-        font.loadGlyphs();
+    private static void loadFont(Integer size) throws SlickException {
+        AngelCodeFont font = new AngelCodeFont(FONT_FOLDER + "stark-" + size + ".fnt", FONT_FOLDER + "stark-" + size + "_0.png");
+        AngelCodeFont strokedFont = new AngelCodeFont(FONT_FOLDER + "stark-" + size + "-stroke.fnt", FONT_FOLDER + "stark-" + size + "-stroke_0.png");
         _fonts.put(size, font);
-        return font;
+        _strokedFonts.put(size, strokedFont);
     }
 
-    public static UnicodeFont getFont(int size) {
-        UnicodeFont font = _fonts.get(size);
-        try {
-            if(font == null)
-                return loadFont(size);
-            else
-                return font;
-        } catch (SlickException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return font;
+    public static AngelCodeFont getFont(int size) {
+        return _fonts.get(size);
+    }
+
+    public static AngelCodeFont getStrokedFont(int size) {
+        return _strokedFonts.get(size);
     }
 }

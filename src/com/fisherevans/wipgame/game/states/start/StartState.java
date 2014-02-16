@@ -1,7 +1,8 @@
 package com.fisherevans.wipgame.game.states.start;
 
-import com.fisherevans.wipgame.Log;
-import com.fisherevans.wipgame.game.Game;
+import com.fisherevans.wipgame.game.WIPState;
+import com.fisherevans.wipgame.log.Log;
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.GameSettings;
 import com.fisherevans.wipgame.game.states.start.settings.*;
 import com.fisherevans.wipgame.input.Inputs;
@@ -19,32 +20,25 @@ import java.util.List;
  * Author: Fisher Evans
  * Date: 2/10/14
  */
-public class StartState extends BasicGameState implements InputsListener {
+public class StartState extends WIPState {
     private List<Setting> _settings;
 
     private int _selected = 0;
 
-    private UnicodeFont _font;
+    private AngelCodeFont _font;
 
     private int _fontHeight;
 
     @Override
     public int getID() {
-        return Game.STATE_START;
-    }
-
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        Inputs.setListener(this);
+        return WIP.STATE_START;
     }
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        Log.d("Init Start State");
-
         _settings = new ArrayList<>();
 
-        _settings.add(new PlaySetting("Play Game", this, stateBasedGame));
+        _settings.add(new PlaySetting("Play WIP", this, stateBasedGame));
         _settings.add(new StringSetting("Map", new String[] {"Dusty Level", "Lava Lake", "Gateway"}, 0));
         _settings.add(new NumberSetting("Player Count", 1, 1, 1));
         _settings.add(new NumberSetting("AI Count", 0, 0, 8));
@@ -52,14 +46,13 @@ public class StartState extends BasicGameState implements InputsListener {
         _settings.add(new NumberSetting("Lives", 1, 10, 30));
         _settings.add(new BooleanSetting("Random Weapons", false, "Enabled", "Disabled"));
 
-        _font = Fonts.getFont(Fonts.LARGE);
+        _font = Fonts.getFont(Fonts.REGULAR);
         _fontHeight = _font.getHeight("|");
     }
 
     @Override
-    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        if(Inputs.getListener() == this)
-            Inputs.setListener(null);
+    public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
+
     }
 
     @Override
@@ -81,6 +74,11 @@ public class StartState extends BasicGameState implements InputsListener {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+
+    }
+
+    @Override
+    public void leaveState(GameContainer container, StateBasedGame game) throws SlickException {
 
     }
 

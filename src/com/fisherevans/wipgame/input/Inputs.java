@@ -1,7 +1,7 @@
 package com.fisherevans.wipgame.input;
 
-import com.fisherevans.wipgame.Log;
 import com.fisherevans.wipgame.Main;
+import com.fisherevans.wipgame.game.WIP;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
@@ -31,7 +31,6 @@ public class Inputs implements KeyListener {
         c0.put(Key.Right, Input.KEY_D);
         c0.put(Key.Select, Input.KEY_SPACE);
         c0.put(Key.Back, Input.KEY_LCONTROL);
-        c0.put(Key.Menu, Input.KEY_ESCAPE);
         _inputsMap.put(0, c0);
 
         Map<Key, Integer> c1 = new HashMap<>();
@@ -41,10 +40,13 @@ public class Inputs implements KeyListener {
         c1.put(Key.Right, Input.KEY_RIGHT);
         c1.put(Key.Select, Input.KEY_ENTER);
         c1.put(Key.Back, Input.KEY_RCONTROL);
-        c1.put(Key.Menu, Input.KEY_BACK);
         _inputsMap.put(1, c1);
 
-        Main.gameContainer.getInput().addKeyListener(_itself);
+        Map<Key, Integer> cz = new HashMap<>();
+        cz.put(Key.Menu, Input.KEY_ESCAPE);
+        _inputsMap.put(-1, cz);
+
+        WIP.container.getInput().addKeyListener(_itself);
     }
 
     public static void setListener(InputsListener listener) {
@@ -56,36 +58,28 @@ public class Inputs implements KeyListener {
     }
 
     @Override
-    public void keyPressed(int key, char c) {
-        if(key == Input.KEY_F8)
-            Main.DEBUG = !Main.DEBUG;
+    public void keyPressed(int keyCode, char c) {
+        if(keyCode == Input.KEY_F8)
+            WIP.debug = !WIP.debug;
         if(_listener == null)
             return;
-
-        Map<Key, Integer> keyMap;
-        for(Key keyType:Key.values()) {
-            for(Integer inputSourceKey:_inputsMap.keySet()) {
-                keyMap = _inputsMap.get(inputSourceKey);
-                if(key == keyMap.get(keyType)) {
-                    _listener.keyDown(keyType, inputSourceKey);
-                    break;
+        for(int inputSource:_inputsMap.keySet()) {
+            for(Key key:_inputsMap.get(inputSource).keySet()) {
+                if(keyCode == _inputsMap.get(inputSource).get(key)) {
+                    _listener.keyDown(key, inputSource);
                 }
             }
         }
     }
 
     @Override
-    public void keyReleased(int key, char c) {
+    public void keyReleased(int keyCode, char c) {
         if(_listener == null)
             return;
-
-        Map<Key, Integer> keyMap;
-        for(Key keyType:Key.values()) {
-            for(Integer inputSourceKey:_inputsMap.keySet()) {
-                keyMap = _inputsMap.get(inputSourceKey);
-                if(key == keyMap.get(keyType)) {
-                    _listener.keyUp(keyType, inputSourceKey);
-                    break;
+        for(int inputSource:_inputsMap.keySet()) {
+            for(Key key:_inputsMap.get(inputSource).keySet()) {
+                if(keyCode == _inputsMap.get(inputSource).get(key)) {
+                    _listener.keyUp(key, inputSource);
                 }
             }
         }
