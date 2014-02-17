@@ -6,6 +6,7 @@
   <property name="light_b" value="200"/>
   <property name="light_g" value="120"/>
   <property name="light_r" value="100"/>
+  <property name="name" value="Test Map"/>
  </properties>
  <tileset firstgid="1" name="collision" tilewidth="128" tileheight="128">
   <image source="colission.png" width="256" height="256"/>
@@ -29,6 +30,11 @@
  <layer name="background" width="54" height="32">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3VOQ6AIBRFUTbhrKWz7n97vtpYoCI/mHuS2wLNC84BAAAAeCpTuSpUqSpVq0a1hu96q1eDGtWkZrWoVW2G7zrrfnr3/uHZVnfH2krsTcbaSsqbtNxpKFe7sNzpXb67SO1P891FKvsBAABhHUC44I0AGwAA
+  </data>
+ </layer>
+ <layer name="foreground" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ8HFAAAAAAAAPwYlIPOdAAbAAA=
   </data>
  </layer>
 </map>

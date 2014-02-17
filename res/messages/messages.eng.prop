@@ -1,4 +1,4 @@
-game.name=WIP Game
+game.name=Some Game Title
 
 launcher.title=Launcher
 launcher.resolution=Resolution
@@ -7,7 +7,7 @@ launcher.fullscreen.true=Fullscreen
 launcher.fullscreen.false=Window
 launcher.launch=Launch
 
-loading.title=LOADING
+loading.prefix=Loading: 
 loading.resource.images=Images
 loading.resource.fonts=Fonts
 loading.resource.sprites=Sprite

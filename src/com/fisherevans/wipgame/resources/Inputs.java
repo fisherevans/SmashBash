@@ -7,13 +7,17 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Author: Fisher Evans
  * Date: 2/10/14
  */
 public class Inputs implements KeyListener {
+    public static final int GLOBAL_INPUT = -1;
+
     private static Map<Integer, Map<Key, Integer>> _inputsMap = null;
     private static Map<Integer, Map<Key, Boolean>> _keyStateMap = null;
 
@@ -46,7 +50,7 @@ public class Inputs implements KeyListener {
 
         Map<Key, Integer> cg = new HashMap<>();
         cg.put(Key.Menu, Input.KEY_ESCAPE);
-        _inputsMap.put(-1, cg);
+        _inputsMap.put(GLOBAL_INPUT, cg);
 
         _keyStateMap = new HashMap<>();
         Map<Key, Boolean> keyState;
@@ -116,6 +120,19 @@ public class Inputs implements KeyListener {
         return false;
     }
 
+    public static Set<Integer> getInputSources() {
+        return _inputsMap.keySet();
+    }
+
+    public static String getPhysicalKey(Key key, Integer inputSource) {
+        Map<Key, Integer> map = _inputsMap.get(inputSource);
+        if(map == null)
+            return null;
+        Integer keyValue = map.get(key);
+        if(keyValue == null)
+            return null;
+        return Input.getKeyName(keyValue);
+    }
 
     @Override
     public boolean isAcceptingInput() {

@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 
 /**
  * Author: Fisher Evans
@@ -16,13 +17,20 @@ import java.io.FileNotFoundException;
  */
 public class Main {
     public static void main(String[] args) {
-        loadResources();
-        new Launcher();
+        try {
+            loadResources();
+            new Launcher();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void loadResources()  {
-        System.setProperty("java.library.path", new File("natives").getAbsolutePath());
-        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+    public static void loadResources() throws NoSuchFieldException, IllegalAccessException {
+        System.setProperty("java.library.path", new File("dll").getAbsolutePath());
+        System.setProperty("org.lwjgl.librarypath", new File("dll").getAbsolutePath());
+        Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+        fieldSysPath.setAccessible(true);
+        fieldSysPath.set(null, null);
         try {
             Messages.load();
         } catch (FileNotFoundException e) {

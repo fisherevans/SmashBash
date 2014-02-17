@@ -1,6 +1,6 @@
-package com.fisherevans.wipgame.game.states.util.menu.settings;
+package com.fisherevans.wipgame.game.util.menu.settings;
 
-import com.fisherevans.wipgame.game.states.util.menu.MenuSetting;
+import com.fisherevans.wipgame.game.util.menu.MenuSetting;
 import com.fisherevans.wipgame.tools.MathUtil;
 
 import java.util.ArrayList;

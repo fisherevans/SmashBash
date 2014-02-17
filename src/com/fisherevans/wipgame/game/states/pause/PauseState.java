@@ -3,11 +3,11 @@ package com.fisherevans.wipgame.game.states.pause;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
-import com.fisherevans.wipgame.game.states.util.menu.Menu;
-import com.fisherevans.wipgame.game.states.util.menu.options.DummyOption;
-import com.fisherevans.wipgame.game.states.util.menu.options.EndGameOption;
-import com.fisherevans.wipgame.game.states.util.menu.options.QuitOption;
-import com.fisherevans.wipgame.game.states.util.menu.options.RunnableOption;
+import com.fisherevans.wipgame.game.util.menu.Menu;
+import com.fisherevans.wipgame.game.util.menu.options.DummyOption;
+import com.fisherevans.wipgame.game.util.menu.options.EndGameOption;
+import com.fisherevans.wipgame.game.util.menu.options.QuitOption;
+import com.fisherevans.wipgame.game.util.menu.options.RunnableOption;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Messages;
@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * Date: 2/15/14
  */
 public class PauseState extends WIPState {
-    private static final Color _backgroundColor = new Color(0f, 0f, 0f, 0.7f);
+    private static final Color _backgroundColor = new Color(0f, 0f, 0f, 0.35f);
     private static final Color _foregroundColor = new Color(0.9f, 0.9f, 0.9f);
 
     private WIPState _otherState;

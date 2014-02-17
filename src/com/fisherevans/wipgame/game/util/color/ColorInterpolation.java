@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.util.color;
+package com.fisherevans.wipgame.game.util.color;
 
 import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.Color;

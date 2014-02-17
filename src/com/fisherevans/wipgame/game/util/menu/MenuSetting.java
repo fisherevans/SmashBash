@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.util.menu;
+package com.fisherevans.wipgame.game.util.menu;
 
 import java.util.List;
 

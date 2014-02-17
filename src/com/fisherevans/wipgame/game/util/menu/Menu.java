@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.util.menu;
+package com.fisherevans.wipgame.game.util.menu;
 
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.tools.MathUtil;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="54" height="32" tilewidth="128" tileheight="128">
+ <properties>
+  <property name="background" value="backgrounds/test"/>
+  <property name="gravity" value="-37"/>
+  <property name="light_b" value="110"/>
+  <property name="light_g" value="83"/>
+  <property name="light_r" value="66"/>
+  <property name="name" value="Test Map #2"/>
+ </properties>
+ <tileset firstgid="1" name="collision" tilewidth="128" tileheight="128">
+  <image source="colission.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="lights" tilewidth="128" tileheight="128">
+  <image source="lights.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="21" name="test" tilewidth="128" tileheight="128">
+  <image source="test.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="277" name="test2" tilewidth="128" tileheight="128">
+  <image source="test2.png" width="2048" height="2048"/>
+ </tileset>
+ <layer name="collision" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2VWwrAIAwE9f6X7n+J5mlNYQYEURN3FeMYAAAAAAA689U6kdE2F33rXtq+3vUZbVWxp8GXHtvhnUk6Mr6iOSQ9mfOp0FTlS/IR9dbFl6UeevNZxiI5VnoiNdsao8152K3/un5Uatn9mzd8ddHyV06eGfcBAAAaDz1YjWYAGwAA
+  </data>
+ </layer>
+ <layer name="lights" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3UQQoAIQgF0FZ1/xt3gmCgmb4x761cCIqKrQEA1fVFXEHl3m40Ps7nmfQtp+v/jXlnnJ57es+79dP9A7zFPwTglAlGg7yWABsAAA==
+  </data>
+ </layer>
+ <layer name="background" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2Xiw3CMAxE0yUoZYB+mKCw/2AUKZaOkxPihFKE/KRIQPO5c223hOA4juM4/8O5C2GI49IdreaVWm3PdadtLHH0P+StRdsM62Rc36zFGA4F8bTOb9FWu5ZjiEOLp3X+J30xqfNyGjWt1vnaWYzVl5wjn7XzZpiTAmNqnS9gPFhbqy/tvHX7fisY965uPmrS9OzlqxTpE7V9dS9fgrXnix/Job7Cn1ZXrb6mbYwFdVaqR7DusWQ0WX1NMc/XuI/sm6prvA/saYp1M8Jv3Ce1+8j5p2my+sL5nJt4DWMqecaesG+wN87TC52byjlNZ60vIXcNQU8Ce2Os51p9SSwxnlrccr2bPVnXcJ6wphpfOb7xLpzrO0ipr1wspQ9x7Fr/02jvwZgjU0ZTKicspGqj9bnN/QHRanQPaurpiD0dx3GcEB4NTf3GABsAAA==
+  </data>
+ </layer>
+ <layer name="foreground" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2VSw6AIAxE5RCu/Nz/mLIxQTP2k6LUZF5CQqTATIUyTYQQQgjJzlJwPwOZtf2NteZvq2035tEbH2Uu15aJiLY2/uxLZ/m+l7avN77dH2mzEpn7Ntl89apdPX1luGdIR8TX/Zs37547hED3StKpafGugfwiH0/etHyN8oXitXo4QtOTFm3Met6sc7QxD1L81/Wjpxbp3RzhK4uWv4JyFn1323rO/0EIIUTiANKfAhcAGwAA
+  </data>
+ </layer>
+</map>

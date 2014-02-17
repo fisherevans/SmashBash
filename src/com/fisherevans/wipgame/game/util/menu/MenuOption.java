@@ -1,9 +1,4 @@
-package com.fisherevans.wipgame.game.states.util.menu;
-
-import com.fisherevans.wipgame.game.WIP;
-import com.fisherevans.wipgame.game.states.confirm.ConfirmState;
-import com.fisherevans.wipgame.game.states.start.StartState;
-import com.fisherevans.wipgame.game.states.util.menu.options.RunnableOption;
+package com.fisherevans.wipgame.game.util.menu;
 
 /**
  * Author: Fisher Evans

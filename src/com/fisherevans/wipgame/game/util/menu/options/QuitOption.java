@@ -1,9 +1,8 @@
-package com.fisherevans.wipgame.game.states.util.menu.options;
+package com.fisherevans.wipgame.game.util.menu.options;
 
-import com.fisherevans.wipgame.Main;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.confirm.ConfirmState;
-import com.fisherevans.wipgame.game.states.util.menu.MenuOption;
+import com.fisherevans.wipgame.game.util.menu.MenuOption;
 
 /**
  * Author: Fisher Evans

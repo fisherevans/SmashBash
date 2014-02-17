@@ -12,6 +12,8 @@ import com.fisherevans.wipgame.resources.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import java.io.IOException;
 
@@ -21,18 +23,20 @@ import java.io.IOException;
  */
 public class LoadingState extends WIPState {
     private final static int FONT_SIZE = Config.SIZES[1];
-    private final static int FONT_BIG_SIZE = Config.SIZES[2];
+    private final static int FONT_BIG_SIZE = Config.SIZES[3];
     private final static float FADE_SPEED = 0.75f;
 
 
     private AngelCodeFont _font, _fontBig;
+    private String _title;
     private String _loadingMessage;
     private String _currentlyLoading;
+    private Image _bottomRight;
 
     private LoadState _loadState = LoadState.FADE_IN;
     private int _loadStage = 0;
 
-    private float _fade = 0;
+    private float _fade = 1f;
     private Color _color;
 
     @Override
@@ -45,39 +49,45 @@ public class LoadingState extends WIPState {
         _font = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + "_0.png");
         _fontBig = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + "_0.png");
 
-        _color = new Color(0, 0, 0);
+        _color = new Color(1f, 1f, 1f);
 
-        _loadingMessage = Messages.get("loading.title");
+        _title = Messages.get("game.name").toUpperCase();
+        _loadingMessage = Messages.get("loading.prefix");
         _currentlyLoading = Messages.get("loading.resource.images");
+
+        _bottomRight = new Image("res/img/loading/bottomRight.png", false, Image.FILTER_LINEAR);
+        _bottomRight = _bottomRight.getScaledCopy(WIP.container.getWidth()*0.75f/_bottomRight.getWidth());
     }
 
     @Override
     public void render(Graphics graphics) throws SlickException {
-        float textWidth = _fontBig.getWidth(_loadingMessage);
+        graphics.drawImage(_bottomRight, WIP.width()-_bottomRight.getWidth(), WIP.height()-_bottomRight.getHeight());
 
         graphics.setColor(_color);
 
         graphics.setFont(_fontBig);
-        graphics.drawString(_loadingMessage,
-                (WIP.container.getWidth() - textWidth) / 2f,
-                (WIP.container.getHeight() - _fontBig.getLineHeight()) / 2f);
+        graphics.drawString(_title,
+                (WIP.container.getWidth() - _fontBig.getWidth(_title)) / 2f,
+                (WIP.container.getHeight() - _fontBig.getLineHeight()) / 3f);
 
         graphics.setFont(_font);
-        graphics.drawString(_currentlyLoading,
+        graphics.drawString(_loadingMessage + _currentlyLoading,
                 Config.SIZES[0],
-                WIP.container.getHeight()-_font.getLineHeight()-Config.SIZES[0]);
+                WIP.container.getHeight() - _font.getLineHeight() - Config.SIZES[0]);
+
+        graphics.setColor(new Color(0f, 0f, 0f, _fade));
+        graphics.fillRect(0, 0, WIP.width(), WIP.height());
     }
 
     @Override
     public void update(float delta) {
         switch(_loadState) {
             case FADE_IN: {
-                _fade += delta/FADE_SPEED;
-                if(_fade >= 1f) {
-                    _fade = 1f;
+                _fade -= delta/FADE_SPEED;
+                if(_fade < 0f) {
+                    _fade = 0f;
                     _loadState = LoadState.LOAD;
                 }
-                _color = new Color(_fade, _fade, _fade);
                 break;
             }
             case LOAD: {
@@ -103,7 +113,7 @@ public class LoadingState extends WIPState {
                             _currentlyLoading = Messages.get("loading.complete");
                             break;
                         }
-                        default: { _loadState = LoadState.FADE_OUT; break; }
+                        default: { _loadState = LoadState.SWITCH_STATE; break; }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -111,17 +121,8 @@ public class LoadingState extends WIPState {
                 _loadStage++;
                 break;
             }
-            case FADE_OUT: {
-                _fade -= delta/FADE_SPEED;
-                if(_fade <= 0f) {
-                    _fade = 0f;
-                    _loadState = LoadState.SWITCH_STATE;
-                }
-                _color = new Color(_fade, _fade, _fade);
-                break;
-            }
             case SWITCH_STATE: {
-                WIP.game.enterState(WIP.STATE_START);
+                WIP.game.enterState(WIP.STATE_START, new FadeOutTransition(), new FadeInTransition());
                 break;
             }
         }
@@ -147,5 +148,5 @@ public class LoadingState extends WIPState {
 
     }
 
-    private enum LoadState { FADE_IN, LOAD, FADE_OUT, SWITCH_STATE }
+    private enum LoadState { FADE_IN, LOAD, SWITCH_STATE }
 }

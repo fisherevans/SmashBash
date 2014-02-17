@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.resources;
 
 import com.fisherevans.wipgame.Config;
+import com.fisherevans.wipgame.game.game_config.MapProfile;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -15,7 +16,7 @@ public class Maps {
     public static final int BASE = -1;
 
     private static String _mapRoot = "res/maps/";
-    private static String[] _mapNames = { "test" };
+    private static String[] _mapNames = { "test2", "test" };
     private static Map<String, Map<Integer, TiledMap>> _mapMap;
 
     public static void load() {
@@ -42,5 +43,12 @@ public class Maps {
 
     public static TiledMap getSizedMap(String name, Integer size) {
         return _mapMap.get(name).get(size);
+    }
+
+    public static MapProfile[] getProfiles() {
+        MapProfile[] profiles = new MapProfile[_mapNames.length];
+        for(int id = 0;id < _mapNames.length;id++)
+            profiles[id] = new MapProfile(_mapNames[id]);
+        return profiles;
     }
 }

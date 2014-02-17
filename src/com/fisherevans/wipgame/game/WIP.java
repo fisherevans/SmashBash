@@ -1,8 +1,7 @@
 package com.fisherevans.wipgame.game;
 
+import com.fisherevans.wipgame.game.game_config.GameSettings;
 import com.fisherevans.wipgame.game.states.loading.LoadingState;
-import com.fisherevans.wipgame.game.states.start.StartState;
-import com.fisherevans.wipgame.input.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.Transition;

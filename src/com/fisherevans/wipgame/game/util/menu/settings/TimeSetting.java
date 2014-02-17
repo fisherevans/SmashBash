@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.util.menu.settings;
+package com.fisherevans.wipgame.game.util.menu.settings;
 
 /**
  * Author: Fisher Evans

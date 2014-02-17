@@ -3,7 +3,7 @@ package com.fisherevans.wipgame.game.states.confirm;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
-import com.fisherevans.wipgame.game.states.util.color.ColorInterpolation;
+import com.fisherevans.wipgame.game.util.color.ColorInterpolation;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import org.newdawn.slick.*;
@@ -37,7 +37,7 @@ public class ConfirmState extends WIPState {
 
         _font = Fonts.getStrokedFont(Fonts.SMALL);
 
-        _fillColor = new Color(0f, 0f, 0f, 0.5f);
+        _fillColor = new Color(0f, 0f, 0f, 0.25f);
         _backgroundColor = new Color(0f, 0f, 0f, 0.75f);
         foregroundColor = new Color(1f, 1f, 1f);
 

@@ -4,11 +4,12 @@ import com.fisherevans.fizzics.World;
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.Config;
-import com.fisherevans.wipgame.game.PlayerProfile;
+import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
 import com.fisherevans.wipgame.game.states.play.characters.controllers.PlayerController;
+import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
@@ -41,7 +42,6 @@ public class PlayState extends WIPState {
 
     private float _screenHeight, _screenWidth;
 
-    private String _mapName = "test";
     private TiledMap _baseMap;
 
     private float _gravity;
@@ -60,7 +60,7 @@ public class PlayState extends WIPState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         _stateBasedGame = stateBasedGame;
-        _baseMap = Maps.getSizedMap(_mapName, Maps.BASE);
+        _baseMap = Maps.getSizedMap(WIP.gameSettings.map, Maps.BASE);
 
         _gravity = Float.parseFloat(_baseMap.getMapProperty("gravity", "" + DEFAULT_GRAVITY));
         _lightColor = new Color(Integer.parseInt(_baseMap.getMapProperty("light_r", "" + DEFAULT_LIGHT_R)),
@@ -75,7 +75,7 @@ public class PlayState extends WIPState {
         _characters = new LinkedList<>();
         Character c;
         for(PlayerProfile profile:WIP.gameSettings.players) {
-            c = new Character(this, "Player " + profile.getInput(), Color.orange, new Rectangle(11f + profile.getInput(), _baseMap.getHeight()-15f, 1f, 2f),
+            c = new Character(this, "Player " + profile.getInput(), profile.getColor(), new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f),
                     profile.getCharacter(), WIP.gameSettings.lives, WIP.gameSettings.health);
             c.setController(new PlayerController(c, profile.getInput()));
             _characters.add(c);
@@ -170,15 +170,16 @@ public class PlayState extends WIPState {
 
         float  bsScale = ((float)(Math.max(WIP.container.getHeight(), WIP.container.getWidth())))/((float)(_backgroundImage.getWidth()));
         bsScale *= zoom/_camera.getMinZoom()/4f > 1f ? zoom/_camera.getMinZoom()/4f : 1f;
-        //graphics.scale(bsScale, bsScale);
-        //bs.drawCentered(gameContainer.getWidth()/2f/bsScale, gameContainer.getHeight()/2f/bsScale);
-        //graphics.scale(1f / bsScale, 1f / bsScale);
+        gfx.scale(bsScale, bsScale);
+        _backgroundImage.drawCentered(WIP.width()/2f/bsScale, WIP.height()/2f/bsScale);
+        gfx.scale(1f / bsScale, 1f / bsScale);
 
         //_map.render((int)_player.getCenterX()*64, (int)(_map.getHeight()-_player.getCenterY())*64);
 
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("collision"));
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("lights"));
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("background"));
+        drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("foreground"));
 
         Image ci;
         float padding, widthScale, imageWidth;
@@ -195,9 +196,19 @@ public class PlayState extends WIPState {
                     zoom * characterR.getHeight() + padding * 2);
         }
 
-        _lightManager.render(gfx, zoom, _screenWidth, _screenHeight, startX, startY, shiftX, shiftY);
+        _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
         if(WIP.debug) {
+            gfx.setColor(new Color(1f, 1f, 1f, 0.5f));
+            for(Light l:_lightManager.getLights()) {
+                gfx.drawOval((l.getPosition().getX() - l.getRadius())*zoom+shiftX,
+                        (_baseMap.getHeight() - l.getPosition().getY()-l.getRadius())*zoom+shiftY,
+                        zoom*l.getRadius()*2, zoom*l.getRadius()*2);
+                gfx.fillOval((l.getPosition().getX() - 0.25f)*zoom+shiftX,
+                        (_baseMap.getHeight() - l.getPosition().getY()-0.25f)*zoom+shiftY,
+                        zoom*0.5f, zoom*0.5f);
+            }
+
             for(Rectangle r:_world.getRectangles()) {
                 if(r.isStatic())
                     gfx.setColor(Color.red);
@@ -208,6 +219,10 @@ public class PlayState extends WIPState {
                         (_baseMap.getHeight()-r.getBottomLeft().getY()-r.getHeight()+1f)*zoom+shiftY,
                         zoom*r.getWidth()-1, zoom*r.getHeight()-1);
             }
+
+            gfx.setColor(Color.blue);
+            gfx.drawLine(WIP.width()/2f, 0f, WIP.width()/2f, WIP.height());
+            gfx.drawLine(0f, WIP.height()/2f, WIP.width(), WIP.height()/2f);
 
             gfx.setColor(Color.white);
             gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
@@ -230,11 +245,7 @@ public class PlayState extends WIPState {
 
     private void drawMapLayer(int size, float zoom, int startX, int startY, float shiftX, float shiftY, int layerId)
     {
-        // NORMALIZE SHIFT TO AVOID TEARING
-        //xShift = GFX.filterDrawPosition(xShift, DisplayManager.getBackgroundScale());
-        //yShift = GFX.filterDrawPosition(yShift, DisplayManager.getBackgroundScale());
-        TiledMap map = Maps.getSizedMap(_mapName, size);
-
+        TiledMap map = Maps.getSizedMap(WIP.gameSettings.map, size);
         Image tile;
         for(int y = startY+1;y >= startY-_screenHeight-1;y--)
         {
