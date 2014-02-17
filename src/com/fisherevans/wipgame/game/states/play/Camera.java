@@ -14,6 +14,9 @@ import com.fisherevans.wipgame.tools.MathUtil;
  */
 public class Camera {
     public static final float DEFAULT_CAMERA_PADDING = 2f*3f;
+    public static final float DEFAULT_SLIDE_SPEED = 7.5f;
+    public static final float DEFAULT_ZOOM_SPEED = 3.5f;
+    public static final float DEFAULT_ZOOM_DELTA_SCALE = 0.75f;
 
     private Vector _targetPosition, _currentPosition;
     private float _maxZoom, _targetZoom, _currentZoom, _minZoom;
@@ -29,10 +32,10 @@ public class Camera {
     }
 
     public void update(float delta) {
-        Vector positionDelta = _targetPosition.getCopy().subtract(_currentPosition).scale(5f * delta);
+        Vector positionDelta = _targetPosition.getCopy().subtract(_currentPosition).scale(DEFAULT_SLIDE_SPEED * delta);
         _currentPosition.add(positionDelta);
         float zoomDelta = _targetZoom-_currentZoom;
-        _currentZoom += zoomDelta*3f*delta;
+        _currentZoom += zoomDelta*DEFAULT_ZOOM_SPEED*delta;
     }
 
     public void calculateTargetPosition() {
@@ -66,7 +69,7 @@ public class Camera {
         float xZoom = WIP.container.getWidth()/(bottomRight.getX()-topLeft.getX()+DEFAULT_CAMERA_PADDING);
         float yZoom = WIP.container.getHeight()/(topLeft.getY()-bottomRight.getY()+DEFAULT_CAMERA_PADDING);
         _targetZoom = Math.min(yZoom, xZoom);
-        _targetZoom *= 0.75f;
+        _targetZoom *= DEFAULT_ZOOM_DELTA_SCALE;
         _targetZoom = Math.min(_targetZoom, _maxZoom);
         _targetZoom = Math.max(_targetZoom, _minZoom);
     }

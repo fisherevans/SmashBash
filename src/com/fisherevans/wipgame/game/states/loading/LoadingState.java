@@ -6,7 +6,7 @@ import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.ready.ReadyState;
 import com.fisherevans.wipgame.game.states.start.StartState;
-import com.fisherevans.wipgame.input.Inputs;
+import com.fisherevans.wipgame.resources.Inputs;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.*;
 import org.newdawn.slick.*;
@@ -52,27 +52,27 @@ public class LoadingState extends WIPState {
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+    public void render(Graphics graphics) throws SlickException {
         float textWidth = _fontBig.getWidth(_loadingMessage);
 
         graphics.setColor(_color);
 
         graphics.setFont(_fontBig);
         graphics.drawString(_loadingMessage,
-                (gameContainer.getWidth() - textWidth) / 2f,
-                (gameContainer.getHeight() - _fontBig.getLineHeight()) / 2f);
+                (WIP.container.getWidth() - textWidth) / 2f,
+                (WIP.container.getHeight() - _fontBig.getLineHeight()) / 2f);
 
         graphics.setFont(_font);
         graphics.drawString(_currentlyLoading,
                 Config.SIZES[0],
-                gameContainer.getHeight()-_font.getLineHeight()-Config.SIZES[0]);
+                WIP.container.getHeight()-_font.getLineHeight()-Config.SIZES[0]);
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+    public void update(float delta) {
         switch(_loadState) {
             case FADE_IN: {
-                _fade += delta/1000f/FADE_SPEED;
+                _fade += delta/FADE_SPEED;
                 if(_fade >= 1f) {
                     _fade = 1f;
                     _loadState = LoadState.LOAD;
@@ -97,32 +97,22 @@ public class LoadingState extends WIPState {
                         case 11: Inputs.load(); break;
                         case 12: _currentlyLoading = Messages.get("loading.resource.states"); break;
                         case 13: {
-                            BasicGameState startState = new StartState();
-                            startState.init(gameContainer, stateBasedGame);
-
-                            BasicGameState readyState = new ReadyState();
-                            readyState.init(gameContainer, stateBasedGame);
-
-                            BasicGameState playState = new PlayState();
-                            playState.init(gameContainer, stateBasedGame);
-
-                            stateBasedGame.addState(startState);
-                            stateBasedGame.addState(readyState);
-                            stateBasedGame.addState(playState);
-
+                            StartState startState = new StartState();
+                            startState.init();
+                            WIP.game.addState(startState);
                             _currentlyLoading = Messages.get("loading.complete");
                             break;
                         }
                         default: { _loadState = LoadState.FADE_OUT; break; }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 _loadStage++;
                 break;
             }
             case FADE_OUT: {
-                _fade -= delta/1000f/FADE_SPEED;
+                _fade -= delta/FADE_SPEED;
                 if(_fade <= 0f) {
                     _fade = 0f;
                     _loadState = LoadState.SWITCH_STATE;
@@ -131,7 +121,7 @@ public class LoadingState extends WIPState {
                 break;
             }
             case SWITCH_STATE: {
-                stateBasedGame.enterState(WIP.STATE_START);
+                WIP.game.enterState(WIP.STATE_START);
                 break;
             }
         }

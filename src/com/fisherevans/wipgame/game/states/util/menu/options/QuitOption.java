@@ -15,21 +15,12 @@ public class QuitOption extends MenuOption {
     }
 
     @Override
-    public boolean action() {
-        final Runnable runnable = new Runnable() {
+    public void action() {
+        ConfirmState.enter(WIP.currentState(), "Are you sure you want to quit?", new Runnable() {
             @Override
             public void run() {
                 System.exit(0);
             }
-        };
-        try {
-            ConfirmState confirmState = new ConfirmState(WIP.game.getCurrentState(), "Are you sure you want to quit?", runnable);
-            confirmState.init(WIP.container, WIP.game);
-            WIP.game.addState(confirmState);
-            WIP.game.enterState(confirmState.getID());
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return true;
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.game.states.play.characters;
 
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.controllers.CharacterController;
 import com.fisherevans.wipgame.game.states.play.characters.enums.CharacterDirection;
@@ -111,12 +112,20 @@ public class Character {
         if(_health <= 0) {
             _health = 0;
             getBody().setStatic(true);
+            _lives--;
             _playState.characterDied(this);
         }
     }
 
     public void kill() {
         damage(_health);
+    }
+
+    public void revive() {
+        _health = _startHealth;
+        getBody().setStatic(false);
+        getBody().setVelocity(new Vector(0f, 0f));
+        getBody().setAcceleration(new Vector(0f, 0f));
     }
 
     public Rectangle getBody() {

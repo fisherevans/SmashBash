@@ -1,5 +1,7 @@
 package com.fisherevans.wipgame.game.states.util.menu;
 
+import java.util.List;
+
 /**
  * Author: Fisher Evans
  * Date: 2/15/14
@@ -10,13 +12,13 @@ public abstract class MenuSetting extends MenuOption {
     }
 
     @Override
-    public boolean action() {
-        return true;
+    public void action() {
+
     }
 
     @Override
     public String getDisplayName() {
-        return super.getDisplayName() + " [" + getValue() + "]";
+        return super.getDisplayName() + ": " + getValue();
     }
 
     public abstract String getValue();
@@ -28,4 +30,8 @@ public abstract class MenuSetting extends MenuOption {
     public abstract void previous();
 
     public abstract void next();
+
+    public abstract int getSelectOptionId();
+
+    public abstract List<Object> getAvailableOptions();
 }

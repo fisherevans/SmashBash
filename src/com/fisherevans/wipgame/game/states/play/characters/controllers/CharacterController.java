@@ -8,6 +8,7 @@ import com.fisherevans.wipgame.game.states.play.characters.*;
 import com.fisherevans.wipgame.game.states.play.characters.Character;
 import com.fisherevans.wipgame.input.InputsListener;
 import com.fisherevans.wipgame.input.Key;
+import com.fisherevans.wipgame.resources.Inputs;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +21,9 @@ public abstract class CharacterController implements InputsListener, CollisionLi
     private int _inputSource;
     private com.fisherevans.wipgame.game.states.play.characters.Character _character;
 
-    private Map<Key, Boolean> _keyMap;
-
     protected CharacterController(Character character, int inputSource) {
         _character = character;
         _inputSource = inputSource;
-
-        _keyMap = new HashMap<>();
-        for(Key key:Key.values())
-            _keyMap.put(key, false);
 
         _character.getBody().addCollisionListener(this);
     }
@@ -38,7 +33,6 @@ public abstract class CharacterController implements InputsListener, CollisionLi
     @Override
     public void keyDown(Key key, int inputSource) {
         if(_inputSource == inputSource) {
-            _keyMap.put(key, true);
             down(key);
         }
     }
@@ -46,7 +40,6 @@ public abstract class CharacterController implements InputsListener, CollisionLi
     @Override
     public void keyUp(Key key, int inputSource) {
         if(_inputSource == inputSource) {
-            _keyMap.put(key, false);
             up(key);
         }
     }
@@ -60,8 +53,7 @@ public abstract class CharacterController implements InputsListener, CollisionLi
     }
 
     public boolean state(Key key) {
-        Boolean state = _keyMap.get(key);
-        return state != null ? state : false;
+        return Inputs.keyState(key, _inputSource);
     }
 
     @Override

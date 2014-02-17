@@ -5,6 +5,7 @@ import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.util.menu.Menu;
 import com.fisherevans.wipgame.game.states.util.menu.options.DummyOption;
+import com.fisherevans.wipgame.game.states.util.menu.options.EndGameOption;
 import com.fisherevans.wipgame.game.states.util.menu.options.QuitOption;
 import com.fisherevans.wipgame.game.states.util.menu.options.RunnableOption;
 import com.fisherevans.wipgame.input.Key;
@@ -35,7 +36,7 @@ public class PauseState extends WIPState {
         _pauseFont  = Fonts.getStrokedFont(Fonts.HUGE);
         _pauseText = Messages.get("paused.title");
         // TODO
-        _menu = new Menu(Config.SIZES[1], Menu.Orientation.Center, true, true, Fonts.getStrokedFont(Fonts.SMALL));
+        _menu = new Menu(Config.SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Fonts.SMALL));
         _menu.add(new RunnableOption("Resume", new Runnable() {
             @Override
             public void run() {
@@ -43,6 +44,7 @@ public class PauseState extends WIPState {
             }
         }));
         _menu.add(new DummyOption("Settings"));
+        _menu.add(new EndGameOption("End Game"));
         _menu.add(new QuitOption("Exit to Desktop"));
     }
 
@@ -57,24 +59,24 @@ public class PauseState extends WIPState {
     }
 
     @Override
-    public void render(GameContainer container, StateBasedGame game, Graphics gfx) throws SlickException {
-        _otherState.render(container, game, gfx);
-        gfx.setColor(_backgroundColor);
-        gfx.fillRect(0, 0, container.getWidth(), container.getHeight());
+    public void render(Graphics graphics) throws SlickException {
+        _otherState.render(graphics);
+        graphics.setColor(_backgroundColor);
+        graphics.fillRect(0, 0, WIP.container.getWidth(), WIP.container.getHeight());
 
-        gfx.setColor(_foregroundColor);
-        gfx.setFont(_pauseFont);
+        graphics.setColor(_foregroundColor);
+        graphics.setFont(_pauseFont);
         float textWidth = _pauseFont.getWidth(_pauseText);
-        float startY = (container.getHeight() - _pauseFont.getLineHeight())/2f;
+        float startY = (WIP.height() - _pauseFont.getLineHeight())/2f;
 
-        gfx.drawString(_pauseText, (container.getWidth() - textWidth)/2f, startY);
+        graphics.drawString(_pauseText, (WIP.width() - textWidth)/2f, startY + _menu.getStartYOffset());
 
-        _menu.render(gfx, container.getScreenWidth() / 2f, startY + _pauseFont.getLineHeight() + Config.SIZES[1]);
+        _menu.render(graphics, WIP.width()/2f, startY + _pauseFont.getLineHeight() + Config.SIZES[0]);
     }
 
     @Override
-    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
+    public void update(float delta) {
+        _menu.update(delta);
     }
 
     @Override

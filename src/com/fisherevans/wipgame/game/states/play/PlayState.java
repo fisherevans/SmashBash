@@ -2,7 +2,9 @@ package com.fisherevans.wipgame.game.states.play;
 
 import com.fisherevans.fizzics.World;
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.Config;
+import com.fisherevans.wipgame.game.PlayerProfile;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
@@ -34,7 +36,7 @@ public class PlayState extends WIPState {
     public static final String DEFAULT_BACKGROUND = "background/test";
 
     private World _world;
-    private List<Character> _characters;
+    private List<Character> _characters, _deadCharacters;
     private Camera _camera;
 
     private float _screenHeight, _screenWidth;
@@ -69,16 +71,15 @@ public class PlayState extends WIPState {
         _world = new World(_gravity);
         generateCollisionBodies();
 
+        _deadCharacters = new LinkedList<>();
         _characters = new LinkedList<>();
         Character c;
-
-        c = new Character(this, "WASD", Color.orange, new Rectangle(12f, _baseMap.getHeight()-15f, 1f, 2f), "base", 10, 100);
-        c.setController(new PlayerController(c, 0));
-        _characters.add(c);
-
-        c = new Character(this, "Arrows", Color.cyan, new Rectangle(39f, _baseMap.getHeight()-15f, 1f, 2f), "base", 10, 100);
-        c.setController(new PlayerController(c, 1));
-        _characters.add(c);
+        for(PlayerProfile profile:WIP.gameSettings.players) {
+            c = new Character(this, "Player " + profile.getInput(), Color.orange, new Rectangle(11f + profile.getInput(), _baseMap.getHeight()-15f, 1f, 2f),
+                    profile.getCharacter(), WIP.gameSettings.lives, WIP.gameSettings.health);
+            c.setController(new PlayerController(c, profile.getInput()));
+            _characters.add(c);
+        }
 
         for(Character character:_characters) {
             character.getBody().setResolveWithStaticOnly(true);
@@ -142,11 +143,11 @@ public class PlayState extends WIPState {
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics gfx) throws SlickException {
+    public void render(Graphics gfx) throws SlickException {
         Graphics.setCurrent(gfx);
         gfx.clear();
         gfx.setColor(Color.darkGray);
-        gfx.fillRect(0, 0, gameContainer.getWidth(), gameContainer.getHeight());
+        gfx.fillRect(0, 0, WIP.container.getWidth(), WIP.container.getHeight());
         gfx.setFont(Fonts.getFont(Fonts.HUGE));
         gfx.setColor(Color.white);
 
@@ -157,8 +158,8 @@ public class PlayState extends WIPState {
             if(zoom >= Config.SIZES[sizeId-1]) size = Config.SIZES[sizeId];
         }
 
-        _screenWidth = gameContainer.getWidth()/zoom;
-        _screenHeight = gameContainer.getHeight()/zoom;
+        _screenWidth = WIP.container.getWidth()/zoom;
+        _screenHeight = WIP.container.getHeight()/zoom;
 
         float defaultCX = _screenWidth/2f;
         float defaultCY = _baseMap.getHeight()-(_screenHeight/2f);
@@ -167,7 +168,7 @@ public class PlayState extends WIPState {
         int startX = (int)(_camera.getCurrentPosition().getX()-_screenWidth/2f);
         int startY = (int)(_camera.getCurrentPosition().getY()+_screenHeight/2f);
 
-        float  bsScale = ((float)(Math.max(gameContainer.getHeight(), gameContainer.getWidth())))/((float)(_backgroundImage.getWidth()));
+        float  bsScale = ((float)(Math.max(WIP.container.getHeight(), WIP.container.getWidth())))/((float)(_backgroundImage.getWidth()));
         bsScale *= zoom/_camera.getMinZoom()/4f > 1f ? zoom/_camera.getMinZoom()/4f : 1f;
         //graphics.scale(bsScale, bsScale);
         //bs.drawCentered(gameContainer.getWidth()/2f/bsScale, gameContainer.getHeight()/2f/bsScale);
@@ -213,16 +214,16 @@ public class PlayState extends WIPState {
             Character c;
             for(int i = 0;i < _characters.size();i++) {
                 c = _characters.get(i);
-                gfx.drawString("Player " + c.getName(), 300, 10 + 40*i);
-                gfx.drawString("Lives " + c.getLives(), 460, 10 + 40*i);
-                gfx.drawString("Health " + c.getHealth(), 560, 10 + 40*i);
+                gfx.drawString(c.getName(), 300, 10 + 30*i);
+                gfx.drawString("Lives " + c.getLives(), 460, 10 + 30*i);
+                gfx.drawString("Health " + c.getHealth(), 560, 10 + 30*i);
             }
 
             gfx.drawString("Zoom: " + zoom, 10, 10);
             gfx.drawString("Res: " + size , 10, 30);
             gfx.drawString("Start: " + startX + ", " + startY, 10, 60);
             gfx.drawString("Cam  : " + (int)_camera.getCurrentPosition().getX() + ", " + (int)_camera.getCurrentPosition().getY(), 10, 80);
-            gfx.drawString("FPS  : " + gameContainer.getFPS(), 10, 100);
+            gfx.drawString("FPS  : " + WIP.container.getFPS(), 10, 100);
         }
         gfx.flush();
     }
@@ -251,9 +252,8 @@ public class PlayState extends WIPState {
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        i = Math.min(i, 100);
-        float delta = i/1000f;
+    public void update(float delta) {
+        delta = Math.min(delta, 0.1f);
 
         for(Character character:_characters) {
             character.update(delta);
@@ -262,6 +262,7 @@ public class PlayState extends WIPState {
         }
 
         _world.step(delta);
+
         _camera.calculateTargetPosition();
         _camera.update(delta);
 
@@ -282,20 +283,20 @@ public class PlayState extends WIPState {
     }
 
     public void characterDied(Character character) {
-
+        if(character.getLives() > 0) {
+            character.revive();
+            character.getBody().setBottomLeft(new Vector(11f, _baseMap.getHeight()-15f));
+        } else {
+            _world.remove(character.getBody());
+            _characters.remove(character);
+            _deadCharacters.add(character);
+        }
     }
 
     @Override
     public void keyDown(Key key, int inputSource) {
         if(key == Key.Menu) {
-            try {
-                PauseState pauseState = new PauseState(this);
-                pauseState.init(WIP.container, _stateBasedGame);
-                _stateBasedGame.addState(pauseState);
-                _stateBasedGame.enterState(pauseState.getID());
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+            WIP.enterNewState(new PauseState(this));
         } else {
             for(Character character:_characters) {
                 if(character.getController() != null)

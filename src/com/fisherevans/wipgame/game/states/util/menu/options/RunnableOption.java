@@ -15,8 +15,7 @@ public class RunnableOption extends MenuOption {
     }
 
     @Override
-    public boolean action() {
+    public void action() {
         _runnable.run();
-        return true;
     }
 }

@@ -11,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +37,6 @@ public class Launcher implements ActionListener {
         loadingFrame.setVisible(true);
 
         try {
-            Main.loadResources();
             _displayModes = getResolutions();
             initLaunchFrame();
         } catch (Exception e) {
@@ -84,6 +86,7 @@ public class Launcher implements ActionListener {
         loadingFrame.setUndecorated(true);
         loadingFrame.setResizable(false);
         loadingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIcon(loadingFrame);
 
         loadingFrame.pack();
         centerJFrame(loadingFrame);
@@ -119,6 +122,7 @@ public class Launcher implements ActionListener {
         _panel.add(_comboBoxFullscreen, "growx,wrap");
         _panel.add(buttonLaunch, "span 2,wrap,growx,gaptop 10px");
 
+        setIcon(_frame);
         _frame.pack();
         centerJFrame(_frame);
 
@@ -148,6 +152,16 @@ public class Launcher implements ActionListener {
     private static void centerJFrame(JFrame frame) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+    }
+
+    private static void setIcon(JFrame frame) {
+        try {
+            File iconFile = new File("res/img/icon.png");
+            ImageIcon icon = new ImageIcon(iconFile.getAbsoluteFile().toURI().toURL());
+            frame.setIconImage(icon.getImage());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private class Resolution implements Comparable {

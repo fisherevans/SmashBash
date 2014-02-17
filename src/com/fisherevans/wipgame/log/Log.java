@@ -10,22 +10,21 @@ public class Log {
     private Class _clazz;
 
     public Log(Class clazz) {
-        _clazz = _clazz;
-    }
-
-    public Log(Object object) {
-        _clazz = object.getClass();
+        _clazz = clazz;
     }
 
     public void debug(String message) {
-        System.out.printf("[Debug - %s] %s", _clazz.getSimpleName(), message);
+        if(level.rank <= LogLevel.Debug.rank)
+            System.out.printf("[Debug - %s] %s\n", _clazz.getSimpleName(), message);
     }
 
     public void info(String message) {
-        System.out.printf("[Info - %s] %s", _clazz.getSimpleName(), message);
+        if(level.rank <= LogLevel.Info.rank)
+            System.out.printf("[Info - %s] %s\n", _clazz.getSimpleName(), message);
     }
 
     public void error(String message) {
-        System.err.printf("[Error - %s] %s", _clazz.getSimpleName(), message);
+        if(level.rank <= LogLevel.Error.rank)
+            System.err.printf("[Error - %s] %s\n", _clazz.getSimpleName(), message);
     }
 }

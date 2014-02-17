@@ -13,38 +13,38 @@
     <ignored path="WIPGame.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/GameServer.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392058598341" ignored="false" />
-    <file path="/fragment.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392331884693" ignored="false" />
-    <file path="/Launcher.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392436341328" ignored="false" />
-    <file path="/Main.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536174204" ignored="false" />
+    <file path="/fragment.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392569779103" ignored="false" />
+    <file path="/Launcher.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392569448081" ignored="false" />
+    <file path="/Main.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392571099879" ignored="false" />
     <file path="/messages.eng.prop" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392070859440" ignored="false" />
     <file path="/Messages.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538624914" ignored="false" />
     <file path="/Images.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392418267527" ignored="false" />
     <file path="/Fonts.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392533517747" ignored="false" />
     <file path="/Game.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536142708" ignored="false" />
     <file path="/Logger.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392073214911" ignored="false" />
-    <file path="/LoadingState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538739417" ignored="false" />
-    <file path="/StartState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538226781" ignored="false" />
+    <file path="/LoadingState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392572876402" ignored="false" />
+    <file path="/StartState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392587941344" ignored="false" />
     <file path="/GameSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392082455438" ignored="false" />
-    <file path="/NumberSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392086414803" ignored="false" />
+    <file path="/NumberSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392587073669" ignored="false" />
     <file path="/StringSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392086408839" ignored="false" />
     <file path="/KeyboardListener.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392085247634" ignored="false" />
     <file path="/InputListener.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392084342954" ignored="false" />
     <file path="/Key.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392084325233" ignored="false" />
-    <file path="/WIPState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538207021" ignored="false" />
+    <file path="/WIPState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392574812666" ignored="false" />
     <file path="/Setting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392086397595" ignored="false" />
     <file path="/BooleanSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392086526793" ignored="false" />
-    <file path="/ReadyState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538065572" ignored="false" />
-    <file path="/PlayState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538302302" ignored="false" />
-    <file path="/PlaySetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392088792826" ignored="false" />
-    <file path="/GameSettings.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392088691941" ignored="false" />
+    <file path="/ReadyState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392603913398" ignored="false" />
+    <file path="/PlayState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392603747585" ignored="false" />
+    <file path="/PlaySetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392571412571" ignored="false" />
+    <file path="/GameSettings.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392602611565" ignored="false" />
     <file path="/Dummy.txt" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392331656413" ignored="false" />
-    <file path="/Camera.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538460518" ignored="false" />
+    <file path="/Camera.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392599351105" ignored="false" />
     <file path="/Player.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392128094975" ignored="false" />
-    <file path="/Character.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538405299" ignored="false" />
+    <file path="/Character.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392589615127" ignored="false" />
     <file path="/Controller.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392334197215" ignored="false" />
     <file path="/PlayerController.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392215197940" ignored="false" />
     <file path="/StaticController.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392537235428" ignored="false" />
-    <file path="/Inputs.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392537389239" ignored="false" />
+    <file path="/Inputs.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392589120890" ignored="false" />
     <file path="/CharacterState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392174054204" ignored="false" />
     <file path="/CharacterFirection.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392174083292" ignored="false" />
     <file path="/MathUtil.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538434868" ignored="false" />
@@ -94,10 +94,8 @@
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/transition/CombinedTransition.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392223540596" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/transition/CrossStateTransition.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392223540596" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/transition/VerticalSplitTransition.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392223540596" ignored="false" />
-    <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/transition/HorizontalSplitTransition.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392223540596" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/GameState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392222943266" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/BasicGameState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392223540596" ignored="false" />
-    <file path="$PROJECT_DIR$/src/org/newdawn/slick/state/StateBasedGame.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392222943266" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/tests/xml/XMLTest.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392222943266" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/svg/inkscape/Util.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392222943266" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/svg/inkscape/UseProcessor.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392222943266" ignored="false" />
@@ -170,7 +168,7 @@
     <file path="/Test.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392333964417" ignored="false" />
     <file path="$PROJECT_DIR$/../Fizzics/src/com/fisherevans/fizzics/test/Test.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392333964817" ignored="false" />
     <file path="/CharacterSprite.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392350769234" ignored="false" />
-    <file path="/Config.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392535020036" ignored="false" />
+    <file path="/Config.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392576903910" ignored="false" />
     <file path="/TiledMapWrapper.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392396628158" ignored="false" />
     <file path="/Maps.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392408145495" ignored="false" />
     <file path="/LightManager.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392537096292" ignored="false" />
@@ -179,22 +177,29 @@
     <file path="/Layer.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392436137862" ignored="false" />
     <file path="/LightController.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392479720560" ignored="false" />
     <file path="/TorchController.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392537246876" ignored="false" />
-    <file path="/PauseState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538038361" ignored="false" />
-    <file path="/MenuOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392488845304" ignored="false" />
-    <file path="/MenuSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392530045486" ignored="false" />
+    <file path="/PauseState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392572998032" ignored="false" />
+    <file path="/MenuOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392570511496" ignored="false" />
+    <file path="/MenuSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392576611408" ignored="false" />
     <file path="/Quit.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392507558701" ignored="false" />
-    <file path="/ConfirmState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392535008758" ignored="false" />
-    <file path="/DummyOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392507397498" ignored="false" />
-    <file path="/Menu.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392535855605" ignored="false" />
-    <file path="/RunnableOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392530246685" ignored="false" />
+    <file path="/ConfirmState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392600980203" ignored="false" />
+    <file path="/DummyOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392570321307" ignored="false" />
+    <file path="/Menu.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392582245860" ignored="false" />
+    <file path="/RunnableOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392570334850" ignored="false" />
     <file path="/Text.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392535752454" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/tests/states/TestState1.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536084367" ignored="false" />
     <file path="$PROJECT_DIR$/src/org/newdawn/slick/tests/states/TestState3.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536084367" ignored="false" />
-    <file path="/Log.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536527465" ignored="false" />
-    <file path="/LogLevel.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536327601" ignored="false" />
+    <file path="/Log.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392575082136" ignored="false" />
+    <file path="/LogLevel.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392574983888" ignored="false" />
     <file path="/LightSettings.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536736231" ignored="false" />
     <file path="/Color.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392536762423" ignored="false" />
-    <file path="/QuitOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392538489339" ignored="false" />
+    <file path="/QuitOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392573202317" ignored="false" />
+    <file path="/CharacterController.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392567963983" ignored="false" />
+    <file path="/ResultsState.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392572716645" ignored="false" />
+    <file path="/EndGameOption.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392573189746" ignored="false" />
+    <file path="/WIP.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392601463576" ignored="false" />
+    <file path="/TimeSetting.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392587364218" ignored="false" />
+    <file path="/ColorInterpolation.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392600932195" ignored="false" />
+    <file path="/PlayerProfile.java" changelist="7a894451-fb48-44d8-8193-ffd1c738b31b" time="1392602682189" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,6 +219,54 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/options/EndGameOption.java" line="18" class="com.fisherevans.wipgame.game.states.util.menu.options.EndGameOption" package="com.fisherevans.wipgame.game.states.util.menu.options">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/confirm/ConfirmState.java" line="95" class="com.fisherevans.wipgame.game.states.confirm.ConfirmState" package="com.fisherevans.wipgame.game.states.confirm">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/Menu.java" line="83" class="com.fisherevans.wipgame.game.states.util.menu.Menu" package="com.fisherevans.wipgame.game.states.util.menu">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -250,8 +303,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -261,66 +312,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Character.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/Character.java">
+      <file leaf-file-name="PlayState.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/PlayState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="30" selection-start="3739" selection-end="3739" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Camera.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/Camera.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="26" selection-start="2402" selection-end="2402" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QuitOption.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/options/QuitOption.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="20" selection-start="917" selection-end="917" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AngelCodeFont.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/newdawn/slick/AngelCodeFont.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="334" column="0" selection-start="10706" selection-end="10706" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MathUtil.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/tools/MathUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoadingState.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/loading/LoadingState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="16" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Lights.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Lights.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="83" selection-start="996" selection-end="996" vertical-scroll-proportion="0.0">
+            <state line="79" column="70" selection-start="3203" selection-end="3203" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -331,25 +326,83 @@
       <file leaf-file-name="StartState.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/start/StartState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="38" selection-start="740" selection-end="740" vertical-scroll-proportion="0.0">
+            <state line="83" column="27" selection-start="2784" selection-end="2784" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WIPState.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/WIPState.java">
+      <file leaf-file-name="ReadyState.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/ready/ReadyState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="81" selection-start="592" selection-end="592" vertical-scroll-proportion="0.25515947">
+            <state line="76" column="52" selection-start="2508" selection-end="2508" vertical-scroll-proportion="0.5224719">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Messages.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Messages.java">
+      <file leaf-file-name="ArrayList.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_25/src.zip!/java/util/ArrayList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="23" selection-start="2232" selection-end="2232" vertical-scroll-proportion="0.0">
+            <state line="444" column="0" selection-start="16177" selection-end="16177" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LightManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/lights/LightManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="75" column="44" selection-start="2491" selection-end="2491" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HorizontalSplitTransition.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/newdawn/slick/state/transition/HorizontalSplitTransition.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="11" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Menu.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/Menu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="0" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Inputs.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Inputs.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="107" column="32" selection-start="3349" selection-end="3349" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameSettings.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/GameSettings.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="29" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerProfile.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/PlayerProfile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="23" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -365,22 +418,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Sprites.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/input/Inputs.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/confirm/ConfirmState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/pause/PauseState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/ready/ReadyState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/PlayState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/enums/CharacterDirection.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/MenuSetting.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/Config.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/settings/NumberSetting.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/settings/TimeSetting.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Inputs.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/Character.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/tools/MathUtil.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/Camera.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/options/QuitOption.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Messages.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/loading/LoadingState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Lights.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/color/ColorInterpolation.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/confirm/ConfirmState.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/WIP.java" />
         <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/start/StartState.java" />
-        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/WIPState.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/lights/LightManager.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/PlayerProfile.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/GameSettings.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/PlayState.java" />
+        <option value="$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/ready/ReadyState.java" />
       </list>
     </option>
   </component>
@@ -423,6 +476,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -537,7 +591,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="game" />
+              <option name="myItemId" value="launcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WIPGame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WIPGame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fisherevans" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wipgame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="input" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -570,15 +654,10 @@
               <option name="myItemId" value="game" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="states" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -593,13 +672,14 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.fisherevans.wipgame.game.states.util.menu.options" />
       <recent name="com.fisherevans.wipgame.game.states.play.characters" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -645,14 +725,8 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Cover" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -669,19 +743,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -710,6 +771,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -794,12 +868,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="66" y="-8" width="1622" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32855567" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38207045" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -808,19 +881,20 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3263506" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32550693" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23846154" sideWeight="0.63947076" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3605292" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14565483" sideWeight="0.6504961" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23846154" sideWeight="0.6405733" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35942668" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32855567" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14565483" sideWeight="0.6504961" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -889,16 +963,83 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/ready/ReadyState.java">
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/Character.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="5" selection-start="886" selection-end="886" vertical-scroll-proportion="0.3632236">
+        <state line="114" column="21" selection-start="4016" selection-end="4016" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="47" selection-start="2896" selection-end="2896" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/color/ColorInterpolation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="40" selection-start="747" selection-end="747" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/confirm/ConfirmState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="63" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/WIP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="38" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/Menu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0">
+        <state line="52" column="0" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/PlayerProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="23" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/lights/LightManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="44" selection-start="2491" selection-end="2491" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_25/src.zip!/java/security/ProtectionDomain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="0" selection-start="1965" selection-end="1965" vertical-scroll-proportion="0.36516854">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/newdawn/slick/state/transition/HorizontalSplitTransition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="11" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/GameSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="29" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -907,88 +1048,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/PlayState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="292" column="45" selection-start="11912" selection-end="11912" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/enums/CharacterState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="12" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/enums/CharacterDirection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="12" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/CharacterSprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/tools/MathUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="262" selection-end="262" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/characters/Character.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="30" selection-start="3739" selection-end="3739" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/play/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="26" selection-start="2402" selection-end="2402" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/util/menu/options/QuitOption.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="20" selection-start="917" selection-end="917" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/newdawn/slick/AngelCodeFont.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="334" column="0" selection-start="10706" selection-end="10706" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Messages.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="23" selection-start="2232" selection-end="2232" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/loading/LoadingState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="16" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Lights.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="83" selection-start="996" selection-end="996" vertical-scroll-proportion="0.0">
+        <state line="79" column="70" selection-start="3203" selection-end="3203" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -997,14 +1057,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/start/StartState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="38" selection-start="740" selection-end="740" vertical-scroll-proportion="0.0">
+        <state line="83" column="27" selection-start="2784" selection-end="2784" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/WIPState.java">
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/resources/Inputs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="81" selection-start="592" selection-end="592" vertical-scroll-proportion="0.25515947">
+        <state line="107" column="32" selection-start="3349" selection-end="3349" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.7.0_25/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="444" column="0" selection-start="16177" selection-end="16177" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/fisherevans/wipgame/game/states/ready/ReadyState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="52" selection-start="2508" selection-end="2508" vertical-scroll-proportion="0.5224719">
           <folding />
         </state>
       </provider>

@@ -16,13 +16,19 @@ import java.io.FileNotFoundException;
  */
 public class Main {
     public static void main(String[] args) {
+        loadResources();
         new Launcher();
     }
 
-    public static void loadResources() throws FileNotFoundException, SlickException {
-        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+    public static void loadResources()  {
         System.setProperty("java.library.path", new File("natives").getAbsolutePath());
-        Messages.load();
+        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        try {
+            Messages.load();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public static void startGame(final DisplayMode displayMode, final boolean fullscreen) {
@@ -35,6 +41,7 @@ public class Main {
             gameContainer.setAlwaysRender(true);
             gameContainer.setShowFPS(false);
             gameContainer.setMouseGrabbed(true);
+            gameContainer.setIcon("res/img/icon.png");
             //gameContainer.setTargetFrameRate(60);
             //gameContainer.setVSync(true);
 

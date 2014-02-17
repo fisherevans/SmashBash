@@ -12,7 +12,6 @@ public class DummyOption extends MenuOption {
     }
 
     @Override
-    public boolean action() {
-        return true;
+    public void action() {
     }
 }

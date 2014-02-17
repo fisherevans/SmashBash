@@ -1,7 +1,8 @@
-package com.fisherevans.wipgame.input;
+package com.fisherevans.wipgame.resources;
 
-import com.fisherevans.wipgame.Main;
 import com.fisherevans.wipgame.game.WIP;
+import com.fisherevans.wipgame.input.InputsListener;
+import com.fisherevans.wipgame.input.Key;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 public class Inputs implements KeyListener {
     private static Map<Integer, Map<Key, Integer>> _inputsMap = null;
+    private static Map<Integer, Map<Key, Boolean>> _keyStateMap = null;
 
     private static Inputs _itself = null;
 
@@ -24,27 +26,37 @@ public class Inputs implements KeyListener {
 
         _inputsMap = new HashMap<>();
 
-        Map<Key, Integer> c0 = new HashMap<>();
-        c0.put(Key.Up, Input.KEY_W);
-        c0.put(Key.Down, Input.KEY_S);
-        c0.put(Key.Left, Input.KEY_A);
-        c0.put(Key.Right, Input.KEY_D);
-        c0.put(Key.Select, Input.KEY_SPACE);
-        c0.put(Key.Back, Input.KEY_LCONTROL);
-        _inputsMap.put(0, c0);
-
         Map<Key, Integer> c1 = new HashMap<>();
-        c1.put(Key.Up, Input.KEY_UP);
-        c1.put(Key.Down, Input.KEY_DOWN);
-        c1.put(Key.Left, Input.KEY_LEFT);
-        c1.put(Key.Right, Input.KEY_RIGHT);
-        c1.put(Key.Select, Input.KEY_ENTER);
-        c1.put(Key.Back, Input.KEY_RCONTROL);
+        c1.put(Key.Up, Input.KEY_W);
+        c1.put(Key.Down, Input.KEY_S);
+        c1.put(Key.Left, Input.KEY_A);
+        c1.put(Key.Right, Input.KEY_D);
+        c1.put(Key.Select, Input.KEY_SPACE);
+        c1.put(Key.Back, Input.KEY_LCONTROL);
         _inputsMap.put(1, c1);
 
-        Map<Key, Integer> cz = new HashMap<>();
-        cz.put(Key.Menu, Input.KEY_ESCAPE);
-        _inputsMap.put(-1, cz);
+        Map<Key, Integer> c2 = new HashMap<>();
+        c2.put(Key.Up, Input.KEY_UP);
+        c2.put(Key.Down, Input.KEY_DOWN);
+        c2.put(Key.Left, Input.KEY_LEFT);
+        c2.put(Key.Right, Input.KEY_RIGHT);
+        c2.put(Key.Select, Input.KEY_ENTER);
+        c2.put(Key.Back, Input.KEY_RCONTROL);
+        _inputsMap.put(2, c2);
+
+        Map<Key, Integer> cg = new HashMap<>();
+        cg.put(Key.Menu, Input.KEY_ESCAPE);
+        _inputsMap.put(-1, cg);
+
+        _keyStateMap = new HashMap<>();
+        Map<Key, Boolean> keyState;
+        for(Integer inputSource:_inputsMap.keySet()) {
+            keyState = new HashMap<>();
+            for(Key key:Key.values()) {
+                keyState.put(key, false);
+            }
+            _keyStateMap.put(inputSource, keyState);
+        }
 
         WIP.container.getInput().addKeyListener(_itself);
     }
@@ -59,13 +71,15 @@ public class Inputs implements KeyListener {
 
     @Override
     public void keyPressed(int keyCode, char c) {
-        if(keyCode == Input.KEY_F8)
+        if(keyCode == Input.KEY_F8) {
             WIP.debug = !WIP.debug;
+        }
         if(_listener == null)
             return;
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {
+                    _keyStateMap.get(inputSource).put(key, true);
                     _listener.keyDown(key, inputSource);
                 }
             }
@@ -79,11 +93,29 @@ public class Inputs implements KeyListener {
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {
+                    _keyStateMap.get(inputSource).put(key, false);
                     _listener.keyUp(key, inputSource);
                 }
             }
         }
     }
+
+    public static boolean keyState(Key key, int inputSource) {
+        Map<Key, Boolean> map = _keyStateMap.get(inputSource);
+        if(map == null)
+            return false;
+        else
+            return map.get(key);
+    }
+
+    public static boolean globalKeyState(Key key) {
+        for(Integer inputSource:_keyStateMap.keySet()) {
+            if(_keyStateMap.get(inputSource).get(key))
+                return true;
+        }
+        return false;
+    }
+
 
     @Override
     public boolean isAcceptingInput() {
