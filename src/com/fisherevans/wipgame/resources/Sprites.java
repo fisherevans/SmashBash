@@ -3,6 +3,7 @@ package com.fisherevans.wipgame.resources;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.imageout.ImageIOWriter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Sprites {
             for(Integer size: Config.SIZES) {
                 spriteWidth = size*2;
                 spriteHeight = size*3;
-                spriteSheet = Images.getImage("sprites/characters/" + character + "-" + size);
+                spriteSheet = Images.getImage("sprites/characters/" + size + "/" + character);
                 characterSprites.put(size, new CharacterSprite(
                         spriteSheet.getSubImage(spriteWidth*0, 0, spriteWidth, spriteHeight),
                         spriteSheet.getSubImage(spriteWidth*1, 0, spriteWidth, spriteHeight),

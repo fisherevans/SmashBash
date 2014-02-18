@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ImgScalr">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ImgScalr.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

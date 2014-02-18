@@ -20,6 +20,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl/lwjgl_util_applet.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl/lzma.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/Fizzics.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ImgScalr.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
