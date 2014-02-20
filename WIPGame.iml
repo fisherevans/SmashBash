@@ -13,6 +13,7 @@
     <orderEntry type="library" exported="" name="lwjgl" level="project" />
     <orderEntry type="library" exported="" name="ImgScalr" level="project" />
     <orderEntry type="library" name="zip4j_1.3.2" level="project" />
+    <orderEntry type="library" name="jxinput" level="project" />
   </component>
 </module>
 

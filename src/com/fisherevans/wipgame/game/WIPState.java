@@ -3,6 +3,8 @@ package com.fisherevans.wipgame.game;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Inputs;
 import com.fisherevans.wipgame.input.InputsListener;
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.event.JXInputEventManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -36,7 +38,8 @@ public abstract class WIPState extends BasicGameState implements InputsListener 
 
     @Override
     public final void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        update(delta/1000f);
+        JXInputManager.updateFeatures();
+        update(delta / 1000f);
     }
 
     public abstract void update(float delta) throws SlickException;

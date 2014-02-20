@@ -42,7 +42,7 @@ public class GameLauncher {
 
     public static void startGame(final DisplayMode displayMode, final boolean fullscreen) {
         try {
-            WIP game = new WIP("WIP WIP");
+            WIP game = new WIP("WIPGame");
             AppGameContainer gameContainer = new AppGameContainer(game);
 
             gameContainer.setDisplayMode(displayMode.getWidth(), displayMode.getHeight(), fullscreen);
@@ -51,8 +51,8 @@ public class GameLauncher {
             gameContainer.setShowFPS(false);
             gameContainer.setMouseGrabbed(true);
             gameContainer.setIcon("res/img/icon.png");
+            gameContainer.setVSync(true);
             //gameContainer.setTargetFrameRate(60);
-            //gameContainer.setVSync(true);
 
             gameContainer.start();
         } catch (SlickException e) {

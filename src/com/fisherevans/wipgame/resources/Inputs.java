@@ -3,6 +3,13 @@ package com.fisherevans.wipgame.resources;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.input.InputsListener;
 import com.fisherevans.wipgame.input.Key;
+import com.fisherevans.wipgame.input.XBoxControllerListener;
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.directinput.DirectInputDevice;
+import de.hardcode.jxinput.event.JXInputEventManager;
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
@@ -21,12 +28,12 @@ public class Inputs implements KeyListener {
     private static Map<Integer, Map<Key, Integer>> _inputsMap = null;
     private static Map<Integer, Map<Key, Boolean>> _keyStateMap = null;
 
-    private static Inputs _itself = null;
+    public static Inputs itself = null;
 
     private static InputsListener _listener = null;
 
     public static void load() {
-        _itself = new Inputs();
+        itself = new Inputs();
 
         _inputsMap = new HashMap<>();
 
@@ -48,6 +55,15 @@ public class Inputs implements KeyListener {
         c2.put(Key.Back, Input.KEY_RCONTROL);
         _inputsMap.put(2, c2);
 
+        int nextInput = _inputsMap.keySet().size()+1;
+        for(int i = 0; i < JXInputManager.getNumberOfDevices(); i++){
+            System.out.println("Found controller: " + JXInputManager.getJXInputDevice(i).getName());
+            if(JXInputManager.getJXInputDevice(i).getName().toLowerCase().contains("xbox")){
+                new XBoxControllerListener(new DirectInputDevice(i), nextInput);
+                _inputsMap.put(nextInput++, new HashMap<Key, Integer>());
+            }
+        }
+
         Map<Key, Integer> cg = new HashMap<>();
         cg.put(Key.Menu, Input.KEY_ESCAPE);
         _inputsMap.put(GLOBAL_INPUT, cg);
@@ -62,7 +78,7 @@ public class Inputs implements KeyListener {
             _keyStateMap.put(inputSource, keyState);
         }
 
-        WIP.container.getInput().addKeyListener(_itself);
+        WIP.container.getInput().addKeyListener(itself);
     }
 
     public static void setListener(InputsListener listener) {
@@ -71,6 +87,14 @@ public class Inputs implements KeyListener {
 
     public static InputsListener getListener() {
         return _listener;
+    }
+
+    public static void keyEvent(Key key, int source, boolean state) {
+        _keyStateMap.get(source).put(key, state);
+        if(state)
+            _listener.keyDown(key, source);
+        else
+            _listener.keyUp(key, source);
     }
 
     @Override
@@ -83,8 +107,7 @@ public class Inputs implements KeyListener {
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {
-                    _keyStateMap.get(inputSource).put(key, true);
-                    _listener.keyDown(key, inputSource);
+                    keyEvent(key, inputSource, true);
                 }
             }
         }
@@ -97,8 +120,7 @@ public class Inputs implements KeyListener {
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {
-                    _keyStateMap.get(inputSource).put(key, false);
-                    _listener.keyUp(key, inputSource);
+                    keyEvent(key, inputSource, false);
                 }
             }
         }
