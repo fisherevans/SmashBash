@@ -14,13 +14,10 @@ public class Builder {
     public static void main(String[] args) {
         ImageGenerator.generateImages("128 16,32,48,64,96,128 res/img/sprites/characters png".split(" "));
         ImageGenerator.generateImages("128 16,32,48,64,96,128 res/maps png".split(" "));
-        String buildNumber = incrementBuildNumber();
-        Packager.pack(buildNumber);
+        Packager.pack(incrementBuildNumber("res/build.txt"));
     }
 
-    private static String buildNumberFile = "res/build.txt";
-
-    private static String incrementBuildNumber() {
+    private static String incrementBuildNumber(String buildNumberFile) {
         System.out.println("Finding build number...");
         try {
             File buildFile = new File(buildNumberFile);
