@@ -2,5 +2,5 @@
 .git
 .idea/workspace.xml
 out/
+**/re-sized
 WIPGame.jar
-WIPGame.zip

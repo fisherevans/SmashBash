@@ -103,7 +103,7 @@ public class LoadingState extends WIPState {
                         case 7: Lights.load(); break;
                         case 8: _currentlyLoading = Messages.get("loading.resource.maps"); break;
                         case 9: Maps.load(); break;
-                        case 10: _currentlyLoading = Messages.get("loading.resource.input"); break;
+                        case 10: _currentlyLoading = Messages.get("loading.resource.inputs"); break;
                         case 11: Inputs.load(); break;
                         case 12: _currentlyLoading = Messages.get("loading.resource.states"); break;
                         case 13: {

@@ -3,7 +3,6 @@ package com.fisherevans.wipgame.game.states.play;
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 
-import com.fisherevans.wipgame.Main;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.play.characters.Character;
 import com.fisherevans.wipgame.tools.MathUtil;

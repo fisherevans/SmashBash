@@ -1,4 +1,4 @@
-package com.fisherevans.ant;
+package com.fisherevans.build;
 
 import org.imgscalr.Scalr;
 
@@ -11,6 +11,20 @@ import java.io.File;
  * Date: 2/17/14
  */
 public class ImageGenerator {
+    public static void generateImages(String[] args) {
+        int baseSize = Integer.parseInt(args[0]);
+
+        String[] newSizesSplit = args[1].split(",");
+        int[] newSizes = new int[newSizesSplit.length];
+        for(int id = 0;id < newSizesSplit.length;id++)
+            newSizes[id] = Integer.parseInt(newSizesSplit[id]);
+
+        String dir = args[2];
+        String format = args[3];
+
+        ImageGenerator.run(baseSize, newSizes, dir, format);
+    }
+
     public static void run(int baseSize, int[] newSizes, String dir, String format) {
         System.out.println("Generating images for " + format + " images in " + dir);
         try {
@@ -23,11 +37,10 @@ public class ImageGenerator {
                     float scale;
                     int width, height;
                     File outputFile, outputFolder;
+                    makeFolder(dir + "/re-sized");
                     for(int size:newSizes) {
-                        outputFolder = new File(dir + "/" + size);
-                        if(!outputFolder.exists())
-                            outputFolder.mkdir();
-                        outputFile = new File(dir + "/" + size + "/" + baseFileName + "." + format);
+                        makeFolder(dir + "/re-sized/" + size);
+                        outputFile = new File(dir + "/re-sized/" + size + "/" + baseFileName + "." + format);
                         scale = ((float)size)/((float)baseSize);
                         width = (int)(baseImage.getWidth()*scale);
                         height = (int)(baseImage.getHeight()*scale);
@@ -40,5 +53,12 @@ public class ImageGenerator {
             e.printStackTrace();
             System.exit(5);
         }
+    }
+
+    private static File makeFolder(String ref) {
+        File folder = new File(ref);
+        if(!folder.exists())
+            folder.mkdir();
+        return folder;
     }
 }

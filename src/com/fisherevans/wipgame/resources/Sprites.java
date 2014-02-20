@@ -29,7 +29,7 @@ public class Sprites {
             for(Integer size: Config.SIZES) {
                 spriteWidth = size*2;
                 spriteHeight = size*3;
-                spriteSheet = Images.getImage("sprites/characters/" + size + "/" + character);
+                spriteSheet = Images.getImage("sprites/characters/re-sized/" + size + "/" + character);
                 characterSprites.put(size, new CharacterSprite(
                         spriteSheet.getSubImage(spriteWidth*0, 0, spriteWidth, spriteHeight),
                         spriteSheet.getSubImage(spriteWidth*1, 0, spriteWidth, spriteHeight),

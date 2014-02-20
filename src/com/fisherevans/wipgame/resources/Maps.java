@@ -27,7 +27,7 @@ public class Maps {
             try {
                 sizedMaps.put(BASE, new TiledMap(mapLocation));
                 for(Integer size: Config.SIZES) {
-                    sizedMaps.put(size, new TiledMap(mapLocation, _mapRoot + size,
+                    sizedMaps.put(size, new TiledMap(mapLocation, _mapRoot + "re-sized/" + size,
                             size/((float)(Config.SIZES[Config.SIZES.length-1]))));
                 }
             } catch (SlickException e) {

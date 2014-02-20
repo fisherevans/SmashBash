@@ -1,6 +1,6 @@
 package com.fisherevans.wipgame.launcher;
 
-import com.fisherevans.wipgame.Main;
+import com.fisherevans.wipgame.GameLauncher;
 import com.fisherevans.wipgame.resources.Messages;
 import net.miginfocom.swing.MigLayout;
 import org.lwjgl.LWJGLException;
@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -146,7 +145,7 @@ public class Launcher implements ActionListener {
             return;
         }
         closeLauncher();
-        Main.startGame(selectedResolution.getDisplayMode(), selectedFullscreen.equals(Messages.get("launcher.fullscreen.true")));
+        GameLauncher.startGame(selectedResolution.getDisplayMode(), selectedFullscreen.equals(Messages.get("launcher.fullscreen.true")));
     }
 
     private static void centerJFrame(JFrame frame) {
