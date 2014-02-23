@@ -76,7 +76,7 @@ public class PlayState extends WIPState {
         Character c;
         for(PlayerProfile profile:WIP.gameSettings.players) {
             c = new Character(this, "Player " + profile.getInput(), profile.getColor(), new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f),
-                    profile.getCharacter(), WIP.gameSettings.lives, WIP.gameSettings.health);
+                    profile.getCharacterDefinition().getName(), WIP.gameSettings.lives, WIP.gameSettings.health);
             c.setController(new PlayerController(c, profile.getInput()));
             _characters.add(c);
         }

@@ -7,6 +7,10 @@ import de.hardcode.jxinput.Button;
 import de.hardcode.jxinput.Directional;
 import de.hardcode.jxinput.directinput.DirectInputDevice;
 import de.hardcode.jxinput.event.*;
+import net.java.games.input.Rumbler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Fisher Evans
@@ -31,8 +35,22 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
     private static final int DIRECTION_DOWN = 18000;
     private static final int DIRECTION_LEFT = 27000;
 
+    private static final double AXIS_THRESHOLD = 0.2;
+
+    private static final int AXIS_LEFT_LR = 0;
+    private static final int AXIS_LEFT_UD = 1;
+
+    private static final int AXIS_RIGHT_LR = 3;
+    private static final int AXIS_RIGHT_UD = 4;
+
+    private static final int AXIS_TRIGGER = 2;
+
     private DirectInputDevice _controller;
     private int _sourceId;
+
+    private int _lastDirectional = -1;
+
+    private Map<Axis, Integer> _axisMap;
 
     public XBoxControllerListener(DirectInputDevice controller, int sourceId) {
         _controller = controller;
@@ -44,20 +62,16 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
         for(int buttonId = 0;buttonId < _controller.getNumberOfButtons();buttonId++)
             JXInputEventManager.addListener(this, _controller.getButton(buttonId));
 
-        //for(int axisId = 0;axisId < _controller.getNumberOfAxes();axisId++)
-        //    JXInputEventManager.addListener(this, _controller.getAxis(axisId));
-
         for(int directionalId = 0;directionalId < _controller.getNumberOfDirectionals();directionalId++)
             JXInputEventManager.addListener(this, _controller.getDirectional(directionalId));
-    }
 
-    @Override
-    public void changed(JXInputAxisEvent jxInputAxisEvent) {
-        Axis axis = jxInputAxisEvent.getAxis();
-        //System.out.println("Axis Event [Name=" + axis.getName() + "] " +
-        //        "[Type=" + axis.getType() + "] " +
-        //        "[Resolution=" + axis.getResolution() + "] " +
-        //        "[Value=" + axis.getValue() + "]");
+        Axis axis;
+        _axisMap = new HashMap<>();
+        for(int axisId = 0;axisId < _controller.getNumberOfAxes();axisId++) {
+            axis = _controller.getAxis(axisId);
+            JXInputEventManager.addListener(this, axis);
+            _axisMap.put(axis, axisId);
+        }
     }
 
     @Override
@@ -85,8 +99,6 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
         //        "[State=" + button.getState() + "] " +
         //        "[Type=" + button.getType() + "]");
     }
-
-    private int _lastDirectional = -1;
 
     @Override
     public void changed(JXInputDirectionalEvent jxInputDirectionalEvent) {
@@ -120,5 +132,50 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
                 return Key.Left;
         }
         return null;
+    }
+
+    @Override
+    public void changed(JXInputAxisEvent jxInputAxisEvent) {
+        Axis axis = jxInputAxisEvent.getAxis();
+        Integer axisId = _axisMap.get(axis);
+        if(axisId != null && Math.abs(axis.getValue()) > AXIS_THRESHOLD) {
+            double absValue = Math.abs(axis.getValue());
+            Key key = null;
+            switch(axisId) {
+                case AXIS_LEFT_LR:
+                    Key on, off;
+                    if(absValue > AXIS_THRESHOLD) {
+                        if(axis.getValue() > 0) {
+                            if(Inputs.keyState(Key.Left, _sourceId))
+                                Inputs.keyEvent(Key.Left, _sourceId, false);
+                        } else {
+
+                        }
+                    } else {
+                        if(Inputs.keyState(Key.Left, _sourceId))
+                            Inputs.keyEvent(Key.Left, _sourceId, false);
+                        if(Inputs.keyState(Key.Right, _sourceId))
+                            Inputs.keyEvent(Key.Right, _sourceId, false);
+                    }
+                    if(axis.getValue() < 0) {
+                        on = Key.Left;
+                        off = Key.Right;
+                    }
+                    break;
+                case AXIS_LEFT_UD:
+
+                    break;
+                case AXIS_RIGHT_LR:
+
+                    break;
+                case AXIS_RIGHT_UD:
+
+                    break;
+                case AXIS_TRIGGER:
+
+                    break;
+            }
+            System.out.println("Axis " + axisId + " was changed to " + axis.getValue());
+        }
     }
 }

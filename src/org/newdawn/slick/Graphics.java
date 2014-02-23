@@ -1361,11 +1361,19 @@ public class Graphics {
 	 * @param y
 	 *            The y coordinate to draw the string at
 	 */
-	public void drawString(String str, float x, float y) {
-		predraw();
-		font.drawString(x, y, str, currentColor);
-		postdraw();
-	}
+    public void drawString(String str, float x, float y) {
+        predraw();
+        font.drawString(x, y, str, currentColor);
+        postdraw();
+    }
+
+    public void drawStringCentered(String str, float x, float y) {
+        predraw();
+        float xShift = font.getWidth(str)/2f;
+        float yShift = font.getLineHeight()/2f;
+        font.drawString(x - xShift, y - yShift, str, currentColor);
+        postdraw();
+    }
 
 	/**
 	 * Draw an image to the screen
@@ -1379,12 +1387,21 @@ public class Graphics {
 	 * @param col
 	 *            The color to apply to the image as a filter
 	 */
-	public void drawImage(Image image, float x, float y, Color col) {
-		predraw();
-		image.draw(x, y, col);
-		currentColor.bind();
-		postdraw();
-	}
+    public void drawImage(Image image, float x, float y, Color col) {
+        predraw();
+        image.draw(x, y, col);
+        currentColor.bind();
+        postdraw();
+    }
+
+    public void drawImageCentered(Image image, float x, float y, Color col) {
+        predraw();
+        float xShift = image.getWidth()/2f;
+        float yShift = image.getHeight()/2f;
+        image.draw(x - xShift, y - yShift, col);
+        currentColor.bind();
+        postdraw();
+    }
 
 	/**
 	 * Draw an animation to this graphics context

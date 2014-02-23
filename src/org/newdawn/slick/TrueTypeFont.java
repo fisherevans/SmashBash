@@ -30,7 +30,7 @@ public class TrueTypeFont implements Font {
 	/** Array that holds necessary information about the font characters */
 	private IntObject[] charArray = new IntObject[256];
 	
-	/** Map of user defined font characters (Character <-> IntObject) */
+	/** Map of user defined font characters (CharacterDefinition <-> IntObject) */
 	private Map customChars = new HashMap();
 
 	/** Boolean flag on whether AntiAliasing is enabled or not */
@@ -63,16 +63,16 @@ public class TrueTypeFont implements Font {
 	 * is stored on the font texture.
 	 */
 	private class IntObject {
-		/** Character's width */
+		/** CharacterDefinition's width */
 		public int width;
 
-		/** Character's height */
+		/** CharacterDefinition's height */
 		public int height;
 
-		/** Character's stored x position */
+		/** CharacterDefinition's stored x position */
 		public int storedX;
 
-		/** Character's stored y position */
+		/** CharacterDefinition's stored y position */
 		public int storedY;
 	}
 

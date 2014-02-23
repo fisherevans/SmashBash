@@ -9,4 +9,8 @@ import org.newdawn.slick.Color;
 public class Config {
     public static final Integer[] SIZES = { 16, 32, 48, 64, 96, 128 };
     public static final Color HIGHLIGHT = new Color(0.2f, 0.4f, 0.9f);
+
+    public static Integer largestSize() {
+        return SIZES[SIZES.length-1];
+    }
 }
