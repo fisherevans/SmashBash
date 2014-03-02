@@ -532,9 +532,9 @@ public class Image implements Renderable {
 	 * @param x The x coordinate to place the image's center at
 	 * @param y The y coordinate to place the image's center at
 	 */
-	public void drawCentered(float x, float y) {
-		draw(x-(getWidth()/2),y-(getHeight()/2));
-	}
+    public void drawCentered(float x, float y) {
+        draw(x-(getWidth()/2),y-(getHeight()/2));
+    }
 	
 	/**
 	 * Draw this image at the specified location

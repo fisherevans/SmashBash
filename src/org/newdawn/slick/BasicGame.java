@@ -7,7 +7,7 @@ package org.newdawn.slick;
  * @author kevin
  */
 public abstract class BasicGame implements Game, InputListener {
-	/** The maximum number of controllers supported by the basic game */
+	/** The maximum number of object_controllers supported by the basic game */
 	private static final int MAX_CONTROLLERS = 20;
 	/** The maximum number of controller buttons supported by the basic game */
 	private static final int MAX_CONTROLLER_BUTTONS = 100;

@@ -1403,6 +1403,15 @@ public class Graphics {
         postdraw();
     }
 
+    public void drawImageCentered(Image image, float x, float y, float width, float height) {
+        predraw();
+        float xShift = width/2f;
+        float yShift = height/2f;
+        image.draw(x - xShift, y - yShift, width, height);
+        currentColor.bind();
+        postdraw();
+    }
+
 	/**
 	 * Draw an animation to this graphics context
 	 * 

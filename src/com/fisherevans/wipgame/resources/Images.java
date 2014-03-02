@@ -1,5 +1,6 @@
 package com.fisherevans.wipgame.resources;
 
+import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -14,6 +15,8 @@ import java.util.Map;
  */
 public class Images {
     private final static String IMAGE_LOCATIONS = "res/img";
+
+    public final static Log log = new Log(Images.class);
 
     private static Map<String, Image> _images = null;
 
@@ -46,6 +49,8 @@ public class Images {
     }
 
     public static Image getImage(String key) {
+        if(_images.get(IMAGE_LOCATIONS + "/" + key) == null)
+            log.error("Failed to get Image: " + IMAGE_LOCATIONS + "/" + key);
         return _images.get(IMAGE_LOCATIONS + "/" + key);
     }
 

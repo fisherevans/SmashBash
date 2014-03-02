@@ -8,7 +8,9 @@ import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
-import com.fisherevans.wipgame.game.states.play.characters.controllers.PlayerController;
+import com.fisherevans.wipgame.game.states.play.entities.Entity;
+import com.fisherevans.wipgame.game.states.play.entities.Laser;
+import com.fisherevans.wipgame.game.states.play.object_controllers.PlayerController;
 import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
 import com.fisherevans.wipgame.input.Key;
@@ -38,6 +40,7 @@ public class PlayState extends WIPState {
 
     private World _world;
     private List<Character> _characters, _deadCharacters;
+    private List<GameObject> _gameObjects;
     private Camera _camera;
 
     private float _screenHeight, _screenWidth;
@@ -71,6 +74,8 @@ public class PlayState extends WIPState {
         _world = new World(_gravity);
         generateCollisionBodies();
 
+
+        _gameObjects = new LinkedList<>();
         _deadCharacters = new LinkedList<>();
         _characters = new LinkedList<>();
         Character c;
@@ -79,11 +84,15 @@ public class PlayState extends WIPState {
                     profile.getCharacterDefinition().getName(), WIP.gameSettings.lives, WIP.gameSettings.health);
             c.setController(new PlayerController(c, profile.getInput()));
             _characters.add(c);
+            _gameObjects.add(c);
         }
 
-        for(Character character:_characters) {
-            character.getBody().setResolveWithStaticOnly(true);
-            _world.add(character.getBody());
+        _gameObjects.add(new Entity(new Rectangle(18f, _baseMap.getHeight()-10f, 1f, 1f), "laser", 20f));
+        _gameObjects.add(new Laser(21f, _baseMap.getHeight()-10f, 0f, null));
+
+        for(GameObject gameObject:_gameObjects) {
+            gameObject.getBody().setResolveWithStaticOnly(true);
+            _world.add(gameObject.getBody());
         }
 
         _camera = new Camera(this, 128f, 16f);
@@ -181,19 +190,18 @@ public class PlayState extends WIPState {
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("background"));
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("foreground"));
 
-        Image ci;
-        float padding, widthScale, imageWidth;
-        Rectangle characterR;
-        for(Character character:_characters) {
-            characterR = character.getBody();
-            ci = character.getImage(size);
-            padding = (size*Sprites.PADDING_PERCENTAGE)*(zoom/size);
-            widthScale = character.getImageFlipScale();
-            imageWidth = (zoom*characterR.getWidth() + padding*2);
-            ci.draw((characterR.getBottomLeft().getX()) * zoom + shiftX - padding + imageWidth / 2f - imageWidth / 2 * widthScale,
-                    (_baseMap.getHeight() - characterR.getBottomLeft().getY() - characterR.getHeight() + 1f) * zoom + shiftY - padding,
-                    imageWidth * widthScale,
-                    zoom * characterR.getHeight() + padding * 2);
+        Image image;
+        float zoomScale;
+        Rectangle body;
+        for(GameObject gameObject:_gameObjects) {
+            body = gameObject.getBody();
+            image = gameObject.getImage(size);
+            zoomScale = zoom/size;
+            gfx.drawImageCentered(image,
+                    body.getCenterX()*zoom + shiftX,
+                    (_baseMap.getHeight() - body.getCenterY() + 1f) * zoom + shiftY,
+                    image.getWidth()*gameObject.getImageFlipScale()*zoomScale,
+                    image.getHeight()*zoomScale);
         }
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
@@ -266,10 +274,10 @@ public class PlayState extends WIPState {
     public void update(float delta) {
         delta = Math.min(delta, 0.1f);
 
-        for(Character character:_characters) {
-            character.update(delta);
-            if(character.getBody().getCenterY() <= -_baseMap.getHeight())
-                character.kill();
+        for(GameObject gameObject:_gameObjects) {
+            gameObject.update(delta);
+            if(gameObject instanceof Character && gameObject.getBody().getCenterY() <= -_baseMap.getHeight())
+                ((Character)(gameObject)).kill();
         }
 
         _world.step(delta);
@@ -310,7 +318,7 @@ public class PlayState extends WIPState {
             WIP.enterNewState(new PauseState(this));
         } else {
             for(Character character:_characters) {
-                if(character.getController() != null)
+                if(character.getController() != null && character.acceptInput())
                     character.getController().keyDown(key, inputSource);
             }
         }

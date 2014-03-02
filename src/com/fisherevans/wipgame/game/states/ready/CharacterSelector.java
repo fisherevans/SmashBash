@@ -4,6 +4,7 @@ import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
 import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
+import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Sprites;
@@ -40,7 +41,8 @@ public class CharacterSelector {
 
         float imageAreaHeight = height - font.getLineHeight()*5;
         float imageDrawYCenter = y + font.getLineHeight()*5 + imageAreaHeight/2f;
-        Image image = Sprites.getCharacterSprites(_profile.getCharacterDefinition().getName()).get(Config.largestSize()).getIdle();
+        Image image = Sprites.getCharacterSprites(_profile.getCharacterDefinition().getName())
+                .get(Config.largestSize()).getSprite(SpriteType.Idle);
         image = image.getScaledCopy((width*0.666f)/image.getWidth());
         graphics.drawImageCentered(image, centerX, imageDrawYCenter, _profile.getColor());
     }

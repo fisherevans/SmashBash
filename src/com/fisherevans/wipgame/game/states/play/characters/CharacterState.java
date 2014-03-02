@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.play.characters.enums;
+package com.fisherevans.wipgame.game.states.play.characters;
 
 /**
  * Author: Fisher Evans

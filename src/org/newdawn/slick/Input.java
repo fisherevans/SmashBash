@@ -21,10 +21,10 @@ import org.newdawn.slick.util.Log;
  * @author kevin
  */
 public class Input {
-	/** The controller index to pass to check all controllers */
+	/** The controller index to pass to check all object_controllers */
 	public static final int ANY_CONTROLLER = -1;
 	
-	/** The maximum number of buttons on controllers */
+	/** The maximum number of buttons on object_controllers */
 	private static final int MAX_BUTTONS = 100;
 	
 	/** */
@@ -317,9 +317,9 @@ public class Input {
 	/** The middle mouse button indicator */
 	public static final int MOUSE_MIDDLE_BUTTON = 2;
 	
-	/** True if the controllers system has been initialised */
+	/** True if the object_controllers system has been initialised */
 	private static boolean controllersInited = false;
-	/** The list of controllers */
+	/** The list of object_controllers */
 	private static ArrayList controllers = new ArrayList();
 
 	/** The last recorded mouse x position */
@@ -338,7 +338,7 @@ public class Input {
 	/** The time since the next key repeat to be fired for the key */
 	protected long[] nextRepeat = new long[1024];
 	
-	/** The control states from the controllers */
+	/** The control states from the object_controllers */
 	private boolean[][] controls = new boolean[10][MAX_BUTTONS+10];
 	/** True if the event has been consumed */
 	protected boolean consumed = false;
@@ -402,7 +402,7 @@ public class Input {
 	private int mouseClickTolerance = 5;
 
 	/**
-	 * Disables support for controllers. This means the jinput JAR and native libs 
+	 * Disables support for object_controllers. This means the jinput JAR and native libs
 	 * are not required.
 	 */
 	public static void disableControllers() {
@@ -818,7 +818,7 @@ public class Input {
 	/**
 	 * Get a count of the number of controlles available
 	 * 
-	 * @return The number of controllers available
+	 * @return The number of object_controllers available
 	 */
 	public int getControllerCount() {
 		try {
@@ -1018,7 +1018,7 @@ public class Input {
 	}
 	
 	/**
-	 * Initialise the controllers system
+	 * Initialise the object_controllers system
 	 * 
 	 * @throws SlickException Indicates a failure to use the hardware
 	 */
