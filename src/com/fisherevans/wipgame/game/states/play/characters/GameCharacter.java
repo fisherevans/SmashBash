@@ -4,6 +4,7 @@ import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
+import com.fisherevans.wipgame.game.states.play.characters.skills.Skill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.CharacterController;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Sprites;
@@ -16,7 +17,7 @@ import java.util.Map;
  * Author: Fisher Evans
  * Date: 2/11/14
  */
-public class Character extends GameObject {
+public class GameCharacter extends GameObject {
     public static final float DEFAULT_JUMP_VEL = 12f;
     public static final float DEFAULT_JUMP_MAX_TIME = 0.25f;
     public static final float DEFAULT_X_ACC = 70f;
@@ -26,7 +27,7 @@ public class Character extends GameObject {
 
     public static final float ANIMATIONS_PER_SECOND = 8f;
 
-    public static final Log log = new Log(Character.class);
+    public static final Log log = new Log(GameCharacter.class);
 
     private String _name;
 
@@ -39,7 +40,7 @@ public class Character extends GameObject {
 
     private float _stateLength;
 
-    private Integer _lives, _startHealth, _health;
+    private Integer _lives, _maxHealth, _health;
 
     private PlayState _playState;
 
@@ -47,7 +48,9 @@ public class Character extends GameObject {
 
     private float _currentActionDuration;
 
-    public Character(PlayState playState, String name,  Color color, Rectangle body, String characterSpriteName, Integer lives, Integer health) {
+    private Skill _primarySkill, _secondarySkill;
+
+    public GameCharacter(PlayState playState, String name, Color color, Rectangle body, String characterSpriteName, Integer lives, Integer health) {
         super(body);
 
         _playState = playState;
@@ -63,14 +66,19 @@ public class Character extends GameObject {
         _characterSprites = Sprites.getCharacterSprites(characterSpriteName);
 
         _lives = lives;
-        _startHealth = health;
-        _health = _startHealth;
+        _maxHealth = health;
+        _health = _maxHealth;
 
         setDirectionBasedOnVelocity(false);
     }
 
     @Override
     public void updateObject(float delta) {
+        if(_primarySkill != null)
+            _primarySkill.update(delta);
+        if(_secondarySkill != null)
+            _secondarySkill.update(delta);
+
         _currentActionDuration += delta;
         if(_currentAction != null && _currentAction.getDuration() < _currentActionDuration)
             _currentAction = null;
@@ -101,6 +109,7 @@ public class Character extends GameObject {
                     break;
                 }
                 case IDLE: image = getSpriteCopy(size, SpriteType.Idle); break;
+                case CROUCHED: image = getSpriteCopy(size, SpriteType.Crouched); break;
             }
         }
         image.setImageColor(_color.r, _color.g, _color.b);
@@ -132,7 +141,7 @@ public class Character extends GameObject {
     }
 
     public void revive() {
-        _health = _startHealth;
+        _health = _maxHealth;
         getBody().setStatic(false);
         getBody().setVelocity(new Vector(0f, 0f));
         getBody().setAcceleration(new Vector(0f, 0f));
@@ -183,5 +192,29 @@ public class Character extends GameObject {
 
     public String getName() {
         return _name;
+    }
+
+    public Skill getSecondarySkill() {
+        return _secondarySkill;
+    }
+
+    public void setSecondarySkill(Skill secondarySkill) {
+        _secondarySkill = secondarySkill;
+    }
+
+    public Skill getPrimarySkill() {
+        return _primarySkill;
+    }
+
+    public void setPrimarySkill(Skill primarySkill) {
+        _primarySkill = primarySkill;
+    }
+
+    public Color getColor() {
+        return _color;
+    }
+
+    public Integer getMaxHealth() {
+        return _maxHealth;
     }
 }

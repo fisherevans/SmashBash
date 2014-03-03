@@ -16,7 +16,7 @@ public class Maps {
     public static final int BASE = -1;
 
     private static String _mapRoot = "res/maps/";
-    private static String[] _mapNames = { "test2", "test" };
+    private static String[] _mapNames = { "test3", "test2", "test" };
     private static Map<String, Map<Integer, TiledMap>> _mapMap;
 
     public static void load() {

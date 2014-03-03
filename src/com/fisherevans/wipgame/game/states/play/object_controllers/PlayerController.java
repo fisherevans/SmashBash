@@ -2,14 +2,9 @@ package com.fisherevans.wipgame.game.states.play.object_controllers;
 
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Side;
-import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.play.Direction;
-import com.fisherevans.wipgame.game.states.play.PlayState;
-import com.fisherevans.wipgame.game.states.play.characters.Character;
-import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
-import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
+import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
-import com.fisherevans.wipgame.game.states.play.entities.Laser;
 import com.fisherevans.wipgame.input.Key;
 
 /**
@@ -17,10 +12,14 @@ import com.fisherevans.wipgame.input.Key;
  * Date: 2/11/14
  */
 public class PlayerController extends CharacterController {
+    public static float STANDING_HEIGHT = 2f;
+    public static float CROUCHING_HEIGHT = 1f;
+
     private boolean _canJump = true, _jumping = false;
     private float _jumpTime = 0f;
+    private boolean _crouched = false;
 
-    public PlayerController(com.fisherevans.wipgame.game.states.play.characters.Character character, int inputSource) {
+    public PlayerController(GameCharacter character, int inputSource) {
         super(character, inputSource);
     }
 
@@ -31,27 +30,29 @@ public class PlayerController extends CharacterController {
         Rectangle pr = getCharacter().getBody();
 
         if(_jumping) {
-            if(!state(Key.Up) || _jumpTime > Character.DEFAULT_JUMP_MAX_TIME || !acceptInput) {
+            if(!state(Key.Up) || _jumpTime > GameCharacter.DEFAULT_JUMP_MAX_TIME || !acceptInput || _crouched) {
                 _jumping = false;
             } else {
                 _jumpTime += delta;
-                pr.getVelocity().setY(Character.DEFAULT_JUMP_VEL);
+                pr.getVelocity().setY(GameCharacter.DEFAULT_JUMP_VEL);
             }
         }
 
-        float a = pr.getFloor() == Side.South ? Character.DEFAULT_X_ACC : Character.DEFAULT_X_ACC_AIR;
-        if (state(Key.Right) && !state(Key.Left) && acceptInput) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() < Character.DEFAULT_X_MAX_MOVE ? a : -a);
+        float a = pr.getFloor() == Side.South ? GameCharacter.DEFAULT_X_ACC : GameCharacter.DEFAULT_X_ACC_AIR;
+        if (state(Key.Right) && !state(Key.Left) && acceptInput && !_crouched) {
+            pr.getAcceleration().setX(pr.getVelocity().getX() < GameCharacter.DEFAULT_X_MAX_MOVE ? a : -a);
             getCharacter().setDirection(Direction.Right);
-        } else if (state(Key.Left) && !state(Key.Right) && acceptInput) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() > -Character.DEFAULT_X_MAX_MOVE ? -a : a);
+        } else if (state(Key.Left) && !state(Key.Right) && acceptInput && !_crouched) {
+            pr.getAcceleration().setX(pr.getVelocity().getX() > -GameCharacter.DEFAULT_X_MAX_MOVE ? -a : a);
             getCharacter().setDirection(Direction.Left);
         } else {
             pr.getAcceleration().setX(0);
-            pr.getVelocity().setX(pr.getVelocity().getX() - a*delta*pr.getVelocity().getX()/Character.DEFAULT_X_DE_ACC);
+            pr.getVelocity().setX(pr.getVelocity().getX() - a*delta*pr.getVelocity().getX()/ GameCharacter.DEFAULT_X_DE_ACC);
         }
 
-        if(getCharacter().getBody().getFloor() == null) {
+        if(_crouched) {
+            getCharacter().setState(CharacterState.CROUCHED);
+        } else if(getCharacter().getBody().getFloor() == null) {
             getCharacter().setState(CharacterState.FALLING);
         } else if(state(Key.Right) == false && state(Key.Left) == false) {
             getCharacter().setState(CharacterState.IDLE);
@@ -65,24 +66,22 @@ public class PlayerController extends CharacterController {
         if(key == Key.Up) {
             _canJump = true;
             _jumping = false;
+        } else if(key == Key.Down) {
+            _crouched = false;
+            getCharacter().getBody().setHeight(STANDING_HEIGHT);
         }
     }
 
     @Override
     public void down(Key key) {
-        if(key == Key.Up && _canJump && getCharacter().getBody().getFloor() == Side.South) {
+        if(key == Key.Up && _canJump && getCharacter().getBody().getFloor() == Side.South && !_crouched) {
             _canJump = false;
             _jumping = true;
             _jumpTime = 0f;
-        }
-
-        if(key == Key.Back) {
-            getCharacter().setCurrentAction(new CharacterAction(SpriteType.Down, 5f, true));
-        } else if (key == Key.Select) {
-            getCharacter().setCurrentAction(new CharacterAction(SpriteType.Shooting, 0.4f, false));
-            float dir = getCharacter().getDirection() == Direction.Right ? 1f : -1f;
-            Laser laser = new Laser(getCharacter().getBody().getCenterX() + dir*0.3f, getCharacter().getBody().getCenterY()-0.2f, dir*30, getCharacter());
-            ((PlayState)WIP.game.getCurrentState()).addGameObject(laser);
+        } else if(key == Key.Down) {
+            getCharacter().setCurrentAction(null);
+            _crouched = true;
+            getCharacter().getBody().setHeight(CROUCHING_HEIGHT);
         }
     }
 

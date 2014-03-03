@@ -4,7 +4,7 @@ import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 
 import com.fisherevans.wipgame.game.WIP;
-import com.fisherevans.wipgame.game.states.play.characters.Character;
+import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.tools.MathUtil;
 
 /**
@@ -42,7 +42,7 @@ public class Camera {
         boolean first = true;
         float px, py;
         Rectangle characterR = null;
-        for(Character character:_playState.getCharacters()) {
+        for(GameCharacter character:_playState.getCharacters()) {
             characterR = character.getBody();
             px = MathUtil.clamp(0, characterR.getCenterX(), _playState.getBaseMap().getWidth());
             py = MathUtil.clamp(0, characterR.getCenterY(), _playState.getBaseMap().getHeight());

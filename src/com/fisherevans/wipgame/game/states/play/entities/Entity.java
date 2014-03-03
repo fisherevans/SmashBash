@@ -23,6 +23,7 @@ public class Entity extends GameObject {
     private float _lifeTime, _lifeSpan;
     private boolean _dead = false;
     private Color _color;
+    private float _spriteScale = 1f;
 
     public Entity(Rectangle body, String entitySpriteName) {
         this(body, entitySpriteName, 0f, Color.white);
@@ -49,22 +50,72 @@ public class Entity extends GameObject {
         if(_lifeSpan > 0 &&  _lifeTime >= _lifeSpan && !_dead) {
             _dead = true;
             PlayState.current.removeGameObject(this);
+            destroy();
         }
         if(!_dead) {
-
+            updateEntity(delta);
         }
+    }
+
+    public void updateEntity(float delta) {
+
+    }
+
+    public final void destroy() {
+        PlayState.current.removeGameObject(this);
+        destroyEntity();
+    }
+
+    public void destroyEntity() {
+
     }
 
     @Override
     public Image getImage(int size) {
         EntitySprite sprite = _entitySprites.get(size);
-        Image image = sprite.getSprite(_lifeTime).copy();
+        Image image = sprite.getSprite(_lifeTime).getScaledCopy(_spriteScale);
         image.setImageColor(_color.r, _color.g, _color.b);
         return image;
     }
 
     public static Rectangle getCenteredBody(float centerX, float centerY) {
-        Rectangle body = new Rectangle(centerX + DEFAULT_WIDTH/2f, centerY + DEFAULT_HEIGHT/2f, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        return getCenteredBody(centerX, centerY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    public static Rectangle getCenteredBody(float centerX, float centerY, float width, float height) {
+        Rectangle body = new Rectangle(centerX + width/2f, centerY + height/2f, width, height);
         return body;
+    }
+
+    public float getLifeSpan() {
+        return _lifeSpan;
+    }
+
+    public void setLifeSpan(float lifeSpan) {
+        _lifeSpan = lifeSpan;
+    }
+
+    public boolean isDead() {
+        return _dead;
+    }
+
+    public void setDead(boolean dead) {
+        _dead = dead;
+    }
+
+    public float getSpriteScale() {
+        return _spriteScale;
+    }
+
+    public void setSpriteScale(float spriteScale) {
+        _spriteScale = spriteScale;
+    }
+
+    public Color getColor() {
+        return _color;
+    }
+
+    public void setColor(Color color) {
+        _color = color;
     }
 }

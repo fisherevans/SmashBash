@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.game.states.play;
 
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.Image;
 
@@ -84,5 +85,9 @@ public abstract class GameObject {
 
     public void setDirectionBasedOnVelocity(boolean directionBasedOnVelocity) {
         _directionBasedOnVelocity = directionBasedOnVelocity;
+    }
+
+    public boolean inRadiusRange(Vector center, float radius) {
+        return radius*radius >= Math.pow(center.getX()-getBody().getCenterX(), 2) + Math.pow(center.getY()-getBody().getCenterY(), 2);
     }
 }

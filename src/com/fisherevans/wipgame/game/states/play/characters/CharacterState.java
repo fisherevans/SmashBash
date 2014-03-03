@@ -7,5 +7,6 @@ package com.fisherevans.wipgame.game.states.play.characters;
 public enum CharacterState {
     IDLE,
     FALLING,
-    STRAFING
+    STRAFING,
+    CROUCHED
 }

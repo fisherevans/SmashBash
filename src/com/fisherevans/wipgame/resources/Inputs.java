@@ -42,8 +42,8 @@ public class Inputs implements KeyListener {
         c1.put(Key.Down, Input.KEY_S);
         c1.put(Key.Left, Input.KEY_A);
         c1.put(Key.Right, Input.KEY_D);
-        c1.put(Key.Select, Input.KEY_SPACE);
-        c1.put(Key.Back, Input.KEY_LCONTROL);
+        c1.put(Key.Select, Input.KEY_B);
+        c1.put(Key.Back, Input.KEY_V);
         _inputsMap.put(1, c1);
 
         Map<Key, Integer> c2 = new HashMap<>();
@@ -52,7 +52,7 @@ public class Inputs implements KeyListener {
         c2.put(Key.Left, Input.KEY_LEFT);
         c2.put(Key.Right, Input.KEY_RIGHT);
         c2.put(Key.Select, Input.KEY_ENTER);
-        c2.put(Key.Back, Input.KEY_RCONTROL);
+        c2.put(Key.Back, Input.KEY_NUMPAD3);
         _inputsMap.put(2, c2);
 
         int nextInput = _inputsMap.keySet().size()+1;

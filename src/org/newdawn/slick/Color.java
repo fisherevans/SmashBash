@@ -163,8 +163,12 @@ public class Color implements Serializable {
 		this.b = b / 255.0f;
 		this.a = a / 255.0f;
 	}
-	
-	/**
+
+    public Color(java.awt.Color awtColor) {
+        this(awtColor.getRed()/255f, awtColor.getGreen()/255f, awtColor.getBlue()/255f);
+    }
+
+    /**
 	 * Decode a number in a string and process it as a colour
 	 * reference.
 	 * 

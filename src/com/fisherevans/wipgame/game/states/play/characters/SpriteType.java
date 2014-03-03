@@ -11,5 +11,6 @@ public enum SpriteType {
     Walking2,
     Walking3,
     Shooting,
-    Down;
+    Down,
+    Crouched;
 }

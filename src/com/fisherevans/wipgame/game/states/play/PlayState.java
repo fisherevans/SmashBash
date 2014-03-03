@@ -8,15 +8,17 @@ import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
-import com.fisherevans.wipgame.game.states.play.entities.Entity;
-import com.fisherevans.wipgame.game.states.play.entities.Laser;
+import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
+import com.fisherevans.wipgame.game.states.play.characters.skills.BombSkill;
+import com.fisherevans.wipgame.game.states.play.characters.skills.CrazyLaserSkill;
+import com.fisherevans.wipgame.game.states.play.characters.skills.LaserSkill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.PlayerController;
 import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
+import com.fisherevans.wipgame.game.states.results.ResultsState;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
-import com.fisherevans.wipgame.resources.Sprites;
 import com.fisherevans.wipgame.resources.Maps;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
@@ -24,8 +26,6 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import com.fisherevans.wipgame.game.states.play.characters.Character;
 
 /**
  * Author: Fisher Evans
@@ -41,7 +41,8 @@ public class PlayState extends WIPState {
     public static PlayState current = null;
 
     private World _world;
-    private List<Character> _characters, _deadCharacters;
+    private List<Vector> _respawnPoints;
+    private List<GameCharacter> _characters, _deadCharacters;
     private List<GameObject> _gameObjects, _gameObjectsToAdd, _gameObjectsToRemove;
     private Camera _camera;
 
@@ -55,7 +56,7 @@ public class PlayState extends WIPState {
 
     private LightManager _lightManager;
 
-    private StateBasedGame _stateBasedGame;
+    private float _timeLeft;
 
     @Override
     public int getID() {
@@ -64,7 +65,6 @@ public class PlayState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _stateBasedGame = stateBasedGame;
         _baseMap = Maps.getSizedMap(WIP.gameSettings.map, Maps.BASE);
 
         _gravity = Float.parseFloat(_baseMap.getMapProperty("gravity", "" + DEFAULT_GRAVITY));
@@ -82,11 +82,18 @@ public class PlayState extends WIPState {
         _gameObjectsToRemove = new LinkedList<>();
         _deadCharacters = new LinkedList<>();
         _characters = new LinkedList<>();
-        Character c;
+        GameCharacter c;
+        boolean weapon = true;
         for(PlayerProfile profile:WIP.gameSettings.players) {
-            c = new Character(this, "Player " + profile.getInput(), profile.getColor(), new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f),
+            c = new GameCharacter(this, "Player " + profile.getInput(), profile.getColor(), new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f),
                     profile.getCharacterDefinition().getName(), WIP.gameSettings.lives, WIP.gameSettings.health);
             c.setController(new PlayerController(c, profile.getInput()));
+            c.setPrimarySkill(new LaserSkill(c));
+            if(weapon)
+                c.setSecondarySkill(new CrazyLaserSkill(c));
+            else
+                c.setSecondarySkill(new BombSkill(c));
+            weapon =! weapon;
             _characters.add(c);
             _gameObjects.add(c);
         }
@@ -99,6 +106,8 @@ public class PlayState extends WIPState {
         _camera = new Camera(this, 128f, 16f);
 
         _lightManager = new LightManager(this, _lightColor, gameContainer.getWidth(), gameContainer.getHeight());
+
+        _timeLeft = WIP.gameSettings.time*60;
     }
 
     @Override
@@ -114,17 +123,23 @@ public class PlayState extends WIPState {
         for(int y = 0;y < _baseMap.getHeight();y++) {
             for(int x = 0;x < _baseMap.getWidth();x++) {
                 tiles[y][x] = _baseMap.getTileId(x, _baseMap.getHeight()-y-1, collisionLayerId);
+                //System.out.print(tiles[y][x] + ", ");
             }
+            //System.out.println();
         }
+        Rectangle r;
+        float friction = 0f;
         for(int y = 0;y < _baseMap.getHeight();y++) {
             float width = 0;
             for(int x = 0;x <= _baseMap.getWidth();x++) {
                 tile = x < tiles[y].length ? tiles[y][x] : -1;
-                if(tile != 0) {
+                if(tile == 1) {
                     width++;
                 } else if(width > 0) {
                     if(width > 1) {
-                        _world.add(new Rectangle(x-width, y, width, 1f, true));
+                        r = new Rectangle(x-width, y, width, 1f, true);
+                        r.setFriction(friction);
+                        _world.add(r);
                         for(int back = 0;back <= width;back++) {
                             if(x-back < tiles[y].length)
                                 tiles[y][x-back] = 0;
@@ -138,15 +153,26 @@ public class PlayState extends WIPState {
             float height = 0;
             for(int y = 0;y <= _baseMap.getHeight();y++) {
                 tile = y < tiles.length ? tiles[y][x] : 0;
-                if(tile != 0) {
+                if(tile == 1) {
                     height++;
                 } else if(height > 0) {
-                    _world.add(new Rectangle(x, y-height, 1f, height, true));
+                    r = new Rectangle(x, y-height, 1f, height, true);
+                    r.setFriction(friction);
+                    _world.add(r);
                     for(int back = 0;back <= height;back++) {
                         if(y-back < tiles.length)
                             tiles[y-back][x] = 0;
                     }
                     height = 0;
+                }
+            }
+        }
+        _respawnPoints = new LinkedList<>();
+        for(int x = 0;x < _baseMap.getWidth();x++) {
+            for(int y = 0;y <= _baseMap.getHeight();y++) {
+                tile = y < tiles.length ? tiles[y][x] : 0;
+                if(tile == 2) {
+                    _respawnPoints.add(new Vector(x, y));
                 }
             }
         }
@@ -204,18 +230,47 @@ public class PlayState extends WIPState {
                     image.getWidth()*gameObject.getImageFlipScale()*zoomScale,
                     image.getHeight()*zoomScale);
         }
+        for(GameCharacter character:_characters) {
+            body = character.getBody();
+            float health = character.getHealth()/((float)character.getMaxHealth());
+            float s1 = character.getPrimarySkill() == null ? 0f : character.getPrimarySkill().getCharge();
+            float s2 = character.getSecondarySkill() == null ? 0f : character.getSecondarySkill().getCharge();
+            float baseX = body.getCenterX()*zoom + shiftX - zoom/2f;
+            float baseY = (_baseMap.getHeight() - body.getCenterY() + 1f) * zoom + shiftY - zoom - 50;
+
+            gfx.setColor(Color.blue.darker().darker());
+            gfx.fillRect(baseX, baseY + 20, zoom, 10 - 1);
+            gfx.setColor(Color.red.darker().darker());
+            gfx.fillRect(baseX, baseY, zoom, 10 - 1);
+            gfx.setColor(Color.green.darker().darker());
+            gfx.fillRect(baseX, baseY + 10, zoom, 10 - 1);
+
+            gfx.setColor(Color.red);
+            gfx.fillRect(baseX, baseY, zoom * health, 10);
+            gfx.setColor(Color.green);
+            gfx.fillRect(baseX, baseY + 10, zoom * s1, 10);
+            gfx.setColor(Color.blue);
+            gfx.fillRect(baseX, baseY + 20, zoom * s2, 10);
+        }
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
         gfx.setColor(Color.white);
         gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
-        Character c;
+        GameCharacter c;
         for(int i = 0;i < _characters.size();i++) {
             c = _characters.get(i);
             gfx.drawString(c.getName(), 300, 10 + 30*i);
             gfx.drawString("Lives " + c.getLives(), 460, 10 + 30*i);
             gfx.drawString("Health " + c.getHealth(), 560, 10 + 30*i);
+            if(c.getPrimarySkill() != null)
+                gfx.drawString("Primary " + c.getPrimarySkill().getCharge(), 660, 10 + 30*i);
+            if(c.getSecondarySkill() != null)
+                gfx.drawString("Secondary " + c.getSecondarySkill().getCharge(), 760, 10 + 30*i);
         }
+
+        gfx.setFont(Fonts.getStrokedFont(Fonts.LARGE));
+        gfx.drawString(String.format("%d:%02d", (int)(_timeLeft/60), (int)(_timeLeft%60f)), 20, WIP.height()-20-gfx.getFont().getLineHeight());
 
         if(WIP.debug) {
             gfx.setColor(new Color(1f, 1f, 1f, 0.5f));
@@ -274,6 +329,9 @@ public class PlayState extends WIPState {
     @Override
     public void update(float delta) {
         delta = Math.min(delta, 0.1f);
+        _timeLeft -= delta;
+        if(_timeLeft <= 0)
+            endGame();
 
         if(!_gameObjectsToAdd.isEmpty()) {
             for(GameObject obj:_gameObjectsToAdd) {
@@ -296,8 +354,8 @@ public class PlayState extends WIPState {
             if(gameObject.getBody().getCenterX() <= -_baseMap.getWidth() ||
                     gameObject.getBody().getCenterX() >= _baseMap.getWidth()*2 ||
                     gameObject.getBody().getCenterY() <= -_baseMap.getHeight()) {
-                if(gameObject instanceof Character)
-                    ((Character)(gameObject)).kill();
+                if(gameObject instanceof GameCharacter)
+                    ((GameCharacter)(gameObject)).kill();
                 else
                     removeGameObject(gameObject);
             }
@@ -316,7 +374,22 @@ public class PlayState extends WIPState {
 
     }
 
-    public List<Character> getCharacters() {
+    public void damageRadius(Integer damage, Vector center, float radius, GameCharacter... excluding) {
+        boolean exclude;
+        for(GameCharacter character:_characters) {
+            exclude = false;
+            for(GameCharacter excludeCharacter:excluding) {
+                if(character == excludeCharacter) {
+                    exclude = false;
+                    break;
+                }
+            }
+            if(!exclude && character.inRadiusRange(center, radius))
+                character.damage(damage);
+        }
+    }
+
+    public List<GameCharacter> getCharacters() {
         return _characters;
     }
 
@@ -324,7 +397,7 @@ public class PlayState extends WIPState {
         return _baseMap;
     }
 
-    public void characterDied(Character character) {
+    public void characterDied(GameCharacter character) {
         if(character.getLives() > 0) {
             character.revive();
             character.getBody().setBottomLeft(new Vector(11f, _baseMap.getHeight()-15f));
@@ -343,23 +416,35 @@ public class PlayState extends WIPState {
         _gameObjectsToAdd.add(gameObject);
     }
 
+    public void endGame() {
+        WIP.enterNewState(new ResultsState());
+    }
+
     @Override
     public void keyDown(Key key, int inputSource) {
         if(key == Key.Menu) {
             WIP.enterNewState(new PauseState(this));
         } else {
-            for(Character character:_characters) {
-                if(character.getController() != null && character.acceptInput())
-                    character.getController().keyDown(key, inputSource);
+            for(GameCharacter character:_characters) {
+                if(character.getController() != null && character.acceptInput()) {
+                    if(character.getController().getInputSource() == inputSource) {
+                        if(key == Key.Select && character.getPrimarySkill() != null)
+                            character.getPrimarySkill().useSkill();
+                        else if(key == Key.Back && character.getSecondarySkill() != null)
+                            character.getSecondarySkill().useSkill();
+
+                        character.getController().down(key);
+                    }
+                }
             }
         }
     }
 
     @Override
     public void keyUp(Key key, int inputSource) {
-        for(Character character:_characters) {
-            if(character.getController() != null)
-                character.getController().keyUp(key, inputSource);
+        for(GameCharacter character:_characters) {
+            if(character.getController() != null && character.getController().getInputSource() == inputSource)
+                character.getController().up(key);
         }
     }
 }
