@@ -38,9 +38,11 @@ public class PlayState extends WIPState {
     public static final int DEFAULT_LIGHT_B = 255;
     public static final String DEFAULT_BACKGROUND = "background/test";
 
+    public static PlayState current = null;
+
     private World _world;
     private List<Character> _characters, _deadCharacters;
-    private List<GameObject> _gameObjects;
+    private List<GameObject> _gameObjects, _gameObjectsToAdd, _gameObjectsToRemove;
     private Camera _camera;
 
     private float _screenHeight, _screenWidth;
@@ -76,6 +78,8 @@ public class PlayState extends WIPState {
 
 
         _gameObjects = new LinkedList<>();
+        _gameObjectsToAdd = new LinkedList<>();
+        _gameObjectsToRemove = new LinkedList<>();
         _deadCharacters = new LinkedList<>();
         _characters = new LinkedList<>();
         Character c;
@@ -86,9 +90,6 @@ public class PlayState extends WIPState {
             _characters.add(c);
             _gameObjects.add(c);
         }
-
-        _gameObjects.add(new Entity(new Rectangle(18f, _baseMap.getHeight()-10f, 1f, 1f), "laser", 20f));
-        _gameObjects.add(new Laser(21f, _baseMap.getHeight()-10f, 0f, null));
 
         for(GameObject gameObject:_gameObjects) {
             gameObject.getBody().setResolveWithStaticOnly(true);
@@ -102,7 +103,7 @@ public class PlayState extends WIPState {
 
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
-
+        current = this;
     }
 
     private void generateCollisionBodies() {
@@ -206,6 +207,16 @@ public class PlayState extends WIPState {
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
+        gfx.setColor(Color.white);
+        gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
+        Character c;
+        for(int i = 0;i < _characters.size();i++) {
+            c = _characters.get(i);
+            gfx.drawString(c.getName(), 300, 10 + 30*i);
+            gfx.drawString("Lives " + c.getLives(), 460, 10 + 30*i);
+            gfx.drawString("Health " + c.getHealth(), 560, 10 + 30*i);
+        }
+
         if(WIP.debug) {
             gfx.setColor(new Color(1f, 1f, 1f, 0.5f));
             for(Light l:_lightManager.getLights()) {
@@ -231,16 +242,6 @@ public class PlayState extends WIPState {
             gfx.setColor(Color.blue);
             gfx.drawLine(WIP.width()/2f, 0f, WIP.width()/2f, WIP.height());
             gfx.drawLine(0f, WIP.height()/2f, WIP.width(), WIP.height()/2f);
-
-            gfx.setColor(Color.white);
-            gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
-            Character c;
-            for(int i = 0;i < _characters.size();i++) {
-                c = _characters.get(i);
-                gfx.drawString(c.getName(), 300, 10 + 30*i);
-                gfx.drawString("Lives " + c.getLives(), 460, 10 + 30*i);
-                gfx.drawString("Health " + c.getHealth(), 560, 10 + 30*i);
-            }
 
             gfx.drawString("Zoom: " + zoom, 10, 10);
             gfx.drawString("Res: " + size , 10, 30);
@@ -274,10 +275,32 @@ public class PlayState extends WIPState {
     public void update(float delta) {
         delta = Math.min(delta, 0.1f);
 
+        if(!_gameObjectsToAdd.isEmpty()) {
+            for(GameObject obj:_gameObjectsToAdd) {
+                _gameObjects.add(obj);
+                _world.add(obj.getBody());
+            }
+            _gameObjectsToAdd.clear();
+        }
+
+        if(!_gameObjectsToRemove.isEmpty()) {
+            for(GameObject obj:_gameObjectsToRemove) {
+                _gameObjects.remove(obj);
+                _world.remove(obj.getBody());
+            }
+            _gameObjectsToRemove.clear();
+        }
+
         for(GameObject gameObject:_gameObjects) {
             gameObject.update(delta);
-            if(gameObject instanceof Character && gameObject.getBody().getCenterY() <= -_baseMap.getHeight())
-                ((Character)(gameObject)).kill();
+            if(gameObject.getBody().getCenterX() <= -_baseMap.getWidth() ||
+                    gameObject.getBody().getCenterX() >= _baseMap.getWidth()*2 ||
+                    gameObject.getBody().getCenterY() <= -_baseMap.getHeight()) {
+                if(gameObject instanceof Character)
+                    ((Character)(gameObject)).kill();
+                else
+                    removeGameObject(gameObject);
+            }
         }
 
         _world.step(delta);
@@ -306,10 +329,18 @@ public class PlayState extends WIPState {
             character.revive();
             character.getBody().setBottomLeft(new Vector(11f, _baseMap.getHeight()-15f));
         } else {
-            _world.remove(character.getBody());
-            _characters.remove(character);
+            removeGameObject(character);
             _deadCharacters.add(character);
+            _characters.remove(character);
         }
+    }
+
+    public void removeGameObject(GameObject gameObject) {
+        _gameObjectsToRemove.add(gameObject);
+    }
+
+    public void addGameObject(GameObject gameObject) {
+        _gameObjectsToAdd.add(gameObject);
     }
 
     @Override

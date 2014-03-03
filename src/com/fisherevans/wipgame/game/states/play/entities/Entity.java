@@ -1,7 +1,9 @@
 package com.fisherevans.wipgame.game.states.play.entities;
 
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.GameObject;
+import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
 import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
@@ -22,6 +24,10 @@ public class Entity extends GameObject {
     private boolean _dead = false;
     private Color _color;
 
+    public Entity(Rectangle body, String entitySpriteName) {
+        this(body, entitySpriteName, 0f, Color.white);
+    }
+
     public Entity(Rectangle body, String entitySpriteName, float lifeSpan) {
         this(body, entitySpriteName, lifeSpan, Color.white);
     }
@@ -29,7 +35,10 @@ public class Entity extends GameObject {
     public Entity(Rectangle body, String entitySpriteName, float lifeSpan, Color color) {
         super(body);
         _entitySprites = Sprites.getEntitySprites(entitySpriteName);
-        _lifeSpan = lifeSpan;
+        if(lifeSpan == 0) {
+            _lifeSpan = _entitySprites.get(Config.SIZES[0]).getTotalAnimationTime();
+        } else
+            _lifeSpan = lifeSpan;
         _lifeTime = 0;
         _color = color;
     }
@@ -37,8 +46,10 @@ public class Entity extends GameObject {
     @Override
     public void updateObject(float delta) {
         _lifeTime += delta;
-        if(_lifeTime >= _lifeSpan)
+        if(_lifeSpan > 0 &&  _lifeTime >= _lifeSpan && !_dead) {
             _dead = true;
+            PlayState.current.removeGameObject(this);
+        }
         if(!_dead) {
 
         }

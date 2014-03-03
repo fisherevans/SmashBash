@@ -65,6 +65,8 @@ public class Character extends GameObject {
         _lives = lives;
         _startHealth = health;
         _health = _startHealth;
+
+        setDirectionBasedOnVelocity(false);
     }
 
     @Override

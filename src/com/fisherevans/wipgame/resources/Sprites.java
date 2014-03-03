@@ -14,9 +14,9 @@ import java.util.Map;
 public class Sprites {
     public static final String[] _characters = { "base" };
 
-    public static final String[] _entities         = { "laser"};
-    public static final int[]    _entitiesCount    = { 3 };
-    public static final float[]  _entitiesPerFrame = { 0.1f };
+    public static final String[] _entities         = { "laser", "laser_explosion"};
+    public static final int[]    _entitiesCount    = { 3,       3 };
+    public static final float[]  _entitiesPerFrame = { 0.1f,    0.05f };
 
     public static final float PADDING_PERCENTAGE = 0.5f;
 

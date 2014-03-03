@@ -2,11 +2,14 @@ package com.fisherevans.wipgame.game.states.play.object_controllers;
 
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Side;
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.play.Direction;
+import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.Character;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
+import com.fisherevans.wipgame.game.states.play.entities.Laser;
 import com.fisherevans.wipgame.input.Key;
 
 /**
@@ -77,6 +80,9 @@ public class PlayerController extends CharacterController {
             getCharacter().setCurrentAction(new CharacterAction(SpriteType.Down, 5f, true));
         } else if (key == Key.Select) {
             getCharacter().setCurrentAction(new CharacterAction(SpriteType.Shooting, 0.4f, false));
+            float dir = getCharacter().getDirection() == Direction.Right ? 1f : -1f;
+            Laser laser = new Laser(getCharacter().getBody().getCenterX() + dir*0.3f, getCharacter().getBody().getCenterY()-0.2f, dir*30, getCharacter());
+            ((PlayState)WIP.game.getCurrentState()).addGameObject(laser);
         }
     }
 

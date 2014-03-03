@@ -17,6 +17,7 @@ public abstract class GameObject {
 
     private float _directionTime;
     private Direction _direction;
+    private boolean _directionBasedOnVelocity = true;
 
     public GameObject(Rectangle body) {
         _body = body;
@@ -28,9 +29,11 @@ public abstract class GameObject {
     }
 
     public final void update(float delta) {
-        float vel = _body.getVelocity().getX();
-        if(Math.abs(vel) > DEFAULT_DIRECTION_ACC_USE_VEL)
-            _direction = vel < 0 ? Direction.Left : Direction.Right;
+        if(_directionBasedOnVelocity) {
+            float vel = _body.getVelocity().getX();
+            if(Math.abs(vel) > DEFAULT_DIRECTION_ACC_USE_VEL)
+                _direction = vel < 0 ? Direction.Left : Direction.Right;
+        }
 
         _directionTime += delta*(_direction == Direction.Right ? 1f : -1f);
         if(_directionTime < -DEFAULT_DIRECTION_FLIP_TIME)
@@ -73,5 +76,13 @@ public abstract class GameObject {
 
     public void setDirection(Direction direction) {
         _direction = direction;
+    }
+
+    public boolean getDirectionBasedOnVelocity() {
+        return _directionBasedOnVelocity;
+    }
+
+    public void setDirectionBasedOnVelocity(boolean directionBasedOnVelocity) {
+        _directionBasedOnVelocity = directionBasedOnVelocity;
     }
 }

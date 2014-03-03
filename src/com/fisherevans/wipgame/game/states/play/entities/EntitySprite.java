@@ -39,4 +39,12 @@ public class EntitySprite {
         duration %= _totalAnimationTime;
         return _frames[(int)(duration/_perFrame)];
     }
+
+    public float getPerFrame() {
+        return _perFrame;
+    }
+
+    public float getTotalAnimationTime() {
+        return _totalAnimationTime;
+    }
 }
