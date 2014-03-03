@@ -19,7 +19,7 @@
  </tileset>
  <layer name="collision" width="54" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3SgQkAIAwDQd1/aUdQRCoNd5ABAj8GAABwa27WVeov/qlqqrrd1F9kOe2nW2epvwCANxbRIfCpABsAAA==
+   H4sIAAAAAAAAC+3UOwoAIQwFQNf7H3orSz8rrhiZAZukkEBeUgIAiCsP1uAvT+ed5Es2Vs0ljxS7srI7kzP/tXJR60W6NZxndH+i7dmtcwEAa7ycqA8qABsAAA==
   </data>
  </layer>
  <layer name="lights" width="54" height="32">
