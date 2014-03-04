@@ -1,4 +1,4 @@
-package com.fisherevans.wipgame.game.states.play.characters.skills;
+package com.fisherevans.wipgame.game.states.play.combat_elements.skills;
 
 import com.fisherevans.wipgame.game.states.play.Direction;
 import com.fisherevans.wipgame.game.states.play.GameObject;
@@ -7,6 +7,7 @@ import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
+import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.entities.Laser;
 
 /**

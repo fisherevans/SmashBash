@@ -1,7 +1,6 @@
-package com.fisherevans.wipgame.game.states.play.characters.skills;
+package com.fisherevans.wipgame.game.states.play.combat_elements;
 
 import com.fisherevans.wipgame.game.states.play.GameObject;
-import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 

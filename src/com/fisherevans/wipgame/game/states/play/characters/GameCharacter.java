@@ -4,7 +4,7 @@ import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
-import com.fisherevans.wipgame.game.states.play.characters.skills.Skill;
+import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.CharacterController;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Sprites;
@@ -126,6 +126,13 @@ public class GameCharacter extends GameObject {
         return sprite.copy();
     }
 
+    public void adjustHealth(int healthDelta) {
+        if(healthDelta < 0)
+            damage(-1*healthDelta);
+        else
+            heal(healthDelta);
+    }
+
     public void damage(Integer damage) {
         _health -= damage;
         if(_health <= 0) {
@@ -134,6 +141,12 @@ public class GameCharacter extends GameObject {
             _lives--;
             _playState.characterDied(this);
         }
+    }
+
+    public void heal(Integer heal) {
+        _health += heal;
+        if(_health > _maxHealth)
+            _health = _maxHealth;
     }
 
     public void kill() {

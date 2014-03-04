@@ -9,9 +9,10 @@ import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
-import com.fisherevans.wipgame.game.states.play.characters.skills.BombSkill;
-import com.fisherevans.wipgame.game.states.play.characters.skills.CrazyLaserSkill;
-import com.fisherevans.wipgame.game.states.play.characters.skills.LaserSkill;
+import com.fisherevans.wipgame.game.states.play.combat_elements.AreaEffect;
+import com.fisherevans.wipgame.game.states.play.combat_elements.skills.BombSkill;
+import com.fisherevans.wipgame.game.states.play.combat_elements.skills.CrazyLaserSkill;
+import com.fisherevans.wipgame.game.states.play.combat_elements.skills.LaserSkill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.PlayerController;
 import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
@@ -44,6 +45,7 @@ public class PlayState extends WIPState {
     private List<Vector> _respawnPoints;
     private List<GameCharacter> _characters, _deadCharacters;
     private List<GameObject> _gameObjects, _gameObjectsToAdd, _gameObjectsToRemove;
+    private List<AreaEffect> _areaEffects;
     private Camera _camera;
 
     private float _screenHeight, _screenWidth;
@@ -108,6 +110,8 @@ public class PlayState extends WIPState {
         _lightManager = new LightManager(this, _lightColor, gameContainer.getWidth(), gameContainer.getHeight());
 
         _timeLeft = WIP.gameSettings.time*60;
+
+        _areaEffects = new LinkedList<>();
     }
 
     @Override
@@ -349,6 +353,14 @@ public class PlayState extends WIPState {
             _gameObjectsToRemove.clear();
         }
 
+        if(!_areaEffects.isEmpty()) {
+            for(AreaEffect effect:_areaEffects) {
+                for(GameCharacter character:_characters)
+                    effect.process(character);
+            }
+            _areaEffects.clear();
+        }
+
         for(GameObject gameObject:_gameObjects) {
             gameObject.update(delta);
             if(gameObject.getBody().getCenterX() <= -_baseMap.getWidth() ||
@@ -414,6 +426,10 @@ public class PlayState extends WIPState {
 
     public void addGameObject(GameObject gameObject) {
         _gameObjectsToAdd.add(gameObject);
+    }
+
+    public void addAreaEffect(AreaEffect effect) {
+        _areaEffects.add(effect);
     }
 
     public void endGame() {
