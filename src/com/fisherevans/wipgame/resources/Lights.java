@@ -23,7 +23,7 @@ public class Lights {
         String lightImage, lightSize, lightColor, controllerClass, name;
         String[] lightColorComponents;
         LightSettings settings;
-        for(int lightId = 0;true;lightId++) {
+        for(int lightId = 1;true;lightId++) {
             try {
                 lightImage = Messages.get("light." + lightId + ".image");
                 lightSize = Messages.get("light." + lightId + ".radius");

@@ -3,9 +3,9 @@
  <properties>
   <property name="background" value="backgrounds/test"/>
   <property name="gravity" value="-37"/>
-  <property name="light_b" value="110"/>
-  <property name="light_g" value="83"/>
-  <property name="light_r" value="66"/>
+  <property name="light_b" value="18"/>
+  <property name="light_g" value="13"/>
+  <property name="light_r" value="11"/>
   <property name="name" value="Test Map #2"/>
  </properties>
  <tileset firstgid="1" name="collision" tilewidth="128" tileheight="128">
