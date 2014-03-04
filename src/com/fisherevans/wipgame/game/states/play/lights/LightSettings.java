@@ -12,12 +12,14 @@ public class LightSettings {
     private float _radius;
     private Color _color;
     private Class _controllerClass;
+    private String _name;
 
-    public LightSettings(Image image, float radius, Color color, Class controllerClass) {
+    public LightSettings(Image image, float radius, Color color, Class controllerClass, String name) {
         _image = image;
         _radius = radius;
         _color = color;
         _controllerClass = controllerClass;
+        _name = name;
     }
 
     public Image getImageCopy() {
@@ -34,5 +36,9 @@ public class LightSettings {
 
     public Class getControllerClassCopy() {
         return _controllerClass;
+    }
+
+    public String getName() {
+        return _name;
     }
 }

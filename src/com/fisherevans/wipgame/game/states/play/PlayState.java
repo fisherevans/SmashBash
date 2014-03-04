@@ -463,4 +463,8 @@ public class PlayState extends WIPState {
                 character.getController().up(key);
         }
     }
+
+    public LightManager getLightManager() {
+        return _lightManager;
+    }
 }

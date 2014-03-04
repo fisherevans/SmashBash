@@ -1,10 +1,15 @@
 package com.fisherevans.wipgame.game.states.play.entities;
 
 import com.fisherevans.fizzics.components.Rectangle;
+import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
+import com.fisherevans.wipgame.game.states.play.lights.Light;
+import com.fisherevans.wipgame.game.states.play.lights.LightSettings;
+import com.fisherevans.wipgame.log.Log;
+import com.fisherevans.wipgame.resources.Lights;
 import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -19,11 +24,14 @@ public class Entity extends GameObject {
     public static final float DEFAULT_WIDTH = 0.1f;
     public static final float DEFAULT_HEIGHT = 0.1f;
 
+    public static Log log = new Log(Entity.class);
+
     private Map<Integer, EntitySprite> _entitySprites;
     private float _lifeTime, _lifeSpan;
     private boolean _dead = false;
     private Color _color;
     private float _spriteScale = 1f;
+    private Light _light = null;
 
     public Entity(Rectangle body, String entitySpriteName) {
         this(body, entitySpriteName, 0f, Color.white);
@@ -44,6 +52,29 @@ public class Entity extends GameObject {
         _color = color;
     }
 
+    public void attachNewLight(String lightName) {
+        attachNewLight(Lights.getLightSettingsByName(lightName));
+    }
+
+    public void attachNewLight(LightSettings lightSettings) {
+        if(lightSettings == null)
+            log.error("Failed to create light in " + this.getClass().getName());
+        else
+            attachLight(new Light(lightSettings, new Vector(getBody().getCenterX(), getBody().getCenterY())));
+    }
+
+    public void attachLight(Light light) {
+        detachLight();
+        _light = light;
+        PlayState.current.getLightManager().getLights().add(light);
+    }
+
+    public void detachLight() {
+        if(_light != null) {
+            PlayState.current.getLightManager().getLights().remove(_light);
+        }
+    }
+
     @Override
     public void updateObject(float delta) {
         _lifeTime += delta;
@@ -53,6 +84,8 @@ public class Entity extends GameObject {
             destroy();
         }
         if(!_dead) {
+            if(_light != null)
+                _light.setPosition(new Vector(getBody().getCenterX(), getBody().getCenterY()));
             updateEntity(delta);
         }
     }
@@ -63,6 +96,7 @@ public class Entity extends GameObject {
 
     public final void destroy() {
         PlayState.current.removeGameObject(this);
+        detachLight();
         destroyEntity();
     }
 

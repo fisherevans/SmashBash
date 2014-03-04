@@ -12,7 +12,9 @@ import com.fisherevans.wipgame.game.states.play.combat_elements.effects.Directio
 import com.fisherevans.wipgame.game.states.play.combat_elements.effects.HealthDeltaEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.effects.RadialForceEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.effects.RadialHealthDeltaEffect;
+import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.log.Log;
+import com.fisherevans.wipgame.resources.Lights;
 
 /**
  * Author: Fisher Evans
@@ -39,6 +41,7 @@ public class Bomb extends Entity implements IntersectionListener {
         explosion.getBody().setStatic(true);
         explosion.getBody().setSolid(false);
         explosion.setSpriteScale(2f);
+        explosion.attachNewLight("bomb_explosion");
         PlayState.current.addGameObject(explosion);
 
         Vector center = new Vector(getBody().getCenterX(), getBody().getCenterY());

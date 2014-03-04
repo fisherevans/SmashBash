@@ -43,6 +43,7 @@ public class Laser extends Entity implements IntersectionListener {
         Entity explosion = new Entity(getCenteredBody(getBody().getCenterX(), getBody().getCenterY()), "laser_explosion");
         explosion.getBody().setStatic(true);
         explosion.getBody().setSolid(false);
+        explosion.attachNewLight("laser_explosion");
         PlayState.current.addGameObject(explosion);
 
         Vector center = new Vector(getBody().getCenterX(), getBody().getCenterY());

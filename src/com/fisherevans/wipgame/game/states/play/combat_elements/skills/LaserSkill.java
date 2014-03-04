@@ -32,6 +32,7 @@ public class LaserSkill extends Skill {
         }
         float dir = getOwner().getDirection() == Direction.Right ? 1f : -1f;
         Laser laser = new Laser(getOwner().getBody().getCenterX() + dir*0.3f, getOwner().getBody().getCenterY()+0.11f, dir*30, getOwner());
+        laser.attachNewLight("laser");
         PlayState.current.addGameObject(laser);
         return true;
     }

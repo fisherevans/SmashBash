@@ -33,9 +33,11 @@ public class CrazyLaserSkill extends Skill {
         float diff = 0.2f;
         for(int id = 1;id < 10;id++) {
             laser = new Laser(getOwner().getBody().getCenterX() + -1f*0.3f, getOwner().getBody().getY1()-diff*id, -1f*15, getOwner());
+            laser.attachNewLight("laser");
             laser.setLifeSpan(1f);
             PlayState.current.addGameObject(laser);
             laser = new Laser(getOwner().getBody().getCenterX() + 0.3f, getOwner().getBody().getY1()-diff*id , 15, getOwner());
+            laser.attachNewLight("laser");
             laser.setLifeSpan(1f);
             PlayState.current.addGameObject(laser);
         }
