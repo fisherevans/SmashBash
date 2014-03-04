@@ -23,6 +23,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jxinput.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/ImgScalr.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/miglayout-4.0-swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/slick2d/FisherSlick2D.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

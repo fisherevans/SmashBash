@@ -7,6 +7,7 @@
       <root url="jar://$PROJECT_DIR$/lib/slick2d/ibxm.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slick2d/tinylinepp.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slick2d/jnlp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slick2d/FisherSlick2D.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
