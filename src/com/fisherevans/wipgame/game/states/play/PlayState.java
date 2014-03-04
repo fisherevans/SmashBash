@@ -280,10 +280,10 @@ public class PlayState extends WIPState {
             gfx.setColor(new Color(1f, 1f, 1f, 0.5f));
             for(Light l:_lightManager.getLights()) {
                 gfx.drawOval((l.getPosition().getX() - l.getRadius())*zoom+shiftX,
-                        (_baseMap.getHeight() - l.getPosition().getY()-l.getRadius())*zoom+shiftY,
+                        (_baseMap.getHeight() - l.getPosition().getY()-1-l.getRadius())*zoom+shiftY,
                         zoom*l.getRadius()*2, zoom*l.getRadius()*2);
                 gfx.fillOval((l.getPosition().getX() - 0.25f)*zoom+shiftX,
-                        (_baseMap.getHeight() - l.getPosition().getY()-0.25f)*zoom+shiftY,
+                        (_baseMap.getHeight() - l.getPosition().getY()-1-0.25f)*zoom+shiftY,
                         zoom*0.5f, zoom*0.5f);
             }
 

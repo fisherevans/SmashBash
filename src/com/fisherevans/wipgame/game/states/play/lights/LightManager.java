@@ -4,6 +4,7 @@ import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.play.Camera;
 import com.fisherevans.wipgame.game.states.play.PlayState;
+import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Lights;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
@@ -21,6 +22,8 @@ import java.util.List;
  * Date: 2/14/14
  */
 public class LightManager {
+    public static Log log = new Log(LightManager.class);
+
     private PlayState _playState;
 
     private Color _baseColor;
@@ -51,8 +54,11 @@ public class LightManager {
                 tileData = map.getTileData(x, y, lightsLayer);
                 if(tileData[0] >= 0 && tileData[1] >= 0) {
                     lightSettings = Lights.getLightSettings(tileData[1]);
-                    _lights.add(new Light(lightSettings,
-                            new Vector(x + 0.5f, (map.getHeight()-y) - 1.5f)));
+                    if(lightSettings != null)
+                        _lights.add(new Light(lightSettings,
+                            new Vector(x + 0.5f, (map.getHeight()-y) - 0.5f)));
+                    else
+                        log.error("Failed to load light: " + tileData[1]);
                 }
             }
         }
@@ -76,13 +82,13 @@ public class LightManager {
         float hw = screenWidth/2f;
         float hh = screenHeight/2f;
 
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         float lx, ly, radius;
         Image lightImage;
         for(Light light:_lights) {
             lx = light.getPosition().getX();
-            ly = light.getPosition().getY();
+            ly = light.getPosition().getY() - 1f;
             radius = light.getRadius();
             if(lx + radius > cx - hw && lx - radius < cx + hw
                 && ly + radius > cy - hh && ly - radius < cy + hh) {

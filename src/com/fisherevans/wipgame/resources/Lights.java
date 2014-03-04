@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.resources;
 
 import com.fisherevans.wipgame.game.states.play.lights.LightSettings;
+import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.Color;
 
 import java.util.HashMap;
@@ -11,12 +12,14 @@ import java.util.Map;
  * Date: 2/14/14
  */
 public class Lights {
+    public static Log log = new Log(Lights.class);
     private static final String CONTROLLER_PACKAGE = "com.fisherevans.wipgame.game.states.play.lights.controllers.";
     public static Map<Integer, LightSettings> _lightSettings;
     public static Map<String, LightSettings> _lightSettingsByName;
 
     public static void load() {
         _lightSettings = new HashMap<>();
+        _lightSettingsByName = new HashMap<>();
         String lightImage, lightSize, lightColor, controllerClass, name;
         String[] lightColorComponents;
         LightSettings settings;
@@ -41,6 +44,8 @@ public class Lights {
                 _lightSettings.put(lightId, settings);
                 _lightSettingsByName.put(name, settings);
             } catch (Exception e) {
+                log.error("Failed to load light: " + lightId);
+                e.printStackTrace();
                 break;
             }
         }
