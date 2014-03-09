@@ -46,8 +46,8 @@ public class LoadingState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _font = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_SIZE + "_0.png");
-        _fontBig = new AngelCodeFont(Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + ".fnt", Fonts.FONT_FOLDER + "stark-" + FONT_BIG_SIZE + "_0.png");
+        _font = new AngelCodeFont(Fonts.FONT_FOLDER + FONT_SIZE + "/stark.fnt", Fonts.FONT_FOLDER + FONT_SIZE + "/stark_0.png");
+        _fontBig = new AngelCodeFont(Fonts.FONT_FOLDER + FONT_BIG_SIZE + "/stark.fnt", Fonts.FONT_FOLDER + FONT_BIG_SIZE + "/stark_0.png");
 
         _color = new Color(1f, 1f, 1f);
 

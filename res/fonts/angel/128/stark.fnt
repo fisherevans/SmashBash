@@ -1,6 +1,6 @@
 info face="Stark" size=128 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=2 padding=0,0,0,0 spacing=1,1 outline=0
 common lineHeight=128 base=102 scaleW=1024 scaleH=1024 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
-page id=0 file="stark-128_0.png"
+page id=0 file="stark_0.png"
 chars count=179
 char id=32   x=1016  y=0     width=1     height=1     xoffset=0     yoffset=0     xadvance=26    page=0  chnl=15
 char id=33   x=953   y=434   width=14    height=79    xoffset=5     yoffset=23    xadvance=23    page=0  chnl=15

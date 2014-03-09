@@ -19,7 +19,7 @@ public class Fonts {
     public final static Integer LARGE = Config.SIZES[3];
     public final static Integer HUGE = Config.SIZES[4];
 
-    public final static String FONT_FOLDER = "res/fonts/";
+    public final static String FONT_FOLDER = "res/fonts/angel/";
 
     private static Map<Integer, AngelCodeFont> _fonts, _strokedFonts;
 
@@ -33,8 +33,8 @@ public class Fonts {
     }
 
     private static void loadFont(Integer size) throws SlickException {
-        AngelCodeFont font = new AngelCodeFont(FONT_FOLDER + "stark-" + size + ".fnt", FONT_FOLDER + "stark-" + size + "_0.png");
-        AngelCodeFont strokedFont = new AngelCodeFont(FONT_FOLDER + "stark-" + size + "-stroke.fnt", FONT_FOLDER + "stark-" + size + "-stroke_0.png");
+        AngelCodeFont font = new AngelCodeFont(FONT_FOLDER + size + "/stark.fnt", FONT_FOLDER + size + "/stark_0.png");
+        AngelCodeFont strokedFont = new AngelCodeFont(FONT_FOLDER + size + "/stark-stroke.fnt", FONT_FOLDER + size + "/stark-stroke_0.png");
         _fonts.put(size, font);
         _strokedFonts.put(size, strokedFont);
     }
