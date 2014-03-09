@@ -13,7 +13,7 @@ import java.util.Map;
  * Date: 2/10/14
  */
 public class Log {
-    private static LogLevel defaultLevel = LogLevel.Error;
+    private static LogLevel defaultLevel = LogLevel.Info;
     public static Map<Class, LogLevel> levels;
     public static PrintWriter writer = null;
 
@@ -31,7 +31,7 @@ public class Log {
 
     public void debug(String message) {
         if(levels.get(_clazz).rank <= LogLevel.Debug.rank) {
-            String out = String.format("[Debug - %s] %s", _clazz.getSimpleName(), message);
+            String out = String.format("[Debug] %s: %s", _clazz.getSimpleName(), message);
             System.out.println(out);
             if(_clazz != CommandState.class)
                 CommandState.logPrint(out);
@@ -44,7 +44,7 @@ public class Log {
 
     public void info(String message) {
         if(levels.get(_clazz).rank <= LogLevel.Info.rank) {
-            String out = String.format("[Info - %s] %s", _clazz.getSimpleName(), message);
+            String out = String.format("[Info] %s: %s", _clazz.getSimpleName(), message);
             System.out.println(out);
             if(_clazz != CommandState.class)
                 CommandState.logPrint(out);
@@ -57,7 +57,7 @@ public class Log {
 
     public void error(String message) {
         if(levels.get(_clazz).rank <= LogLevel.Error.rank) {
-            String out = String.format("[Error - %s] %s", _clazz.getSimpleName(), message);
+            String out = String.format("[Error] %s: %s", _clazz.getSimpleName(), message);
             System.out.println(out);
             if(_clazz != CommandState.class)
                 CommandState.logPrint(out);
@@ -66,6 +66,10 @@ public class Log {
                 writer.flush();
             }
         }
+    }
+
+    public void setLevel(LogLevel level) {
+        setLevel(_clazz, level);
     }
 
     public static void setLevel(Class clazz, LogLevel level) {
