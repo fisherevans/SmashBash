@@ -23,6 +23,6 @@ public class RadialHealthDeltaEffect extends HealthDeltaEffect {
                 .subtract(_center);
         float diffLength = diff.length();
         if(diffLength <= _radius)
-            character.adjustHealth((int) (getHealthDelta()/_radius));
+            character.adjustHealth((int) (getHealthDelta()*diffLength/_radius));
     }
 }

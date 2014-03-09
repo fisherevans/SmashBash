@@ -31,7 +31,6 @@ public class Entity extends GameObject {
     private boolean _dead = false;
     private Color _color;
     private float _spriteScale = 1f;
-    private Light _light = null;
 
     public Entity(Rectangle body, String entitySpriteName) {
         this(body, entitySpriteName, 0f, Color.white);
@@ -52,29 +51,6 @@ public class Entity extends GameObject {
         _color = color;
     }
 
-    public void attachNewLight(String lightName) {
-        attachNewLight(Lights.getLightSettingsByName(lightName));
-    }
-
-    public void attachNewLight(LightSettings lightSettings) {
-        if(lightSettings == null)
-            log.error("Failed to create light in " + this.getClass().getName());
-        else
-            attachLight(new Light(lightSettings, new Vector(getBody().getCenterX(), getBody().getCenterY())));
-    }
-
-    public void attachLight(Light light) {
-        detachLight();
-        _light = light;
-        PlayState.current.getLightManager().getLights().add(light);
-    }
-
-    public void detachLight() {
-        if(_light != null) {
-            PlayState.current.getLightManager().getLights().remove(_light);
-        }
-    }
-
     @Override
     public void updateObject(float delta) {
         _lifeTime += delta;
@@ -84,8 +60,6 @@ public class Entity extends GameObject {
             destroy();
         }
         if(!_dead) {
-            if(_light != null)
-                _light.setPosition(new Vector(getBody().getCenterX(), getBody().getCenterY()));
             updateEntity(delta);
         }
     }
@@ -94,15 +68,7 @@ public class Entity extends GameObject {
 
     }
 
-    public final void destroy() {
-        PlayState.current.removeGameObject(this);
-        detachLight();
-        destroyEntity();
-    }
 
-    public void destroyEntity() {
-
-    }
 
     @Override
     public Image getImage(int size) {
@@ -110,6 +76,15 @@ public class Entity extends GameObject {
         Image image = sprite.getSprite(_lifeTime).getScaledCopy(_spriteScale);
         image.setImageColor(_color.r, _color.g, _color.b);
         return image;
+    }
+
+    @Override
+    public final void destroyObject() {
+        destroyEntity();
+    }
+
+    public void destroyEntity() {
+
     }
 
     public static Rectangle getCenteredBody(float centerX, float centerY) {

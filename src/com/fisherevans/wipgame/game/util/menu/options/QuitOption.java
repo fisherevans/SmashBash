@@ -18,7 +18,7 @@ public class QuitOption extends MenuOption {
         ConfirmState.enter(WIP.currentState(), "Are you sure you want to quit?", new Runnable() {
             @Override
             public void run() {
-                System.exit(0);
+                WIP.exitGame();
             }
         });
     }

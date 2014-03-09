@@ -63,4 +63,8 @@ public class Messages {
             return key;
         return messages.get(key);
     }
+
+    public static boolean exists(String key) {
+        return _messageMap.get(_defaultLanguage).containsKey(key);
+    }
 }

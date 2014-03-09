@@ -25,6 +25,8 @@ public class Lights {
         LightSettings settings;
         for(int lightId = 1;true;lightId++) {
             try {
+                if(!Messages.exists("light." + lightId + ".image"))
+                    break;
                 lightImage = Messages.get("light." + lightId + ".image");
                 lightSize = Messages.get("light." + lightId + ".radius");
                 lightColor = Messages.get("light." + lightId + ".color");

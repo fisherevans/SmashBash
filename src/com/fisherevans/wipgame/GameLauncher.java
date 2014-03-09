@@ -1,7 +1,9 @@
 package com.fisherevans.wipgame;
 
+import com.fisherevans.eventRouter.EventRouter;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.launcher.Launcher;
+import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Messages;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
@@ -27,11 +29,13 @@ public class GameLauncher {
     }
 
     public static void loadResources() throws NoSuchFieldException, IllegalAccessException {
+        Log.open();
         String dllFolder = "dll";
         System.setProperty("java.library.path", new File(dllFolder).getAbsolutePath());
         Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
         fieldSysPath.setAccessible(true);
         fieldSysPath.set(null, null);
+        EventRouter.init();
         try {
             Messages.load();
         } catch (FileNotFoundException e) {

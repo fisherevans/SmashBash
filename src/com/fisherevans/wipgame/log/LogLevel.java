@@ -7,7 +7,8 @@ package com.fisherevans.wipgame.log;
 public enum LogLevel {
     Debug(0),
     Info(1),
-    Error(2);
+    Error(2),
+    Off(999);
 
     public final int rank;
     LogLevel(int rank) {

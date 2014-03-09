@@ -1,7 +1,9 @@
 package com.fisherevans.wipgame.game;
 
 import com.fisherevans.wipgame.game.game_config.GameSettings;
+import com.fisherevans.wipgame.game.states.command.CommandState;
 import com.fisherevans.wipgame.game.states.loading.LoadingState;
+import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.Transition;
@@ -11,6 +13,7 @@ import org.newdawn.slick.state.transition.Transition;
  * Date: 2/10/14
  */
 public class WIP extends StateBasedGame {
+    public static final int STATE_COMMAND = -999;
     public final static int STATE_LOADING = 0;
     public final static int STATE_START = 1;
     public final static int STATE_READY = 2;
@@ -19,7 +22,7 @@ public class WIP extends StateBasedGame {
     public final static int STATE_RESULTS = 5;
     public final static int STATE_CONFIRM = 6;
 
-    public static StateBasedGame game;
+    public static WIP game;
     public static GameContainer container;
     public static boolean debug = false;
     public static GameSettings gameSettings;
@@ -37,7 +40,11 @@ public class WIP extends StateBasedGame {
     }
 
     public static WIPState currentState() {
-        return (WIPState) game.getCurrentState();
+        WIPState state = (WIPState) game.getCurrentState();
+        if(state instanceof CommandState)
+            return ((CommandState)state).getCurrentState();
+        else
+            return state;
     }
 
     public static float width() {
@@ -66,5 +73,10 @@ public class WIP extends StateBasedGame {
     public static void enterState(WIPState state, Transition leave, Transition enter) {
         game.addState(state);
         game.enterState(state.getID(), leave, enter);
+    }
+
+    public static void exitGame() {
+        Log.close();
+        System.exit(0);
     }
 }

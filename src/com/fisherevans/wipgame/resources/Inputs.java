@@ -1,6 +1,8 @@
 package com.fisherevans.wipgame.resources;
 
 import com.fisherevans.wipgame.game.WIP;
+import com.fisherevans.wipgame.game.WIPState;
+import com.fisherevans.wipgame.game.states.command.CommandState;
 import com.fisherevans.wipgame.input.InputsListener;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.input.XBoxControllerListener;
@@ -12,6 +14,7 @@ import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.state.GameState;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.Set;
  */
 public class Inputs implements KeyListener {
     public static final int GLOBAL_INPUT = -1;
+    public static final String alphebet = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+-=[]\\;',./{}|:\"<>?`~ ";
 
     private static Map<Integer, Map<Key, Integer>> _inputsMap = null;
     private static Map<Integer, Map<Key, Boolean>> _keyStateMap = null;
@@ -31,6 +35,9 @@ public class Inputs implements KeyListener {
     public static Inputs itself = null;
 
     private static InputsListener _listener = null;
+
+    public boolean shift = false;
+
 
     public static void load() {
         itself = new Inputs();
@@ -42,17 +49,17 @@ public class Inputs implements KeyListener {
         c1.put(Key.Down, Input.KEY_S);
         c1.put(Key.Left, Input.KEY_A);
         c1.put(Key.Right, Input.KEY_D);
-        c1.put(Key.Select, Input.KEY_B);
-        c1.put(Key.Back, Input.KEY_V);
+        c1.put(Key.Select, Input.KEY_F);
+        c1.put(Key.Back, Input.KEY_C);
         _inputsMap.put(1, c1);
 
         Map<Key, Integer> c2 = new HashMap<>();
-        c2.put(Key.Up, Input.KEY_UP);
-        c2.put(Key.Down, Input.KEY_DOWN);
-        c2.put(Key.Left, Input.KEY_LEFT);
-        c2.put(Key.Right, Input.KEY_RIGHT);
+        c2.put(Key.Up, Input.KEY_P);
+        c2.put(Key.Down, Input.KEY_SEMICOLON);
+        c2.put(Key.Left, Input.KEY_L);
+        c2.put(Key.Right, Input.KEY_APOSTROPHE);
         c2.put(Key.Select, Input.KEY_ENTER);
-        c2.put(Key.Back, Input.KEY_NUMPAD3);
+        c2.put(Key.Back, Input.KEY_RSHIFT);
         _inputsMap.put(2, c2);
 
         int nextInput = _inputsMap.keySet().size()+1;
@@ -99,9 +106,40 @@ public class Inputs implements KeyListener {
 
     @Override
     public void keyPressed(int keyCode, char c) {
-        if(keyCode == Input.KEY_F8) {
+        if(keyCode == Input.KEY_LSHIFT || keyCode == Input.KEY_RSHIFT)
+            shift = true;
+        else if(keyCode == Input.KEY_F8)
             WIP.debug = !WIP.debug;
+        else if(keyCode == Input.KEY_F12) {
+            GameState currentState = WIP.game.getCurrentState();
+            if(currentState instanceof CommandState)
+                WIP.enterState(((CommandState)currentState).getCurrentState());
+            else
+                WIP.enterNewState(new CommandState((WIPState)currentState));
         }
+
+        if(CommandState.acceptInput) {
+            String input = getCharacter(keyCode, shift);
+            if(keyCode == Input.KEY_ENTER)
+                CommandState.ketEnter();
+            else if(keyCode == Input.KEY_BACK)
+                CommandState.keyBack();
+            else if(keyCode == Input.KEY_LEFT)
+                CommandState.keyLeft();
+            else if(keyCode == Input.KEY_RIGHT)
+                CommandState.keyRight();
+            else if(keyCode == Input.KEY_UP)
+                CommandState.keyUpArrow();
+            else if(keyCode == Input.KEY_DOWN)
+                CommandState.keyDownArrow();
+            else if(keyCode == Input.KEY_DELETE)
+                CommandState.keyDelete();
+            else if(alphebet.contains(input))
+                CommandState.textInput(shift ? input.toUpperCase() : input);
+
+            //System.out.println(keyCode + " " + Input.getKeyName(keyCode));
+        }
+
         if(_listener == null)
             return;
         for(int inputSource:_inputsMap.keySet()) {
@@ -115,6 +153,8 @@ public class Inputs implements KeyListener {
 
     @Override
     public void keyReleased(int keyCode, char c) {
+        if(keyCode == Input.KEY_LSHIFT || keyCode == Input.KEY_RSHIFT)
+            shift = false;
         if(_listener == null)
             return;
         for(int inputSource:_inputsMap.keySet()) {
@@ -169,4 +209,58 @@ public class Inputs implements KeyListener {
 
     @Override
     public void inputStarted() { }
+
+    public static String getCharacter(int keyCode, boolean isShift) {
+        switch(keyCode) {
+            case Input.KEY_A: return "a";
+            case Input.KEY_B: return "b";
+            case Input.KEY_C: return "c";
+            case Input.KEY_D: return "d";
+            case Input.KEY_E: return "e";
+            case Input.KEY_F: return "f";
+            case Input.KEY_G: return "g";
+            case Input.KEY_H: return "h";
+            case Input.KEY_I: return "i";
+            case Input.KEY_J: return "j";
+            case Input.KEY_K: return "k";
+            case Input.KEY_L: return "l";
+            case Input.KEY_M: return "m";
+            case Input.KEY_N: return "n";
+            case Input.KEY_O: return "o";
+            case Input.KEY_P: return "p";
+            case Input.KEY_Q: return "q";
+            case Input.KEY_R: return "r";
+            case Input.KEY_S: return "s";
+            case Input.KEY_T: return "t";
+            case Input.KEY_U: return "u";
+            case Input.KEY_V: return "v";
+            case Input.KEY_W: return "w";
+            case Input.KEY_X: return "x";
+            case Input.KEY_Y: return "y";
+            case Input.KEY_Z: return "z";
+            case Input.KEY_0: return isShift ? ")" : "0";
+            case Input.KEY_1: return isShift ? "!" : "1";
+            case Input.KEY_2: return isShift ? "@" : "2";
+            case Input.KEY_3: return isShift ? "#" : "3";
+            case Input.KEY_4: return isShift ? "$" : "4";
+            case Input.KEY_5: return isShift ? "%" : "5";
+            case Input.KEY_6: return isShift ? "^" : "6";
+            case Input.KEY_7: return isShift ? "&" : "7";
+            case Input.KEY_8: return isShift ? "*" : "8";
+            case Input.KEY_9: return isShift ? "(" : "9";
+            case Input.KEY_SPACE: return " ";
+            case Input.KEY_COMMA: return !isShift ? "," : "<";
+            case Input.KEY_PERIOD: return !isShift ? "." : ">";
+            case Input.KEY_SLASH: return !isShift ? "/" : "?";
+            case Input.KEY_SEMICOLON: return !isShift ? ";" : ":";
+            case Input.KEY_APOSTROPHE: return !isShift ? "'" : "\"";
+            case Input.KEY_LBRACKET: return !isShift ? "[" : "{";
+            case Input.KEY_RBRACKET: return !isShift ? "]" : "}";
+            case Input.KEY_BACKSLASH: return !isShift ? "\\" : "|";
+            case Input.KEY_MINUS: return !isShift ? "-" : "_";
+            case Input.KEY_EQUALS: return !isShift ? "=" : "+";
+            case Input.KEY_GRAVE: return !isShift ? "`" : "~";
+            default: return "unknown";
+        }
+    }
 }

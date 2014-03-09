@@ -58,7 +58,8 @@ public class Sprites {
         String line, name;
         String[] split;
         Map<Integer, EntitySprite> entitySprites;
-        while((line = input.nextLine()) != null) {
+        while(input.hasNextLine()) {
+            line = input.nextLine();
             try {
                 if(line.startsWith("#"))
                     continue;

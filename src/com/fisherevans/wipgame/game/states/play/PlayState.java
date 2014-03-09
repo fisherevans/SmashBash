@@ -13,6 +13,7 @@ import com.fisherevans.wipgame.game.states.play.combat_elements.AreaEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.BombSkill;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.CrazyLaserSkill;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.LaserSkill;
+import com.fisherevans.wipgame.game.states.play.entities.Entity;
 import com.fisherevans.wipgame.game.states.play.object_controllers.PlayerController;
 import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
@@ -59,6 +60,8 @@ public class PlayState extends WIPState {
     private LightManager _lightManager;
 
     private float _timeLeft;
+
+    private boolean _gameOver = false;
 
     @Override
     public int getID() {
@@ -274,7 +277,12 @@ public class PlayState extends WIPState {
         }
 
         gfx.setFont(Fonts.getStrokedFont(Fonts.LARGE));
-        gfx.drawString(String.format("%d:%02d", (int)(_timeLeft/60), (int)(_timeLeft%60f)), 20, WIP.height()-20-gfx.getFont().getLineHeight());
+        gfx.drawString(String.format("%d:%02d", (int)(_timeLeft/60), (int)(_timeLeft%60f)), 20, 20);
+
+        if(_gameOver) {
+            gfx.setFont(Fonts.getStrokedFont(Fonts.HUGE));
+            gfx.drawStringCentered("WINNER", WIP.width()/2f, WIP.height()/3f);
+        }
 
         if(WIP.debug) {
             gfx.setColor(new Color(1f, 1f, 1f, 0.5f));
@@ -333,72 +341,65 @@ public class PlayState extends WIPState {
     @Override
     public void update(float delta) {
         delta = Math.min(delta, 0.1f);
-        _timeLeft -= delta;
-        if(_timeLeft <= 0)
-            endGame();
+        delta = _gameOver ? delta/16f : delta;
 
-        if(!_gameObjectsToAdd.isEmpty()) {
-            for(GameObject obj:_gameObjectsToAdd) {
-                _gameObjects.add(obj);
-                _world.add(obj.getBody());
-            }
-            _gameObjectsToAdd.clear();
-        }
+        if(!_gameOver) {
+            _timeLeft -= delta;
+            if(_timeLeft <= 0)
+                endGame();
 
-        if(!_gameObjectsToRemove.isEmpty()) {
-            for(GameObject obj:_gameObjectsToRemove) {
-                _gameObjects.remove(obj);
-                _world.remove(obj.getBody());
+            if(!_gameObjectsToAdd.isEmpty()) {
+                for(GameObject obj:_gameObjectsToAdd) {
+                    _gameObjects.add(obj);
+                    _world.add(obj.getBody());
+                }
+                _gameObjectsToAdd.clear();
             }
-            _gameObjectsToRemove.clear();
-        }
 
-        if(!_areaEffects.isEmpty()) {
-            for(AreaEffect effect:_areaEffects) {
-                for(GameCharacter character:_characters)
-                    effect.process(character);
+            if(!_gameObjectsToRemove.isEmpty()) {
+                for(GameObject obj:_gameObjectsToRemove) {
+                    _gameObjects.remove(obj);
+                    _world.remove(obj.getBody());
+                }
+                _gameObjectsToRemove.clear();
             }
-            _areaEffects.clear();
+
+            if(!_areaEffects.isEmpty()) {
+                for(AreaEffect effect:_areaEffects) {
+                    for(GameCharacter character:_characters)
+                        effect.process(character);
+                }
+                _areaEffects.clear();
+            }
+
+            _world.step(delta);
+
+            _lightManager.update(delta);
         }
 
         for(GameObject gameObject:_gameObjects) {
             gameObject.update(delta);
-            if(gameObject.getBody().getCenterX() <= -_baseMap.getWidth() ||
-                    gameObject.getBody().getCenterX() >= _baseMap.getWidth()*2 ||
-                    gameObject.getBody().getCenterY() <= -_baseMap.getHeight()) {
-                if(gameObject instanceof GameCharacter)
-                    ((GameCharacter)(gameObject)).kill();
-                else
-                    removeGameObject(gameObject);
+            if(!_gameOver) {
+                if(gameObject.getBody().getCenterX() <= -_baseMap.getWidth() ||
+                        gameObject.getBody().getCenterX() >= _baseMap.getWidth()*2 ||
+                        gameObject.getBody().getCenterY() <= -_baseMap.getHeight()) {
+                    if(gameObject instanceof GameCharacter)
+                        ((GameCharacter)(gameObject)).kill();
+                    else if(gameObject instanceof Entity)
+                        ((Entity)gameObject).destroy();
+                    else
+                        removeGameObject(gameObject);
+                }
             }
         }
 
-        _world.step(delta);
-
         _camera.calculateTargetPosition();
         _camera.update(delta);
-
-        _lightManager.update(delta);
     }
 
     @Override
     public void leaveState(GameContainer container, StateBasedGame game) throws SlickException {
 
-    }
-
-    public void damageRadius(Integer damage, Vector center, float radius, GameCharacter... excluding) {
-        boolean exclude;
-        for(GameCharacter character:_characters) {
-            exclude = false;
-            for(GameCharacter excludeCharacter:excluding) {
-                if(character == excludeCharacter) {
-                    exclude = false;
-                    break;
-                }
-            }
-            if(!exclude && character.inRadiusRange(center, radius))
-                character.damage(damage);
-        }
     }
 
     public List<GameCharacter> getCharacters() {
@@ -417,6 +418,8 @@ public class PlayState extends WIPState {
             removeGameObject(character);
             _deadCharacters.add(character);
             _characters.remove(character);
+            if(_characters.size() == 1)
+                _gameOver = true;
         }
     }
 
@@ -440,7 +443,7 @@ public class PlayState extends WIPState {
     public void keyDown(Key key, int inputSource) {
         if(key == Key.Menu) {
             WIP.enterNewState(new PauseState(this));
-        } else {
+        } else if(!_gameOver) {
             for(GameCharacter character:_characters) {
                 if(character.getController() != null && character.acceptInput()) {
                     if(character.getController().getInputSource() == inputSource) {
@@ -459,7 +462,7 @@ public class PlayState extends WIPState {
     @Override
     public void keyUp(Key key, int inputSource) {
         for(GameCharacter character:_characters) {
-            if(character.getController() != null && character.getController().getInputSource() == inputSource)
+            if(character.getController() != null && character.getController().getInputSource() == inputSource && !_gameOver)
                 character.getController().up(key);
         }
     }

@@ -46,13 +46,13 @@ public class Bomb extends Entity implements IntersectionListener {
 
         Vector center = new Vector(getBody().getCenterX(), getBody().getCenterY());
         float radius = 3f;
-        float force = 5f;
+        float force = 10f;
         int damage = -45;
 
         PlayState.current.addAreaEffect(new AreaEffect()
                 .addArea(new CircleArea(center, radius))
-                .addEffect(new RadialHealthDeltaEffect(damage, center, radius))
-                .addEffect(new RadialForceEffect(force, center, radius)));
+                .addEffect(new HealthDeltaEffect(damage))
+                .addEffect(new RadialForceEffect(force, center)));
     }
 
     @Override

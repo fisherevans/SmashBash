@@ -33,8 +33,15 @@ public class Laser extends Entity implements IntersectionListener {
 
     @Override
     public void intersection(Rectangle rectangle, Rectangle rectangle2) {
+        boolean destroy = false;
         if((rectangle2.getObject() instanceof GameCharacter && rectangle2.getObject() != _owner) ||
                 rectangle2.getObject() == null)
+            destroy = true;
+        if(rectangle2.getObject() instanceof Bomb) {
+            destroy = true;
+            ((Bomb) rectangle2.getObject()).destroy();
+        }
+        if(destroy)
             destroy();
     }
 
@@ -52,6 +59,6 @@ public class Laser extends Entity implements IntersectionListener {
         PlayState.current.addAreaEffect(new AreaEffect()
                 .addArea(new CircleArea(center, 1f))
                 .addEffect(new HealthDeltaEffect(-5))
-                .addEffect(new DirectionalForceEffect(new Vector(dir*1.5f, 0f))));
+                .addEffect(new DirectionalForceEffect(new Vector(dir*3f, 0f))));
     }
 }

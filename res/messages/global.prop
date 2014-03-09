@@ -2,29 +2,29 @@
 light.1.name=torch
 light.1.image=lights/default
 light.1.radius=5.5
-light.1.color=64,63,50
+light.1.color=80,60,40
 light.1.controller=StaticController
 
 light.2.name=florescent
 light.2.image=lights/long
 light.2.radius=12
-light.2.color=64,63,50
+light.2.color=80,60,40
 light.2.controller=StaticController
 
 light.3.name=bomb_explosion
 light.3.image=lights/default
 light.3.radius=9
-light.3.color=191,150,75
+light.3.color=100,100,65
 light.3.controller=StaticController
 
 light.4.name=laser
 light.4.image=lights/long
 light.4.radius=2
-light.4.color=89,28,28
+light.4.color=80,40,40
 light.4.controller=StaticController
 
 light.5.name=laser_explosion
 light.5.image=lights/default
 light.5.radius=2
-light.5.color=89,28,28
+light.5.color=80,40,40
 light.5.controller=StaticController

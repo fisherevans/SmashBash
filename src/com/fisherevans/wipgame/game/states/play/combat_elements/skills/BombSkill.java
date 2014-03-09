@@ -1,5 +1,7 @@
 package com.fisherevans.wipgame.game.states.play.combat_elements.skills;
 
+import com.fisherevans.eventRouter.EventAction;
+import com.fisherevans.eventRouter.EventRouter;
 import com.fisherevans.wipgame.game.states.play.Direction;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
@@ -20,8 +22,10 @@ public class BombSkill extends Skill {
 
     public BombSkill(GameObject owner) {
         super(USAGE_COST, REGEN_RATE, owner);
+        EventRouter.subscribe(this, "play");
     }
 
+    @EventAction(1)
     @Override
     public boolean executeSkill() {
         if(getOwner() instanceof GameCharacter) {

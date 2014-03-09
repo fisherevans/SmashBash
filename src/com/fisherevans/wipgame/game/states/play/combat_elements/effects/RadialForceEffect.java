@@ -41,6 +41,6 @@ public class RadialForceEffect extends Effect {
             else
                 force.scale(diffLength/_radius);
         }
-        character.getBody().setVelocity(force);
+        character.getBody().getVelocity().add(force);
     }
 }

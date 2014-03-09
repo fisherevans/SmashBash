@@ -17,6 +17,6 @@ public class DirectionalForceEffect extends Effect {
 
     @Override
     public void doEffect(GameCharacter character) {
-        character.getBody().setVelocity(_velocity.getCopy());
+        character.getBody().getVelocity().add(_velocity);
     }
 }

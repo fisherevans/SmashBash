@@ -22,7 +22,7 @@ import java.util.List;
  * Date: 2/14/14
  */
 public class LightManager {
-    public static final float COLOR_SCALE_SPEED = 5f;
+    public static final float COLOR_SCALE_SPEED = 8f;
 
     public static Log log = new Log(LightManager.class);
 
@@ -34,7 +34,7 @@ public class LightManager {
 
     private List<Light> _lights;
 
-    private float _currentColorScale;
+    private float _currentColorScale, _targetColorScale;
 
     public LightManager(PlayState playState, Color baseColor, int width, int height) {
         _playState = playState;
@@ -73,14 +73,7 @@ public class LightManager {
             lightEntity.getLightController().update(delta);
         }
 
-        float brightest = 0f, localBrightest;
-        for(Light light:_lights) {
-            localBrightest = getHighestComponent(light.getColor());
-            if(localBrightest > brightest)
-                brightest = localBrightest;
-        }
-
-        _currentColorScale += ((1f/brightest)-_currentColorScale)/2f*delta*COLOR_SCALE_SPEED;
+        _currentColorScale += (_targetColorScale-_currentColorScale)/2f*delta*COLOR_SCALE_SPEED;
     }
 
     public void render(Graphics gameGraphics, float zoom, Camera camera, float screenWidth, float screenHeight, float shiftX, float shiftY) {
@@ -98,8 +91,10 @@ public class LightManager {
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // overlay
         //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive
-        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive with alpha
+        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
+        //_currentColorScale = 1f;
         float lx, ly, radius;
+        float brightest = 0f, localBrightest;
         Image lightImage;
         for(Light light:_lights) {
             lx = light.getPosition().getX();
@@ -110,8 +105,13 @@ public class LightManager {
                 lightImage = light.getImage();
                 lightImage.draw((lx-radius)*zoom + shiftX, (_playState.getBaseMap().getHeight()-ly-radius)*zoom + shiftY,
                         radius*2*zoom, radius*2*zoom, light.getColor().scaleCopy(_currentColorScale));
+                localBrightest = getHighestComponent(light.getColor());
+                if(localBrightest > brightest)
+                    brightest = localBrightest;
             }
         }
+        //_targetColorScale = (1f/(brightest+getHighestComponent(_baseColor)));
+        _targetColorScale = (1f/brightest);
         _gfx.setDrawMode(Graphics.MODE_NORMAL);
 
         _gfx.flush();

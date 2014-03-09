@@ -116,6 +116,11 @@ public class GameCharacter extends GameObject {
         return image;
     }
 
+    @Override
+    public void destroyObject() {
+
+    }
+
     public Image getSpriteCopy(int size, SpriteType type) {
         CharacterSprite characterSprite = _characterSprites.get(size);
         if(characterSprite == null)
