@@ -4,6 +4,7 @@ import com.fisherevans.eventRouter.EventRouter;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.launcher.Launcher;
 import com.fisherevans.wipgame.log.Log;
+import com.fisherevans.wipgame.log.LogLevel;
 import com.fisherevans.wipgame.resources.Messages;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
@@ -12,16 +13,19 @@ import org.newdawn.slick.SlickException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.util.Scanner;
 
 /**
  * Author: Fisher Evans
  * Date: 2/10/14
  */
 public class GameLauncher {
+    private static Log log = new Log(GameLauncher.class);
 
     public static void main(String[] args) {
         try {
             loadResources();
+            logBuildVersion();
             new Launcher();
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,6 +45,21 @@ public class GameLauncher {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    public static void logBuildVersion() {
+        try {
+            Scanner in = new Scanner(new File("res/build.txt"));
+            String build = in.nextLine();
+            String time = in.nextLine();
+            log.info("Build Number: " + build);
+            log.info("Build Time: " + time);
+            in.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+            log.error("Unable to parse build file:");
+            log.error(e.toString());
         }
     }
 
