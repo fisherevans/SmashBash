@@ -59,12 +59,13 @@ public class CommandState extends WIPState {
         addCommand(new WhatIs());
         addCommand(new Exit());
         addCommand(new Event());
+        addCommand(new LogStdOut());
         addCommand(new LogCommand());
         addCommand(new LogAllCommand());
 
-        Log.setLevel(CommandState.class, LogLevel.Debug);
+        log.setLevel(LogLevel.Debug);
 
-        print("Use 'help' tp view all available commands.", GREY);
+        print("Use 'help' to view all available commands.", GREY);
     }
 
     private WIPState _currentState;

@@ -15,6 +15,7 @@ public class Exit extends CommandObject {
 
     @Override
     public boolean execute(CommandString c) {
+        printGreen("Closing the game");
         WIP.exitGame();
         return true;
     }

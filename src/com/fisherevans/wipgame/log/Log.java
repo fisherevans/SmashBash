@@ -16,6 +16,7 @@ public class Log {
     private static LogLevel defaultLevel = LogLevel.Info;
     public static Map<Class, LogLevel> levels;
     public static PrintWriter writer = null;
+    public static boolean printStdOut = false;
 
     static {
         levels = new HashMap<>();
@@ -30,41 +31,28 @@ public class Log {
     }
 
     public void debug(String message) {
-        if(levels.get(_clazz).rank <= LogLevel.Debug.rank) {
-            String out = String.format("[Debug] %s: %s", _clazz.getSimpleName(), message);
-            System.out.println(out);
-            if(_clazz != CommandState.class)
-                CommandState.logPrint(out);
-            if(writer != null) {
-                writer.println(out);
-                writer.flush();
-            }
-        }
+        if(levels.get(_clazz).rank <= LogLevel.Debug.rank)
+            log(String.format("[Debug] %s: %s", _clazz.getSimpleName(), message));
     }
 
     public void info(String message) {
-        if(levels.get(_clazz).rank <= LogLevel.Info.rank) {
-            String out = String.format("[Info] %s: %s", _clazz.getSimpleName(), message);
-            System.out.println(out);
-            if(_clazz != CommandState.class)
-                CommandState.logPrint(out);
-            if(writer != null) {
-                writer.println(out);
-                writer.flush();
-            }
-        }
+        if(levels.get(_clazz).rank <= LogLevel.Info.rank)
+            log(String.format("[Info] %s: %s", _clazz.getSimpleName(), message));
     }
 
     public void error(String message) {
-        if(levels.get(_clazz).rank <= LogLevel.Error.rank) {
-            String out = String.format("[Error] %s: %s", _clazz.getSimpleName(), message);
-            System.out.println(out);
-            if(_clazz != CommandState.class)
-                CommandState.logPrint(out);
-            if(writer != null) {
-                writer.println(out);
-                writer.flush();
-            }
+        if(levels.get(_clazz).rank <= LogLevel.Error.rank)
+            log(String.format("[Error] %s: %s", _clazz.getSimpleName(), message));
+    }
+
+    private void log(String line) {
+        if(printStdOut)
+            System.out.println(line);
+        if(_clazz != CommandState.class)
+            CommandState.logPrint(line);
+        if(writer != null) {
+            writer.println(line);
+            writer.flush();
         }
     }
 
