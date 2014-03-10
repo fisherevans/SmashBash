@@ -16,10 +16,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.state.GameState;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Author: Fisher Evans
@@ -34,10 +31,9 @@ public class Inputs implements KeyListener {
 
     public static Inputs itself = null;
 
-    private static InputsListener _listener = null;
-
     public boolean shift = false;
 
+    private static List<XBoxControllerListener> _xboxControllers = new LinkedList<>();
 
     public static void load() {
         itself = new Inputs();
@@ -66,7 +62,7 @@ public class Inputs implements KeyListener {
         for(int i = 0; i < JXInputManager.getNumberOfDevices(); i++){
             System.out.println("Found controller: " + JXInputManager.getJXInputDevice(i).getName());
             if(JXInputManager.getJXInputDevice(i).getName().toLowerCase().contains("xbox")){
-                new XBoxControllerListener(new DirectInputDevice(i), nextInput);
+                _xboxControllers.add(new XBoxControllerListener(new DirectInputDevice(i), nextInput));
                 _inputsMap.put(nextInput++, new HashMap<Key, Integer>());
             }
         }
@@ -88,20 +84,21 @@ public class Inputs implements KeyListener {
         WIP.container.getInput().addKeyListener(itself);
     }
 
-    public static void setListener(InputsListener listener) {
-        _listener = listener;
-    }
-
-    public static InputsListener getListener() {
-        return _listener;
+    public static void queryControllers() {
+        for(XBoxControllerListener controller:_xboxControllers) {
+            controller.query();
+        }
     }
 
     public static void keyEvent(Key key, int source, boolean state) {
         _keyStateMap.get(source).put(key, state);
-        if(state)
-            _listener.keyDown(key, source);
-        else
-            _listener.keyUp(key, source);
+        if(WIP.game.getCurrentState() instanceof InputsListener) {
+            InputsListener listener = (InputsListener) WIP.game.getCurrentState();
+            if(state)
+                listener.keyDown(key, source);
+            else
+                listener.keyUp(key, source);
+        }
     }
 
     @Override
@@ -148,8 +145,6 @@ public class Inputs implements KeyListener {
             //System.out.println(keyCode + " " + Input.getKeyName(keyCode));
         }
 
-        if(_listener == null)
-            return;
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {
@@ -163,8 +158,6 @@ public class Inputs implements KeyListener {
     public void keyReleased(int keyCode, char c) {
         if(keyCode == Input.KEY_LSHIFT || keyCode == Input.KEY_RSHIFT)
             shift = false;
-        if(_listener == null)
-            return;
         for(int inputSource:_inputsMap.keySet()) {
             for(Key key:_inputsMap.get(inputSource).keySet()) {
                 if(keyCode == _inputsMap.get(inputSource).get(key)) {

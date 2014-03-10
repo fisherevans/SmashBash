@@ -30,7 +30,6 @@ public abstract class WIPState extends BasicGameState implements InputsListener 
     @Override
     public final void enter(GameContainer container, StateBasedGame game) throws SlickException {
         enterState(container, game);
-        Inputs.setListener(this);
         log.debug("Entering...");
     }
 
@@ -39,6 +38,7 @@ public abstract class WIPState extends BasicGameState implements InputsListener 
     @Override
     public final void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         JXInputManager.updateFeatures();
+        Inputs.queryControllers();
         update(delta / 1000f);
     }
 
@@ -55,8 +55,6 @@ public abstract class WIPState extends BasicGameState implements InputsListener 
     @Override
     public final void leave(GameContainer container, StateBasedGame game) throws SlickException {
         leaveState(container, game);
-        if(Inputs.getListener() == this)
-            Inputs.setListener(null);
         log.debug("Leaving...");
     }
 

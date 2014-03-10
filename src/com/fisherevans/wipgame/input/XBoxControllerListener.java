@@ -16,7 +16,7 @@ import java.util.Map;
  * Author: Fisher Evans
  * Date: 2/19/14
  */
-public class XBoxControllerListener implements JXInputAxisEventListener, JXInputButtonEventListener, JXInputDirectionalEventListener {
+public class XBoxControllerListener implements JXInputDirectionalEventListener {
     private static final Log log = new Log(XBoxControllerListener.class);
 
     private static final String BUTTON_A = "Button 0";
@@ -36,6 +36,7 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
     private static final int DIRECTION_LEFT = 27000;
 
     private static final double AXIS_THRESHOLD = 0.2;
+    private static final double TRIGGER_THRESHOLD = 0.1;
 
     private static final int AXIS_LEFT_LR = 0;
     private static final int AXIS_LEFT_UD = 1;
@@ -45,65 +46,45 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
 
     private static final int AXIS_TRIGGER = 2;
 
+    public static boolean useUDAnalog = true;
+
     private DirectInputDevice _controller;
     private int _sourceId;
 
     private int _lastDirectional = -1;
 
     private Map<Axis, Integer> _axisMap;
+    private Map<Button, String> _buttonMap;
+
+    private Map<Axis, Double> _axisLastState;
+    private Map<Button, Boolean> _buttonLastState;
 
     public XBoxControllerListener(DirectInputDevice controller, int sourceId) {
         _controller = controller;
         _sourceId = sourceId;
 
         log.info("New XBoxController on Input Source " + _sourceId);
-        System.out.println("New XBoxController on Input Source " + _sourceId);
-
-        for(int buttonId = 0;buttonId < _controller.getNumberOfButtons();buttonId++)
-            JXInputEventManager.addListener(this, _controller.getButton(buttonId));
 
         for(int directionalId = 0;directionalId < _controller.getNumberOfDirectionals();directionalId++)
             JXInputEventManager.addListener(this, _controller.getDirectional(directionalId));
 
-        Axis axis;
+        _buttonMap = new HashMap<>();
+        _buttonLastState = new HashMap<>();
+        Button button;
+        for(int buttonId = 0;buttonId < _controller.getNumberOfButtons();buttonId++) {
+            button = _controller.getButton(buttonId);
+            _buttonMap.put(button, button.getName());
+            _buttonLastState.put(button, false);
+        }
+
         _axisMap = new HashMap<>();
+        _axisLastState = new HashMap<>();
+        Axis axis;
         for(int axisId = 0;axisId < _controller.getNumberOfAxes();axisId++) {
             axis = _controller.getAxis(axisId);
-            JXInputEventManager.addListener(this, axis);
             _axisMap.put(axis, axisId);
+            _axisLastState.put(axis, 0d);
         }
-    }
-
-    @Override
-    public void changed(JXInputButtonEvent jxInputButtonEvent) {
-        Button button = jxInputButtonEvent.getButton();
-        Key key = null;
-        switch(button.getName()) {
-            case BUTTON_A:
-                key = Key.Select;
-                break;
-            case BUTTON_X:
-                key = Key.Up;
-                break;
-            case BUTTON_B:
-                key = Key.Back;
-                break;
-            case BUTTON_START:
-                key = Key.Menu;
-                break;
-            case BUTTON_RT:
-                key = Key.Select;
-                break;
-            case BUTTON_LT:
-                key = Key.Back;
-                break;
-        }
-        if(key != null) {
-            Inputs.keyEvent(key, _sourceId, button.getState());
-        }
-        //System.out.println("Button Event [Name=" + button.getName() + "] " +
-        //        "[State=" + button.getState() + "] " +
-        //        "[Type=" + button.getType() + "]");
     }
 
     @Override
@@ -140,48 +121,83 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
         return null;
     }
 
-    @Override
-    public void changed(JXInputAxisEvent jxInputAxisEvent) {
-        Axis axis = jxInputAxisEvent.getAxis();
-        Integer axisId = _axisMap.get(axis);
-        if(axisId != null && Math.abs(axis.getValue()) > AXIS_THRESHOLD) {
-            double absValue = Math.abs(axis.getValue());
-            Key key = null;
-            switch(axisId) {
-                case AXIS_LEFT_LR:
-                    Key on, off;
-                    if(absValue > AXIS_THRESHOLD) {
-                        if(axis.getValue() > 0) {
-                            if(Inputs.keyState(Key.Left, _sourceId))
-                                Inputs.keyEvent(Key.Left, _sourceId, false);
-                        } else {
+    public void query() {
+        queryAxes();
+        queryButtons();
+    }
 
-                        }
-                    } else {
-                        if(Inputs.keyState(Key.Left, _sourceId))
-                            Inputs.keyEvent(Key.Left, _sourceId, false);
-                        if(Inputs.keyState(Key.Right, _sourceId))
-                            Inputs.keyEvent(Key.Right, _sourceId, false);
-                    }
-                    if(axis.getValue() < 0) {
-                        on = Key.Left;
-                        off = Key.Right;
-                    }
+    private void queryButtons() {
+        String buttonId;
+        for(Button button:_buttonMap.keySet()) {
+            buttonId = _buttonMap.get(button);
+            boolean state = button.getState();
+            if(state != _buttonLastState.get(button)) {
+                _buttonLastState.put(button, state);
+                switch(buttonId) {
+                    case BUTTON_A:
+                        sendKeyState(Key.Select, state);
+                        continue;
+                    case BUTTON_B:
+                        sendKeyState(Key.Back, state);
+                        continue;
+                    case BUTTON_START:
+                        sendKeyState(Key.Menu, state);
+                        continue;
+                    case BUTTON_RT:
+                        sendKeyState(Key.Select, state);
+                        continue;
+                    case BUTTON_LT:
+                        sendKeyState(Key.Back, state);
+                        continue;
+                }
+            }
+        }
+    }
+
+    private void queryAxes() {
+        Integer axisId;
+        double value, lastValue;
+        for(Axis axis:_axisMap.keySet()) {
+            axisId = _axisMap.get(axis);
+            Key negKey, posKey;
+            switch(axisId) {
+                case AXIS_TRIGGER:
+                    negKey = Key.Up;
+                    posKey = Key.Down;
+                    break;
+                case AXIS_LEFT_LR:
+                    negKey = Key.Left;
+                    posKey = Key.Right;
                     break;
                 case AXIS_LEFT_UD:
-
+                    if(!useUDAnalog)
+                        continue;
+                    negKey = Key.Up;
+                    posKey = Key.Down;
                     break;
-                case AXIS_RIGHT_LR:
-
-                    break;
-                case AXIS_RIGHT_UD:
-
-                    break;
-                case AXIS_TRIGGER:
-
-                    break;
+                default:
+                    continue;
             }
-            System.out.println("Axis " + axisId + " was changed to " + axis.getValue());
+            value = axis.getValue();
+            lastValue = _axisLastState.get(axis);
+            _axisLastState.put(axis, value);
+
+            if(value >= AXIS_THRESHOLD && lastValue < AXIS_THRESHOLD)
+                sendKeyState(posKey, true);
+            else if(lastValue >= AXIS_THRESHOLD && value < AXIS_THRESHOLD)
+                sendKeyState(posKey, false);
+
+            if(value <= -AXIS_THRESHOLD && lastValue > -AXIS_THRESHOLD)
+                sendKeyState(negKey, true);
+            else if(lastValue <= -AXIS_THRESHOLD && value > -AXIS_THRESHOLD)
+                sendKeyState(negKey, false);
+        }
+    }
+
+    private void sendKeyState(Key key, boolean state) {
+        if(key != null) {
+            if(state != Inputs.keyState(key, _sourceId))
+                Inputs.keyEvent(key, _sourceId, state);
         }
     }
 }
