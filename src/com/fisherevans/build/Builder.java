@@ -14,6 +14,7 @@ public class Builder {
     public static void main(String[] args) {
         ImageGenerator.generateImages("128 16,32,48,64,96,128 res/img/sprites/characters png".split(" "));
         ImageGenerator.generateImages("128 16,32,48,64,96,128 res/img/sprites/entities png".split(" "));
+        ImageGenerator.generateImages("128 16,32,48,64,96,128 res/img/sprites/gui png".split(" "));
         ImageGenerator.generateImages("128 16,32,48,64,96,128 res/maps png".split(" "));
         Packager.pack(incrementBuildNumber("res/build.txt"));
     }
