@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public class ReadyState extends WIPState {
     public static final int PLAYERS_NEEDED = 2;
+    public static ReadyState self = null;
+
     private Map<Integer, CharacterSelector> _players;
     @Override
     public int getID() {
@@ -34,10 +36,12 @@ public class ReadyState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        self = this;
         _players = new HashMap<>();
+        int colorId = 0;
         for(Integer input: Inputs.getInputSources())
             if(input != Inputs.GLOBAL_INPUT)
-                _players.put(input, new CharacterSelector(input));
+                _players.put(input, new CharacterSelector(input, colorId++));
     }
 
     @Override
@@ -109,6 +113,13 @@ public class ReadyState extends WIPState {
                 profiles.add(player.getProfile());
         WIP.gameSettings.players = profiles;
         WIP.enterNewState(new PlayState(), new FadeOutTransition(), new FadeInTransition());
+    }
+
+    public boolean isColorTaken(Color color, CharacterSelector exclude) {
+        for(CharacterSelector characterSelector:_players.values())
+            if(characterSelector != exclude && characterSelector.getProfile().getColor().equals(color))
+                return true;
+        return false;
     }
 
     @Override

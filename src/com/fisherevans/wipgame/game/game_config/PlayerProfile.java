@@ -16,12 +16,12 @@ public class PlayerProfile {
     };
     public static Color[] COLORS = {
             new Color(new java.awt.Color(1f, 1f, 1f)),
-            new Color(new java.awt.Color(0.5019608f, 0.5019608f, 0.5019608f)),
             new Color(new java.awt.Color(0.38431373f, 0.627451f, 0.7490196f)),
             new Color(new java.awt.Color(0.627451f, 0.38431373f, 0.7490196f)),
             new Color(new java.awt.Color(0.7490196f, 0.3764706f, 0.3764706f)),
             new Color(new java.awt.Color(0.3764706f, 0.7490196f, 0.4392157f)),
             new Color(new java.awt.Color(0.7411765f, 0.6666667f, 0.36862746f)),
+            new Color(new java.awt.Color(0.5019608f, 0.5019608f, 0.5019608f)),
     };
 
     static {

@@ -22,10 +22,11 @@ public class CharacterSelector {
     private PlayerProfile _profile;
     private ReadyPlayerState _readyState;
 
-    public CharacterSelector(int inputSource) {
+    public CharacterSelector(int inputSource, int colorId) {
         _profile = new PlayerProfile(inputSource);
         _inputSource = inputSource;
         _readyState = ReadyPlayerState.NotPlaying;
+        _profile.setColor(PlayerProfile.COLORS[colorId]);
     }
 
     public void render(Graphics graphics, float x, float y, float width, float height) {
@@ -79,7 +80,9 @@ public class CharacterSelector {
     }
 
     private void shiftColor(int shift) {
-        _profile.setColor(shiftSelection(_profile.getColor(), shift, PlayerProfile.COLORS));
+        do {
+            _profile.setColor(shiftSelection(_profile.getColor(), shift, PlayerProfile.COLORS));
+        } while(ReadyState.self.isColorTaken(_profile.getColor(), this));
     }
 
     private static <T> T shiftSelection(T current, int shift, T[] list) {
