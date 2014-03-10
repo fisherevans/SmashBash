@@ -49,7 +49,7 @@ public class StartState extends WIPState {
         _health = new NumberSetting("Health", 50, WIP.gameSettings.health, 200, 25);
         _time = new TimeSetting("Time Limit", "Minutes", 1, WIP.gameSettings.time, 11);
 
-        _menu = new Menu(Config.SIZES[1], Menu.Orientation.Left, true, Fonts.getStrokedFont(Fonts.REGULAR));
+        _menu = new Menu(Config.getNormalSize(), Config.getNormalSize(), Menu.Orientation.Left, true, true, WIP.width()/2f, Fonts.getFont(Config.getNormalSize()));
         _menu.add(new RunnableOption("Play", new Runnable() {
             @Override
             public void run() {
@@ -78,7 +78,7 @@ public class StartState extends WIPState {
 
     @Override
     public void render(Graphics graphics) throws SlickException {
-        _menu.render(graphics, Config.SIZES[3], WIP.height()/2f);
+        _menu.render(graphics, 0f, WIP.height()/2f);
 
         _mapPreview.render(graphics);
         for(int id = _fadingPreviews.size()-1;id >= 0;id--)

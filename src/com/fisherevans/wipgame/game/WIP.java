@@ -6,6 +6,7 @@ import com.fisherevans.wipgame.game.states.loading.LoadingState;
 import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.*;
 import org.newdawn.slick.imageout.ImageIOWriter;
+import org.newdawn.slick.opengl.renderer.Renderer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.Transition;
 
@@ -32,6 +33,8 @@ public class WIP extends StateBasedGame {
     public static GameContainer container;
     public static boolean debug = false;
     public static GameSettings gameSettings;
+
+    public static final Log log = new Log(WIP.class);
 
     public WIP(String name) {
         super(name);
@@ -94,12 +97,12 @@ public class WIP extends StateBasedGame {
         if(!saveDir.exists());
         saveDir.mkdir();
         Image ss = new Image((int)WIP.width(), (int)WIP.height());
-        currentState().render(ss.getGraphics());
-        ss.getGraphics().flush();
+        container.getGraphics().copyArea(ss, 0, 0);
         File screenshotFile = new File("screenshots/" + filename);
         FileOutputStream stream = new FileOutputStream(screenshotFile);
         ImageIOWriter writer = new ImageIOWriter();
         writer.saveImage(ss, "png", stream, false);
+        stream.close();
         return filename;
     }
 }

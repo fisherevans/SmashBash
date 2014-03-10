@@ -36,7 +36,7 @@ public class PauseState extends WIPState {
         _pauseFont  = Fonts.getStrokedFont(Fonts.HUGE);
         _pauseText = Messages.get("paused.title");
         // TODO
-        _menu = new Menu(Config.SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Fonts.SMALL));
+        _menu = new Menu(0, Config.SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Fonts.SMALL));
         _menu.add(new RunnableOption("Resume", new Runnable() {
             @Override
             public void run() {
@@ -81,7 +81,10 @@ public class PauseState extends WIPState {
 
     @Override
     public void keyDown(Key key, int inputSource) {
-        _menu.keyDown(key);
+        if(key == Key.Menu)
+            _stateBasedGame.enterState(_otherState.getID());
+        else
+            _menu.keyDown(key);
     }
 
     @Override

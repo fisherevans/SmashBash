@@ -60,7 +60,6 @@ public class CommandState extends WIPState {
         addCommand(new LogStdOut());
         addCommand(new LogCommand());
         addCommand(new LogAllCommand());
-        addCommand(new ScreenShot());
     }
 
     public CommandState(WIPState currentState) {

@@ -82,7 +82,7 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
             case BUTTON_A:
                 key = Key.Select;
                 break;
-            case BUTTON_Y:
+            case BUTTON_X:
                 key = Key.Up;
                 break;
             case BUTTON_B:
@@ -90,6 +90,12 @@ public class XBoxControllerListener implements JXInputAxisEventListener, JXInput
                 break;
             case BUTTON_START:
                 key = Key.Menu;
+                break;
+            case BUTTON_RT:
+                key = Key.Select;
+                break;
+            case BUTTON_LT:
+                key = Key.Back;
                 break;
         }
         if(key != null) {

@@ -110,7 +110,15 @@ public class Inputs implements KeyListener {
             shift = true;
         else if(keyCode == Input.KEY_F8)
             WIP.debug = !WIP.debug;
-        else if(keyCode == Input.KEY_F12) {
+        else if(keyCode == Input.KEY_F10) {
+            try {
+                String filename = WIP.saveScreenShot("");
+                WIP.log.info("Screenshot saved as: " + filename);
+            } catch(Exception e) {
+                WIP.log.error("Failed to save screenshot!");
+                WIP.log.error(e.toString());
+            }
+        } else if(keyCode == Input.KEY_F12) {
             GameState currentState = WIP.game.getCurrentState();
             if(currentState instanceof CommandState)
                 WIP.enterState(((CommandState)currentState).getCurrentState());

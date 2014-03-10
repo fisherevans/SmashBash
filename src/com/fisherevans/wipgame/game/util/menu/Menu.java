@@ -1,5 +1,6 @@
 package com.fisherevans.wipgame.game.util.menu;
 
+import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.AngelCodeFont;
@@ -20,15 +21,23 @@ public class Menu {
     private int _currentSelection;
     private float _slide = 0;
 
-    private int _padding;
+    private float _xPadding, _yPadding;
     private Orientation _orientation;
-    private boolean _centerOnSelected;
+    private boolean _centerOnSelected, _highlightSelected;
+    private float _highlightWidth;
     private AngelCodeFont _font;
 
-    public Menu(int padding, Orientation orientation, boolean centerOnSelected, AngelCodeFont font) {
-        _padding = padding;
+    public Menu(float xPadding, float yPadding, Orientation orientation, boolean centerOnSelected, AngelCodeFont font) {
+        this(xPadding, yPadding, orientation, centerOnSelected, false, 0f, font);
+    }
+
+    public Menu(float xPadding, float yPadding, Orientation orientation, boolean centerOnSelected, boolean highlightSelected, float highlightWidth, AngelCodeFont font) {
+        _xPadding = xPadding;
+        _yPadding = yPadding;
         _orientation = orientation;
         _centerOnSelected = centerOnSelected;
+        _highlightSelected = highlightSelected;
+        _highlightWidth = highlightWidth;
         _font = font;
 
         _options = new ArrayList<>();
@@ -45,6 +54,16 @@ public class Menu {
         String text;
         gfx.setFont(_font);
         float startY = getStartYOffset(), drawX = x;
+        if(_highlightSelected) {
+            float height = _font.getLineHeight()*1.5f;
+            gfx.setColor(Color.white);
+            float highlightX = x;
+            switch(_orientation) {
+                case Left: highlightX = x; break;
+                case Center: highlightX = x - _highlightWidth/2f; break;
+            }
+            gfx.fillRect(highlightX, y - height/2f - ((_slide-_currentSelection)*(_font.getLineHeight()+_yPadding)), _highlightWidth, height);
+        }
         for(MenuOption option:_options) {
             if(id == _currentSelection)
                 gfx.setColor(new Color(0.2f, 0.4f, 0.9f));
@@ -56,14 +75,30 @@ public class Menu {
                 case Left: drawX = x; break;
                 case Center: drawX = x - width/2f; break;
             }
-            gfx.drawString(text, drawX, y + ((_font.getLineHeight()+_padding)*id) + startY);
+            float finalX = drawX + _xPadding*2;
+            float finalY = y + ((_font.getLineHeight()+_yPadding)*id) + startY;
+            gfx.drawString(text, finalX, finalY);
+
+            if(option instanceof MenuSetting) {
+                MenuSetting setting = (MenuSetting) option;
+                if(setting.hasNext())
+                    gfx.setColor(id == _currentSelection ? Color.black : Color.white);
+                else
+                    gfx.setColor(id == _currentSelection ? Color.lightGray : Color.darkGray);
+                gfx.drawString(">", x + _highlightWidth - _xPadding - _font.getWidth(">"), finalY);
+                if(setting.hasPrevious())
+                    gfx.setColor(id == _currentSelection ? Color.black : Color.white);
+                else
+                    gfx.setColor(id == _currentSelection ? Color.lightGray : Color.darkGray);
+                gfx.drawString("<", x + _xPadding, finalY);
+            }
             id++;
         }
     }
 
     public float getStartYOffset() {
         if(_centerOnSelected)
-            return -_slide*(_font.getLineHeight()+_padding);
+            return -_slide*(_font.getLineHeight()+_yPadding) - _font.getLineHeight()/2f;
         else
             return 0f;
     }
@@ -105,6 +140,10 @@ public class Menu {
 
     private MenuOption getSelection() {
         return _options.get(_currentSelection);
+    }
+
+    public AngelCodeFont getFont() {
+        return _font;
     }
 
     public enum Orientation { Left, Center }
