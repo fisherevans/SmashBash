@@ -5,7 +5,6 @@ import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.command.commandObjects.*;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.log.Log;
-import com.fisherevans.wipgame.log.LogLevel;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -32,12 +31,12 @@ public class CommandState extends WIPState {
 
     public static Log log = new Log(CommandState.class);
 
-    private static List<ConsoleText> _console;
-    private static String _inputLine;
+    private static List<ConsoleText> _console = new LinkedList<>();
+    private static String _inputLine = "";
     public static boolean acceptInput = false;
 
-    private static Map<String, Object> _variables;
-    private static Map<String, CommandObject> _commands;
+    private static Map<String, Object> _variables = new HashMap<>();
+    private static Map<String, CommandObject> _commands = new HashMap<>();
     private static List<String> _history = new ArrayList<>();
 
     private static int _cursor = 0;
@@ -47,12 +46,9 @@ public class CommandState extends WIPState {
     private static float flashTime = 0;
     private static boolean flash = false;
 
-    static {
-        _console = new LinkedList<>();
-        _inputLine = "";
-        _variables = new HashMap<>();
-        _commands = new HashMap<>();
+    private WIPState _currentState;
 
+    static {
         addCommand(new Echo());
         addCommand(new VariableSet());
         addCommand(new VariableDelete());
@@ -64,13 +60,7 @@ public class CommandState extends WIPState {
         addCommand(new LogStdOut());
         addCommand(new LogCommand());
         addCommand(new LogAllCommand());
-
-        log.setLevel(LogLevel.Debug);
-
-        print("Use 'help' to view all available commands.", GREY);
     }
-
-    private WIPState _currentState;
 
     public CommandState(WIPState currentState) {
         _currentState = currentState;
@@ -85,6 +75,7 @@ public class CommandState extends WIPState {
             e.printStackTrace();
             System.exit(1);
         }
+        print("Use 'help' to view all available commands.", GREY);
     }
 
     @Override
