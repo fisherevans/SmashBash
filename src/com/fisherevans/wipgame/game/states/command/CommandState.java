@@ -38,8 +38,10 @@ public class CommandState extends WIPState {
 
     private static Map<String, Object> _variables;
     private static Map<String, CommandObject> _commands;
+    private static List<String> _history = new ArrayList<>();
 
     private static int _cursor = 0;
+    private static int _currentHistory = 0;
 
     private UnicodeFont font;
     private static float flashTime = 0;
@@ -143,12 +145,10 @@ public class CommandState extends WIPState {
 
     @Override
     public void keyDown(Key key, int inputSource) {
-
     }
 
     @Override
     public void keyUp(Key key, int inputSource) {
-
     }
 
     public static void textInput(String text) {
@@ -193,11 +193,22 @@ public class CommandState extends WIPState {
     }
 
     public static void keyUpArrow() {
-
+        if(_currentHistory <= 0)
+            return;
+        _currentHistory--;
+        _inputLine = _history.get(_currentHistory);
+        _cursor = _inputLine.length();
     }
 
     public static void keyDownArrow() {
-
+        if(_currentHistory >= _history.size())
+            return;
+        _currentHistory++;
+        if(_currentHistory == _history.size())
+            _inputLine = "";
+        else
+            _inputLine = _history.get(_currentHistory);
+        _cursor = _inputLine.length();
     }
 
     public WIPState getCurrentState() {
@@ -206,6 +217,9 @@ public class CommandState extends WIPState {
 
     public static void processCommand(String commandRaw) {
         commandRaw = commandRaw.trim();
+        if(_history.isEmpty() || !commandRaw.equals(_history.get(_history.size()-1)))
+            _history.add(commandRaw);
+        _currentHistory = _history.size();
         print("> " + commandRaw, WHITE);
         commandRaw = replaceVariables(commandRaw);
         for(CommandObject command:_commands.values()) {
