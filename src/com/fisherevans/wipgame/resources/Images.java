@@ -49,9 +49,10 @@ public class Images {
     }
 
     public static Image getImage(String key) {
-        if(_images.get(IMAGE_LOCATIONS + "/" + key) == null)
+        Image img = _images.get(IMAGE_LOCATIONS + "/" + key);
+        if(img == null)
             log.error("Failed to get Image: " + IMAGE_LOCATIONS + "/" + key);
-        return _images.get(IMAGE_LOCATIONS + "/" + key);
+        return img;
     }
 
     public static Image getAbsoluteImage(String location) throws SlickException {

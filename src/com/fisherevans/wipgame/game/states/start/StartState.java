@@ -9,14 +9,19 @@ import com.fisherevans.wipgame.game.states.ready.ReadyState;
 import com.fisherevans.wipgame.game.util.menu.Menu;
 import com.fisherevans.wipgame.game.util.menu.options.QuitOption;
 import com.fisherevans.wipgame.game.util.menu.options.RunnableOption;
+import com.fisherevans.wipgame.game.util.menu.settings.MapProfileSetting;
 import com.fisherevans.wipgame.game.util.menu.settings.NumberSetting;
 import com.fisherevans.wipgame.game.util.menu.settings.ObjectSetting;
 import com.fisherevans.wipgame.game.util.menu.settings.TimeSetting;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
+import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Fisher Evans
@@ -28,6 +33,10 @@ public class StartState extends WIPState {
     private NumberSetting _lives, _health, _time;
     private ObjectSetting<MapProfile> _maps;
 
+    private Image _mapPreviewFade;
+    private MapPreviewDisplay _mapPreview;
+    private List<MapPreviewDisplay> _fadingPreviews = new ArrayList<MapPreviewDisplay>();
+
     @Override
     public int getID() {
         return WIP.STATE_START;
@@ -35,7 +44,7 @@ public class StartState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _maps = new ObjectSetting<MapProfile>("Map", new MapProfile(WIP.gameSettings.map), Maps.getProfiles());
+        _maps = new MapProfileSetting<MapProfile>("Map", new MapProfile(WIP.gameSettings.map), Maps.getProfiles());
         _lives = new NumberSetting("Lives", 1, WIP.gameSettings.lives, 10);
         _health = new NumberSetting("Health", 50, WIP.gameSettings.health, 200, 25);
         _time = new TimeSetting("Time Limit", "Minutes", 1, WIP.gameSettings.time, 11);
@@ -57,6 +66,9 @@ public class StartState extends WIPState {
         _menu.add(_health);
         _menu.add(_time);
         _menu.add(new QuitOption("Exit to Desktop"));
+
+        _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
+        _mapPreviewFade = Images.getImage("backgrounds/maps/fade");
     }
 
     @Override
@@ -67,11 +79,21 @@ public class StartState extends WIPState {
     @Override
     public void render(Graphics graphics) throws SlickException {
         _menu.render(graphics, Config.SIZES[3], WIP.height()/2f);
+
+        _mapPreview.render(graphics);
+        for(int id = _fadingPreviews.size()-1;id >= 0;id--)
+            _fadingPreviews.get(id).render(graphics);
+        _mapPreviewFade.draw(WIP.width() / 2f, 0f, WIP.width() / 4f, WIP.height());
     }
 
     @Override
     public void update(float delta) {
         _menu.update(delta);
+        for(int id = 0;id < _fadingPreviews.size();id++) {
+            _fadingPreviews.get(id).update(delta);
+            if(_fadingPreviews.get(id).isDone())
+                _fadingPreviews.remove(id--);
+        }
     }
 
     @Override
@@ -91,5 +113,48 @@ public class StartState extends WIPState {
     @Override
     public void keyUp(Key key, int inputSource) {
 
+    }
+
+    public void updateCurrentMap() {
+        _fadingPreviews.add(_mapPreview);
+        _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
+    }
+
+    private class MapPreviewDisplay {
+        public static final float FADE_SPEED = 2.5f;
+
+        private Image _preview;
+        private float _alpha;
+
+        private MapPreviewDisplay(Image preview) {
+            _preview = preview;
+            _alpha = 1f;
+        }
+
+        public void update(float delta) {
+            _alpha -= delta*FADE_SPEED;
+            if(_alpha < 0)
+                _alpha = 0;
+        }
+
+        public void render(Graphics graphics) {
+            float widthRatio = (WIP.width()/2f)/_preview.getWidth();
+            float heightRatio = WIP.height()/_preview.getHeight();
+            Image scaledPreview = _preview.getScaledCopy(Math.max(widthRatio, heightRatio));
+            graphics.drawImage(scaledPreview, WIP.width() / 2f,
+                    (WIP.height() - scaledPreview.getHeight()) / 2f, getColor());
+        }
+
+        public boolean isDone() {
+            return _alpha <= 0;
+        }
+
+        public Image getPreview() {
+            return _preview;
+        }
+
+        public Color getColor() {
+            return new Color(1f, 1f, 1f, _alpha*_alpha);
+        }
     }
 }

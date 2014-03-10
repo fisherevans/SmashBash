@@ -1,12 +1,15 @@
 package com.fisherevans.wipgame.game.game_config;
 
+import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
+import org.newdawn.slick.Image;
 
 /**
  * Author: Fisher Evans
  * Date: 2/17/14
  */
 public class MapProfile {
+    public static final String UNKNOWN_PREVIEW_KEY = "backgrounds/maps/unknown";
     private String _name;
 
     public MapProfile(String name) {
@@ -15,6 +18,13 @@ public class MapProfile {
 
     public String getName() {
         return _name;
+    }
+
+    public Image getPreviewImage() {
+        Image preview = Images.getImage("backgrounds/maps/" + _name);
+        if(preview == null)
+            preview = Images.getImage(UNKNOWN_PREVIEW_KEY);
+        return preview;
     }
 
     @Override
