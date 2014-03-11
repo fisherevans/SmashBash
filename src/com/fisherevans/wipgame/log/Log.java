@@ -16,6 +16,7 @@ public class Log {
     private static LogLevel defaultLevel = LogLevel.Info;
     public static Map<Class, LogLevel> levels;
     public static PrintWriter writer = null;
+    private static PrintStreamSplitter _stdOut, _stdErr;
     public static boolean printStdOut = false;
 
     static {
@@ -84,6 +85,11 @@ public class Log {
             writer = new PrintWriter("log.txt", "UTF-8");
             writer.println("LOG START -> " + new Date().toString());
             writer.flush();
+            
+            stdOut = new PrintStreamSplitter(System.out, writer);
+            stdErr = new PrintStreamSplitter(System.err, writer);
+            System.setOut(stdOut);
+            System.setErr(stdErr);
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -98,6 +104,11 @@ public class Log {
             writer.flush();
             writer.close();
             writer = null;
+            
+            System.setOut(stdOut.getOriginal());
+            System.setErr(stdErr.getOriginal());
+            stdOut = null;
+            stdErr = null
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(1);
