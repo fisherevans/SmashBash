@@ -24,6 +24,10 @@ public class Config {
         return getRatioSize(400);
     }
 
+    public static Integer getSmallSize() {
+        return getRatioSize(600);
+    }
+
     public static Integer getRatioSize(float ratio) {
         return SIZES[(int)MathUtil.clamp(0, WIP.height()/ratio, SIZES.length-1)];
     }

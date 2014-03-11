@@ -33,7 +33,7 @@ public class StartState extends WIPState {
     private NumberSetting _lives, _health, _time;
     private ObjectSetting<MapProfile> _maps;
 
-    private Image _mapPreviewFade;
+    private Image _mapPreviewFade, _verticalDownFade;
     private MapPreviewDisplay _mapPreview;
     private List<MapPreviewDisplay> _fadingPreviews = new ArrayList<MapPreviewDisplay>();
 
@@ -66,9 +66,12 @@ public class StartState extends WIPState {
         _menu.add(_health);
         _menu.add(_time);
         _menu.add(new QuitOption("Exit to Desktop"));
+        _menu.setTitle("Main Menu", Fonts.getFont(Config.getTitleSize()));
 
         _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
         _mapPreviewFade = Images.getImage("backgrounds/maps/fade");
+
+        _verticalDownFade = Images.getImage("fades/vertical_down");
     }
 
     @Override
@@ -84,6 +87,12 @@ public class StartState extends WIPState {
         for(int id = _fadingPreviews.size()-1;id >= 0;id--)
             _fadingPreviews.get(id).render(graphics);
         _mapPreviewFade.draw(WIP.width() / 2f, 0f, WIP.width() / 4f, WIP.height());
+
+        float fadeSize = Config.getTitleSize();
+        _verticalDownFade.draw(0, 0, WIP.width(), fadeSize);
+        _verticalDownFade.getFlippedCopy(false, true).draw(0, WIP.height()-fadeSize, WIP.width(), fadeSize);
+
+        WIP.drawHelpKey(graphics, "F1", "to open the CONTROLS Help Menu", Config.getNormalSize()*2, 10, Config.getSmallSize());
     }
 
     @Override
