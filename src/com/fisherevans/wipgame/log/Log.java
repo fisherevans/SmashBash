@@ -3,6 +3,7 @@ package com.fisherevans.wipgame.log;
 import com.fisherevans.wipgame.game.states.command.CommandState;
 
 import java.io.FileWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class Log {
     private static LogLevel defaultLevel = LogLevel.Info;
     public static Map<Class, LogLevel> levels;
-    public static PrintWriter writer = null;
+    public static PrintStream writer = null;
     private static PrintStreamSplitter _stdOut, _stdErr;
     public static boolean printStdOut = false;
 
@@ -82,14 +83,14 @@ public class Log {
         if(writer != null)
             close();
         try {
-            writer = new PrintWriter("log.txt", "UTF-8");
+            writer = new PrintStream("log.txt", "UTF-8");
             writer.println("LOG START -> " + new Date().toString());
             writer.flush();
-            
-            stdOut = new PrintStreamSplitter(System.out, writer);
-            stdErr = new PrintStreamSplitter(System.err, writer);
-            System.setOut(stdOut);
-            System.setErr(stdErr);
+
+            _stdOut = new PrintStreamSplitter(System.out, writer);
+            _stdErr = new PrintStreamSplitter(System.err, writer);
+            System.setOut(_stdOut);
+            System.setErr(_stdErr);
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -105,10 +106,10 @@ public class Log {
             writer.close();
             writer = null;
             
-            System.setOut(stdOut.getOriginal());
-            System.setErr(stdErr.getOriginal());
-            stdOut = null;
-            stdErr = null
+            System.setOut(_stdOut.getOriginal());
+            System.setErr(_stdErr.getOriginal());
+            _stdOut = null;
+            _stdErr = null;
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(1);
