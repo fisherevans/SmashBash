@@ -5,46 +5,44 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PrintStreamSplitter extends PrintStream {
-  private Set<PrintStream> _writers;
+  private PrintStream _original, _intercept;
 
-  public PrintStreamSplitter(PrintStream... newWriters) {
+  public PrintStreamSplitter(PrintStream original, PrintStream intercept) {
     super(new NullOutputStream());
-    _writers = new HashSet<PrintStream>();
-    for (PrintStream writer : newWriters)
-      addWriter(writer);
+    _original = original;
+    _intercept = intercept;
   }
 
-  public void addWriter(PrintStream writer) {
-    _writers.add(writer);
+  public PrintStream getOriginal() {
+    return _original;
   }
 
-  public void removeWriter(PrintStream writer) {
-    _writers.remove(writer);
+  public PrintStream getIntercept() {
+    return _intercept;
   }
 
   @Override
   public void flush() {
-    for (PrintStream writer : _writers)
-      writer.flush();
+    _original.flush();
+    _intercept.flush();
   }
 
   @Override
   public void close() {
-    for (PrintStream writer : _writers)
-      writer.close();
-    _writers.clear();
+    _original.close();
+    _intercept.close();
   }
 
   @Override
   public void write(int b) {
-    for (PrintStream writer : _writers)
-      writer.write(b);
+    _original.write(b);
+    _intercept.write(b);
   }
 
   @Override
   public void write(byte[] buf, int off, int len) {
-    for (PrintStream writer : _writers)
-      writer.write(buf, off, len);
+    _original.write(buf, off, len);
+    _intercept.write(buf, off, len);
   }
 
   private static class NullOutputStream extends OutputStream {
