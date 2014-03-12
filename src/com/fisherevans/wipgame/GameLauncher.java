@@ -5,7 +5,7 @@ import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.launcher.Launcher;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.log.LogLevel;
-import com.fisherevans.wipgame.resources.Messages;
+import com.fisherevans.wipgame.resources.Settings;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
@@ -41,8 +41,8 @@ public class GameLauncher {
         fieldSysPath.set(null, null);
         EventRouter.init();
         try {
-            Messages.load();
-        } catch (FileNotFoundException e) {
+            Settings.init();
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }

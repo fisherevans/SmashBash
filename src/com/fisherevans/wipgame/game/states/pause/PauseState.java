@@ -10,7 +10,7 @@ import com.fisherevans.wipgame.game.util.menu.options.QuitOption;
 import com.fisherevans.wipgame.game.util.menu.options.RunnableOption;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
-import com.fisherevans.wipgame.resources.Messages;
+import com.fisherevans.wipgame.resources.Settings;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -34,7 +34,7 @@ public class PauseState extends WIPState {
     public PauseState(WIPState otherState) {
         _otherState = otherState;
         _pauseFont  = Fonts.getStrokedFont(Fonts.HUGE);
-        _pauseText = Messages.get("paused.title");
+        _pauseText = Settings.getString("paused.title");
         // TODO
         _menu = new Menu(0, Config.SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Fonts.SMALL));
         _menu.add(new RunnableOption("Resume", new Runnable() {

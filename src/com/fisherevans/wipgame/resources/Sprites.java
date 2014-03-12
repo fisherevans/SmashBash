@@ -3,6 +3,7 @@ package com.fisherevans.wipgame.resources;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
 import com.fisherevans.wipgame.game.states.play.entities.EntitySprite;
+import com.fisherevans.wipgame.game.states.play.lights.LightSettings;
 import com.fisherevans.wipgame.log.Log;
 
 import java.io.File;
@@ -53,27 +54,21 @@ public class Sprites {
 
     private static void loadEntities() throws FileNotFoundException {
         _entitySpriteMap = new HashMap<>();
-
-        Scanner input = new Scanner(new File(ENTITY_DEFINITIONS));
-        String line, name;
-        String[] split;
         Map<Integer, EntitySprite> entitySprites;
-        while(input.hasNextLine()) {
-            line = input.nextLine();
+        for(Settings.Setting setting:Settings.getSetting("entities").getChildren()) {
             try {
-                if(line.startsWith("#"))
-                    continue;
-                split = line.split(",");
-                name = split[0];
                 entitySprites = new HashMap<>();
                 for(Integer size: Config.SIZES) {
                     entitySprites.put(size, new EntitySprite(
-                            Images.getImage("sprites/entities/re-sized/" + size + "/" + name),
-                            Integer.parseInt(split[1]), Float.parseFloat(split[2])));
+                            Images.getImage("sprites/entities/re-sized/" + size + "/" + setting.getName()),
+                            setting.getChild("frameCount").integerValue(),
+                            setting.getChild("secondsPerFrame").floatValue()));
                 }
-                _entitySpriteMap.put(name, entitySprites);
+                _entitySpriteMap.put(setting.getName(), entitySprites);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Failed to load entity: " + setting.toString());
+                log.error(e.toString());
+                break;
             }
         }
     }

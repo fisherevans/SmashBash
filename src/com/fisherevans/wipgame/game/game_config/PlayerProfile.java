@@ -12,7 +12,7 @@ import java.util.Map;
 public class PlayerProfile {
     public static Map<String, CharacterDefinition> CHARACTER_MAP;
     public static CharacterDefinition[] CHARACTERS = {
-            new CharacterDefinition("base", "Phillip")
+            new CharacterDefinition("base", "Phillip", null, null)
     };
     public static Color[] COLORS = {
             new Color(new java.awt.Color(1f, 1f, 1f)),

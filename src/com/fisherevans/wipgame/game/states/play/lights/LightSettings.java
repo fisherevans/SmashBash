@@ -8,25 +8,35 @@ import org.newdawn.slick.Image;
  * Date: 2/14/14
  */
 public class LightSettings {
+    private String _name;
+    private Integer _id;
     private Image _image;
     private float _radius;
     private Color _color;
     private Class _controllerClass;
-    private String _name;
 
-    public LightSettings(Image image, float radius, Color color, Class controllerClass, String name) {
+    public LightSettings(String name, Integer id, Image image, float radius, Color color, Class controllerClass) {
+        _name = name;
+        _id = id;
         _image = image;
         _radius = radius;
         _color = color;
         _controllerClass = controllerClass;
-        _name = name;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public Integer getId() {
+        return _id;
     }
 
     public Image getImageCopy() {
         return _image.copy();
     }
 
-    public float getRadiusCopy() {
+    public float getRadius() {
         return _radius;
     }
 
@@ -34,11 +44,7 @@ public class LightSettings {
         return _color.copy();
     }
 
-    public Class getControllerClassCopy() {
+    public Class getControllerClass() {
         return _controllerClass;
-    }
-
-    public String getName() {
-        return _name;
     }
 }

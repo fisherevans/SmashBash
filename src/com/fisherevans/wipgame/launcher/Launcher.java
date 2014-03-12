@@ -1,7 +1,7 @@
 package com.fisherevans.wipgame.launcher;
 
 import com.fisherevans.wipgame.GameLauncher;
-import com.fisherevans.wipgame.resources.Messages;
+import com.fisherevans.wipgame.resources.Settings;
 import net.miginfocom.swing.MigLayout;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -94,21 +94,22 @@ public class Launcher implements ActionListener {
     }
 
     private void initLaunchFrame() {
-        _frame = new JFrame(Messages.get("launcher.title") + " " + Messages.get("game.name"));
+        String title = Settings.getString("paused.title");
+        _frame = new JFrame(Settings.getString("paused.title") + " " + Settings.getString("game.name"));
         _panel = new JPanel(new MigLayout());
         _frame.add(_panel);
 
         _frame.setResizable(false);
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel labelTitle = new JLabel(Messages.get("launcher.title") + " " + Messages.get("game.name"), SwingConstants.CENTER);
-        JLabel labelResolution = new JLabel(Messages.get("launcher.resolution"), SwingConstants.RIGHT);
-        JLabel labelFullscreen = new JLabel(Messages.get("launcher.fullscreen"), SwingConstants.RIGHT);
+        JLabel labelTitle = new JLabel(Settings.getString("launcher.title") + " " + Settings.getString("game.name"), SwingConstants.CENTER);
+        JLabel labelResolution = new JLabel(Settings.getString("launcher.resolution"), SwingConstants.RIGHT);
+        JLabel labelFullscreen = new JLabel(Settings.getString("launcher.fullscreen"), SwingConstants.RIGHT);
 
         _comboBoxResolution = new JComboBox(_displayModes);
-        _comboBoxFullscreen = new JComboBox(new String[] {Messages.get("launcher.fullscreen.true"), Messages.get("launcher.fullscreen.false")});
+        _comboBoxFullscreen = new JComboBox(new String[] {Settings.getString("launcher.fullscreen.true"), Settings.getString("launcher.fullscreen.false")});
 
-        JButton buttonLaunch = new JButton(Messages.get("launcher.launch"));
+        JButton buttonLaunch = new JButton(Settings.getString("launcher.launch"));
 
         labelTitle.setFont(labelTitle.getFont().deriveFont(18f));
         _comboBoxResolution.setSelectedItem(_currentResolution);
@@ -145,7 +146,7 @@ public class Launcher implements ActionListener {
             return;
         }
         closeLauncher();
-        GameLauncher.startGame(selectedResolution.getDisplayMode(), selectedFullscreen.equals(Messages.get("launcher.fullscreen.true")));
+        GameLauncher.startGame(selectedResolution.getDisplayMode(), selectedFullscreen.equals(Settings.getString("launcher.fullscreen.true")));
     }
 
     private static void centerJFrame(JFrame frame) {

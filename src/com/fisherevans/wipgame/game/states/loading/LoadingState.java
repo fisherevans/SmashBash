@@ -51,9 +51,9 @@ public class LoadingState extends WIPState {
 
         _color = new Color(1f, 1f, 1f);
 
-        _title = Messages.get("game.name").toUpperCase();
-        _loadingMessage = Messages.get("loading.prefix");
-        _currentlyLoading = Messages.get("loading.resource.images");
+        _title = Settings.getString("game.name").toUpperCase();
+        _loadingMessage = Settings.getString("loading.prefix");
+        _currentlyLoading = Settings.getString("loading.resource.images");
 
         _bottomRight = new Image("res/img/loading/bottomRight.png", false, Image.FILTER_LINEAR);
         _bottomRight = _bottomRight.getScaledCopy(WIP.container.getWidth()*0.75f/_bottomRight.getWidth());
@@ -93,24 +93,24 @@ public class LoadingState extends WIPState {
             case LOAD: {
                 try {
                     switch(_loadStage) {
-                        case 0: _currentlyLoading = Messages.get("loading.resource.images"); break;
+                        case 0: _currentlyLoading = Settings.getString("loading.resource.images"); break;
                         case 1: Images.load(); break;
-                        case 2: _currentlyLoading = Messages.get("loading.resource.fonts"); break;
+                        case 2: _currentlyLoading = Settings.getString("loading.resource.fonts"); break;
                         case 3: Fonts.load(); break;
-                        case 4: _currentlyLoading = Messages.get("loading.resource.sprites"); break;
+                        case 4: _currentlyLoading = Settings.getString("loading.resource.sprites"); break;
                         case 5: Sprites.load(); break;
-                        case 6: _currentlyLoading = Messages.get("loading.resource.lights"); break;
+                        case 6: _currentlyLoading = Settings.getString("loading.resource.lights"); break;
                         case 7: Lights.load(); break;
-                        case 8: _currentlyLoading = Messages.get("loading.resource.maps"); break;
+                        case 8: _currentlyLoading = Settings.getString("loading.resource.maps"); break;
                         case 9: Maps.load(); break;
-                        case 10: _currentlyLoading = Messages.get("loading.resource.inputs"); break;
+                        case 10: _currentlyLoading = Settings.getString("loading.resource.inputs"); break;
                         case 11: Inputs.load(); break;
-                        case 12: _currentlyLoading = Messages.get("loading.resource.states"); break;
+                        case 12: _currentlyLoading = Settings.getString("loading.resource.states"); break;
                         case 13: {
                             StartState startState = new StartState();
                             startState.init();
                             WIP.game.addState(startState);
-                            _currentlyLoading = Messages.get("loading.complete");
+                            _currentlyLoading = Settings.getString("loading.complete");
                             break;
                         }
                         default: { _loadState = LoadState.SWITCH_STATE; break; }

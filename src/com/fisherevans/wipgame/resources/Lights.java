@@ -14,47 +14,35 @@ import java.util.Map;
 public class Lights {
     public static Log log = new Log(Lights.class);
     private static final String CONTROLLER_PACKAGE = "com.fisherevans.wipgame.game.states.play.lights.controllers.";
-    public static Map<Integer, LightSettings> _lightSettings;
+    public static Map<Integer, LightSettings> _lightSettingsById;
     public static Map<String, LightSettings> _lightSettingsByName;
 
     public static void load() {
-        _lightSettings = new HashMap<>();
+        _lightSettingsById = new HashMap<>();
         _lightSettingsByName = new HashMap<>();
-        String lightImage, lightSize, lightColor, controllerClass, name;
-        String[] lightColorComponents;
-        LightSettings settings;
-        for(int lightId = 1;true;lightId++) {
+        LightSettings lightSettings;
+        for(Settings.Setting setting:Settings.getSetting("lights").getChildren()) {
             try {
-                if(!Messages.exists("light." + lightId + ".image"))
-                    break;
-                lightImage = Messages.get("light." + lightId + ".image");
-                lightSize = Messages.get("light." + lightId + ".radius");
-                lightColor = Messages.get("light." + lightId + ".color");
-                controllerClass = Messages.get("light." + lightId + ".controller");
-                name = Messages.get("light." + lightId + ".name");
-                lightColorComponents = lightColor.split(",");
-                settings = new LightSettings(
-                        Images.getImage(lightImage),
-                        Float.parseFloat(lightSize),
-                        new Color(
-                                Integer.parseInt(lightColorComponents[0]),
-                                Integer.parseInt(lightColorComponents[1]),
-                                Integer.parseInt(lightColorComponents[2])
-                        ),
-                        Class.forName(CONTROLLER_PACKAGE + controllerClass),
-                        name);
-                _lightSettings.put(lightId, settings);
-                _lightSettingsByName.put(name, settings);
+                lightSettings = new LightSettings(
+                        setting.getName(),
+                        setting.getChild("id").integerValue(),
+                        Images.getImage(setting.getChild("image").stringValue()),
+                        setting.getChild("radius").floatValue(),
+                        setting.getChild("color").colorValue(),
+                        setting.getChild("controller").classValue()
+                );
+                _lightSettingsById.put(lightSettings.getId(), lightSettings);
+                _lightSettingsByName.put(setting.getName(), lightSettings);
             } catch (Exception e) {
-                log.error("Failed to load light: " + lightId);
-                e.printStackTrace();
+                log.error("Failed to load light: " + setting.toString());
+                log.error(e.toString());
                 break;
             }
         }
     }
 
     public static LightSettings getLightSettings(int lightId) {
-        return _lightSettings.get(lightId);
+        return _lightSettingsById.get(lightId);
     }
 
     public static LightSettings getLightSettingsByName(String lightName) {

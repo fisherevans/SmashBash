@@ -108,27 +108,25 @@ public class WIP extends StateBasedGame {
         return filename;
     }
 
-    public static void drawKey(Graphics gfx, String key, int x, int y, int size) {
+    public static void drawKey(Graphics gfx, Color color, String key, int x, int y, int size) {
         int keySize = (int)(size*1.25f);
-        gfx.setColor(Color.lightGray);
-        gfx.setLineWidth(3);
+        gfx.setColor(color);
+        gfx.setLineWidth(5);
         gfx.setAntiAlias(true);
         gfx.drawRoundRect(x, y, keySize, keySize, Config.getNormalSize() / 5);
         gfx.setAntiAlias(false);
-        gfx.setColor(Color.white);
         gfx.setFont(Fonts.getFont(size));
         gfx.drawStringCentered(key, x + keySize/2f, y + keySize/2f);
     }
 
-    public static void drawHelpKey(Graphics gfx, String key, String does, int x, int y, int size) {
+    public static void drawHelpKey(Graphics gfx, Color color, String key, String does, int x, int y, int size) {
         gfx.setFont(Fonts.getFont(size));
         float dy = size*0.125f;
-        gfx.setColor(Color.white);
+        gfx.setColor(color);
         gfx.drawString("Press", x, y + dy);
         float dx = gfx.getFont().getWidth("Press  ");
-        drawKey(gfx, key, (int) (x + dx), y, size);
+        drawKey(gfx, color, key, (int) (x + dx), y, size);
         dx +=  size*1.5f;
-        gfx.setColor(Color.white);
         gfx.drawString(does, x + dx, y + dy);
     }
 }

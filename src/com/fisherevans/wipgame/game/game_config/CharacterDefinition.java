@@ -5,11 +5,14 @@ package com.fisherevans.wipgame.game.game_config;
  * Date: 2/23/14
  */
 public class CharacterDefinition {
-    String _name, _displayName;
+    private String _name, _displayName;
+    private Class _primarySkill, _secondarySkill;
 
-    public CharacterDefinition(String name, String displayName) {
+    public CharacterDefinition(String name, String displayName, Class primarySkill, Class secondarySkill) {
         _name = name;
         _displayName = displayName;
+        _primarySkill = primarySkill;
+        _secondarySkill = secondarySkill;
     }
 
     public String getName() {
@@ -20,12 +23,17 @@ public class CharacterDefinition {
         return _displayName;
     }
 
+    public Class getPrimarySkill() {
+        return _primarySkill;
+    }
+
+    public Class getSecondarySkill() {
+        return _secondarySkill;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof CharacterDefinition)
-            return ((CharacterDefinition) obj).getDisplayName().equals(_displayName)
-                    && ((CharacterDefinition) obj).getName().equals(_name);
-        else
-            return false;
+        return (obj instanceof CharacterDefinition)
+                && ((CharacterDefinition) obj).getName().equals(_name);
     }
 }

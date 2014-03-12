@@ -92,7 +92,9 @@ public class StartState extends WIPState {
         _verticalDownFade.draw(0, 0, WIP.width(), fadeSize);
         _verticalDownFade.getFlippedCopy(false, true).draw(0, WIP.height()-fadeSize, WIP.width(), fadeSize);
 
-        WIP.drawHelpKey(graphics, "F1", "to open the CONTROLS Help Menu", Config.getNormalSize()*2, 10, Config.getSmallSize());
+        WIP.drawHelpKey(graphics, new Color(1f, 1f, 1f, 0.5f),
+                "F1", "to open the CONTROLS Help Menu",
+                Config.getNormalSize()*2, 10, Config.getSmallSize());
     }
 
     @Override

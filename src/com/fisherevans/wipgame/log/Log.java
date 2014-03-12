@@ -18,7 +18,7 @@ public class Log {
     public static Map<Class, LogLevel> levels;
     public static PrintStream writer = null;
     private static PrintStreamSplitter _stdOut, _stdErr;
-    public static boolean printStdOut = false;
+    public static boolean printStdOut = true;
 
     static {
         levels = new HashMap<>();
@@ -48,8 +48,8 @@ public class Log {
     }
 
     private void log(String line) {
-        if(printStdOut)
-            System.out.println(line);
+        if(printStdOut && _stdOut != null && _stdOut.getOriginal() != null)
+            _stdOut.getOriginal().println("[LOG] " + line);
         if(_clazz != CommandState.class)
             CommandState.logPrint(line);
         if(writer != null) {

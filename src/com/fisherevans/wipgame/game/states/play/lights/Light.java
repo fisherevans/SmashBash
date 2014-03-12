@@ -18,11 +18,11 @@ public class Light {
 
     public Light(LightSettings settings, Vector position) {
         _image = settings.getImageCopy();
-        _radius = settings.getRadiusCopy();
+        _radius = settings.getRadius();
         _color = settings.getColorCopy();
         _position = position;
         try {
-            _lightController = (LightController) settings.getControllerClassCopy()
+            _lightController = (LightController) settings.getControllerClass()
                     .getConstructor(Light.class)
                     .newInstance(this);
         } catch (Exception e) {

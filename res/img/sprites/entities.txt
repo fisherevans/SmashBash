@@ -1,6 +1,0 @@
-#name,frame count,seconds per frame
-laser,3,0.1
-laser_explosion,3,0.05
-spawn_platform,1,0
-bomb,4,0.2
-bomb_explosion,4,0.065
