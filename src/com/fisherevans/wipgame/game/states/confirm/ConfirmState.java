@@ -102,7 +102,8 @@ public class ConfirmState extends WIPState {
                 _action.run();
             else
                 _stateBasedGame.enterState(_otherState.getID());
-        }
+        } else if(key == Key.Menu || key == Key.Back)
+            _stateBasedGame.enterState(_otherState.getID());
     }
 
     @Override

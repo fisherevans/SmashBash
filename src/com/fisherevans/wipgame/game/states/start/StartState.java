@@ -95,7 +95,7 @@ public class StartState extends WIPState {
 
         GraphicFunctions.drawHelpKey(graphics, new Color(1f, 1f, 1f, 0.5f),
                 "F1", "to open the Controls Help Menu",
-                Config.getNormalSize() * 2, 10, Fonts.TINY);
+                Config.getNormalSize() * 2, 10, Config.getSmallSize());
     }
 
     @Override

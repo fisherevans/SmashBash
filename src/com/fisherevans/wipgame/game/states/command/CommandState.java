@@ -1,5 +1,7 @@
 package com.fisherevans.wipgame.game.states.command;
 
+import com.fisherevans.wipgame.game.OverlayState;
+import com.fisherevans.wipgame.game.TypingState;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.command.commandObjects.*;
@@ -19,7 +21,7 @@ import java.util.regex.Pattern;
  * Author: Fisher Evans
  * Date: 3/8/14
  */
-public class CommandState extends WIPState {
+public class CommandState extends OverlayState implements TypingState {
     public static final float flashSpeed = 0.5f;
 
     public static final Color WHITE = Color.white;
@@ -46,8 +48,6 @@ public class CommandState extends WIPState {
     private static float flashTime = 0;
     private static boolean flash = false;
 
-    private WIPState _currentState;
-
     static {
         addCommand(new Echo());
         addCommand(new VariableSet());
@@ -62,8 +62,8 @@ public class CommandState extends WIPState {
         addCommand(new LogAllCommand());
     }
 
-    public CommandState(WIPState currentState) {
-        _currentState = currentState;
+    public CommandState(WIPState overlayedState) {
+        super(overlayedState);
         try {
             font = new UnicodeFont("/res/fonts/mono.ttf", 14, false, false);
             font.addAsciiGlyphs();
@@ -96,7 +96,7 @@ public class CommandState extends WIPState {
 
     @Override
     public void render(Graphics graphics) throws SlickException {
-        _currentState.render(graphics);
+        getOverlayedState().render(graphics);
 
         graphics.setColor(new Color(0f, 0f, 0f, 0.7f));
         graphics.fillRect(0, 0, WIP.width(), WIP.height());
@@ -142,18 +142,21 @@ public class CommandState extends WIPState {
     public void keyUp(Key key, int inputSource) {
     }
 
-    public static void textInput(String text) {
+    @Override
+    public void typed(String text) {
         _inputLine = _inputLine.substring(0, _cursor) + text + _inputLine.substring(_cursor);
         _cursor += text.length();
     }
 
-    public static void ketEnter() {
+    @Override
+    public void keyEnter() {
         processCommand(_inputLine);
         _inputLine = "";
         _cursor = 0;
     }
 
-    public static void keyBack() {
+    @Override
+    public void keyBackspace() {
         if(_cursor <= 0)
             return;
 
@@ -161,13 +164,15 @@ public class CommandState extends WIPState {
         _cursor--;
     }
 
-    public static void keyDelete() {
+    @Override
+    public void keyDelete() {
         if(_cursor >= _inputLine.length())
             return;
         _inputLine = _inputLine.substring(0,_cursor) + _inputLine.substring(_cursor+1);
     }
 
-    public static void keyLeft() {
+    @Override
+    public void keyArrowLeft() {
         _cursor--;
         if(_cursor < 0)
             _cursor = 0;
@@ -175,7 +180,8 @@ public class CommandState extends WIPState {
         flashTime = 0;
     }
 
-    public static void keyRight() {
+    @Override
+    public void keyArrowRight() {
         _cursor++;
         if(_cursor > _inputLine.length())
             _cursor = _inputLine.length();
@@ -183,7 +189,8 @@ public class CommandState extends WIPState {
         flashTime = 0;
     }
 
-    public static void keyUpArrow() {
+    @Override
+    public void keyArrowUp() {
         if(_currentHistory <= 0)
             return;
         _currentHistory--;
@@ -191,7 +198,8 @@ public class CommandState extends WIPState {
         _cursor = _inputLine.length();
     }
 
-    public static void keyDownArrow() {
+    @Override
+    public void keyArrowDown() {
         if(_currentHistory >= _history.size())
             return;
         _currentHistory++;
@@ -200,10 +208,6 @@ public class CommandState extends WIPState {
         else
             _inputLine = _history.get(_currentHistory);
         _cursor = _inputLine.length();
-    }
-
-    public WIPState getCurrentState() {
-        return _currentState;
     }
 
     public static void processCommand(String commandRaw) {

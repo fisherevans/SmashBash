@@ -39,7 +39,7 @@ public class ReadyState extends WIPState {
         self = this;
         _players = new HashMap<>();
         int colorId = 0;
-        for(Integer input: Inputs.getInputSources())
+        for(Integer input: Inputs.controllers.keySet())
             if(input != Inputs.GLOBAL_INPUT)
                 _players.put(input, new CharacterSelector(input, colorId++));
     }
@@ -95,7 +95,7 @@ public class ReadyState extends WIPState {
         if(key == Key.Select && meetPlayCount()) {
             goToPlayState();
             return;
-        } else if(key == Key.Back  && countState(ReadyPlayerState.NotPlaying) == _players.size()) {
+        } else if((key == Key.Back  && countState(ReadyPlayerState.NotPlaying) == _players.size()) || key == Key.Menu) {
             WIP.game.enterState(WIP.STATE_START);
             return;
         }

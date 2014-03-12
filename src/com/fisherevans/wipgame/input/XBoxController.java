@@ -7,7 +7,6 @@ import de.hardcode.jxinput.Button;
 import de.hardcode.jxinput.Directional;
 import de.hardcode.jxinput.directinput.DirectInputDevice;
 import de.hardcode.jxinput.event.*;
-import net.java.games.input.Rumbler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +15,8 @@ import java.util.Map;
  * Author: Fisher Evans
  * Date: 2/19/14
  */
-public class XBoxControllerListener implements JXInputDirectionalEventListener {
-    private static final Log log = new Log(XBoxControllerListener.class);
+public class XBoxController extends Controller implements JXInputDirectionalEventListener {
+    private static final Log log = new Log(XBoxController.class);
 
     private static final String BUTTON_A = "Button 0";
     private static final String BUTTON_B = "Button 1";
@@ -49,7 +48,6 @@ public class XBoxControllerListener implements JXInputDirectionalEventListener {
     public static boolean useUDAnalog = true;
 
     private DirectInputDevice _controller;
-    private int _sourceId;
 
     private int _lastDirectional = -1;
 
@@ -59,11 +57,11 @@ public class XBoxControllerListener implements JXInputDirectionalEventListener {
     private Map<Axis, Double> _axisLastState;
     private Map<Button, Boolean> _buttonLastState;
 
-    public XBoxControllerListener(DirectInputDevice controller, int sourceId) {
+    public XBoxController(DirectInputDevice controller, int sourceId) {
+        super(sourceId, "xbox");
         _controller = controller;
-        _sourceId = sourceId;
 
-        log.info("New XBoxController on Input Source " + _sourceId);
+        log.info("New XBoxController on Input Source " + getSourceId());
 
         for(int directionalId = 0;directionalId < _controller.getNumberOfDirectionals();directionalId++)
             JXInputEventManager.addListener(this, _controller.getDirectional(directionalId));
@@ -95,10 +93,10 @@ public class XBoxControllerListener implements JXInputDirectionalEventListener {
         Key current = getDirectionalKey(directional.getDirection());
 
         if(last != null)
-            Inputs.keyEvent(last, _sourceId, false);
+            sendKeyState(last, false);
 
         if(current != null && directional.getValue() != 0)
-            Inputs.keyEvent(current, _sourceId, true);
+            sendKeyState(current, true);
 
         _lastDirectional = directional.getValue() == 0 ? -1 : directional.getDirection();
         //System.out.println("Directional Event [Name=" + directional.getName() + "] " +
@@ -191,13 +189,6 @@ public class XBoxControllerListener implements JXInputDirectionalEventListener {
                 sendKeyState(negKey, true);
             else if(lastValue <= -AXIS_THRESHOLD && value > -AXIS_THRESHOLD)
                 sendKeyState(negKey, false);
-        }
-    }
-
-    private void sendKeyState(Key key, boolean state) {
-        if(key != null) {
-            if(state != Inputs.keyState(key, _sourceId))
-                Inputs.keyEvent(key, _sourceId, state);
         }
     }
 }

@@ -19,7 +19,7 @@ import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.game.states.play.lights.LightManager;
 import com.fisherevans.wipgame.game.states.results.ResultsState;
 import com.fisherevans.wipgame.input.Key;
-import com.fisherevans.wipgame.input.XBoxControllerListener;
+import com.fisherevans.wipgame.input.XBoxController;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
@@ -121,7 +121,7 @@ public class PlayState extends WIPState {
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
         current = this;
-        XBoxControllerListener.useUDAnalog = false;
+        XBoxController.useUDAnalog = false;
     }
 
     private void generateCollisionBodies() {
@@ -401,7 +401,7 @@ public class PlayState extends WIPState {
 
     @Override
     public void leaveState(GameContainer container, StateBasedGame game) throws SlickException {
-        XBoxControllerListener.useUDAnalog = true;
+        XBoxController.useUDAnalog = true;
     }
 
     public List<GameCharacter> getCharacters() {

@@ -30,7 +30,7 @@ public abstract class CharacterController extends Controller implements Collisio
     }
 
     public boolean state(Key key) {
-        return Inputs.keyState(key, _inputSource);
+        return Inputs.controllers.get(_inputSource).keyState(key);
     }
 
     public int getInputSource() {

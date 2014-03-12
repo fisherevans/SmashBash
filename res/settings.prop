@@ -24,6 +24,8 @@ String  : paused.option.resume = Resume
 String  : paused.option.settings = Settings
 String  : paused.option.exit = Exit to Desktop
 
+String  : keyboardListener.alphabet = abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$^&*()_+-=[]\;',./{}|"<>?`~ #%:
+
 ##### LIGHTS #####
 String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers
 

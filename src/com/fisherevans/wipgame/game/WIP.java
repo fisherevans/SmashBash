@@ -3,6 +3,7 @@ package com.fisherevans.wipgame.game;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.game_config.GameSettings;
 import com.fisherevans.wipgame.game.states.command.CommandState;
+import com.fisherevans.wipgame.game.states.help.HelpState;
 import com.fisherevans.wipgame.game.states.loading.LoadingState;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Fonts;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: Fisher Evans
@@ -30,6 +33,7 @@ public class WIP extends StateBasedGame {
     public final static int STATE_PAUSE = 4;
     public final static int STATE_RESULTS = 5;
     public final static int STATE_CONFIRM = 6;
+    public final static int STATE_HELP = 7;
 
     public static WIP game;
     public static GameContainer container;
@@ -37,6 +41,8 @@ public class WIP extends StateBasedGame {
     public static GameSettings gameSettings;
 
     public static final Log log = new Log(WIP.class);
+
+    public static Map<Integer, Class> overlayStates = new HashMap<>();
 
     public WIP(String name) {
         super(name);
@@ -48,14 +54,12 @@ public class WIP extends StateBasedGame {
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         container = gameContainer;
         addState(new LoadingState());
+        overlayStates.put(Input.KEY_F1, HelpState.class);
+        overlayStates.put(Input.KEY_F12, CommandState.class);
     }
 
     public static WIPState currentState() {
-        WIPState state = (WIPState) game.getCurrentState();
-        if(state instanceof CommandState)
-            return ((CommandState)state).getCurrentState();
-        else
-            return state;
+        return (WIPState) game.getCurrentState();
     }
 
     public static float width() {
@@ -91,20 +95,46 @@ public class WIP extends StateBasedGame {
         System.exit(0);
     }
 
-    public static String saveScreenShot(String filename) throws Exception {
-        if(filename.length() == 0)
-            filename = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS").format(new Date());
-        filename += ".png";
-        File saveDir = new File("screenshots");
-        if(!saveDir.exists());
-        saveDir.mkdir();
-        Image ss = new Image((int)WIP.width(), (int)WIP.height());
-        container.getGraphics().copyArea(ss, 0, 0);
-        File screenshotFile = new File("screenshots/" + filename);
-        FileOutputStream stream = new FileOutputStream(screenshotFile);
-        ImageIOWriter writer = new ImageIOWriter();
-        writer.saveImage(ss, "png", stream, false);
-        stream.close();
-        return filename;
+    public static void toggleOverlay(int keyCode) {
+        Class overlayClass = WIP.overlayStates.get(keyCode);
+        if(overlayClass != null) {
+            try {
+                WIPState current = WIP.currentState();
+                if(current.getClass().equals(overlayClass)) { // leave overlay
+                    WIP.enterState(((OverlayState)current).getOverlayedState());
+                } else if(current instanceof OverlayState) { // switch overlays
+                    WIP.enterNewState(OverlayState.create(overlayClass, ((OverlayState)current).getOverlayedState()));
+                } else {
+                    WIP.enterState(OverlayState.create(overlayClass, current));
+                }
+            } catch(Exception e) {
+                log.error("Failed to load overlay state!");
+                log.error(e.toString());
+            }
+        }
+    }
+
+    public static void saveScreenShot() {
+            saveScreenShot(new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS").format(new Date()));
+    }
+
+    public static void saveScreenShot(String filename) {
+        try {
+            filename += ".png";
+            File saveDir = new File("screenshots");
+            if(!saveDir.exists());
+            saveDir.mkdir();
+            Image ss = new Image((int)WIP.width(), (int)WIP.height());
+            container.getGraphics().copyArea(ss, 0, 0);
+            File screenshotFile = new File("screenshots/" + filename);
+            FileOutputStream stream = new FileOutputStream(screenshotFile);
+            ImageIOWriter writer = new ImageIOWriter();
+            writer.saveImage(ss, "png", stream, false);
+            stream.close();
+            WIP.log.info("Screenshot saved as: " + filename);
+        } catch(Exception e) {
+            WIP.log.error("Failed to save screenshot!");
+            WIP.log.error(e.toString());
+        }
     }
 }
