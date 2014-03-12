@@ -9,6 +9,7 @@ import com.fisherevans.wipgame.game.states.start.StartState;
 import com.fisherevans.wipgame.resources.Inputs;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.*;
+import com.fisherevans.wipgame.tools.GraphicFunctions;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -106,14 +107,16 @@ public class LoadingState extends WIPState {
                         case 10: _currentlyLoading = Settings.getString("loading.resource.inputs"); break;
                         case 11: Inputs.load(); break;
                         case 12: _currentlyLoading = Settings.getString("loading.resource.states"); break;
-                        case 13: {
+                        case 13: GraphicFunctions.init(); break;
+                        case 14: _currentlyLoading = Settings.getString("loading.resource.graphicFunctions"); break;
+                        default: {
                             StartState startState = new StartState();
                             startState.init();
                             WIP.game.addState(startState);
                             _currentlyLoading = Settings.getString("loading.complete");
-                            break;
+                            // END THE LOADING
+                            _loadState = LoadState.SWITCH_STATE; break;
                         }
-                        default: { _loadState = LoadState.SWITCH_STATE; break; }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -8,14 +8,15 @@ String  : launcher.fullscreen.true = Fullscreen
 String  : launcher.fullscreen.false = Window
 String  : launcher.launch = Launch
 
-String  : loading.prefix = Loading: 
+String  : loading.prefix = Loading  
 String  : loading.resource.images = Images
 String  : loading.resource.fonts = Fonts
 String  : loading.resource.sprites = Sprite
-String  : loading.resource.lights = Lights
+String  : loading.resource.lights.define.= Lights
 String  : loading.resource.maps = Maps
 String  : loading.resource.inputs = Inputs
 String  : loading.resource.states = States
+String  : loading.resource.graphicFunctions = Graphic Functions
 String  : loading.complete = Complete
 
 String  : paused.title = PAUSED
@@ -24,35 +25,37 @@ String  : paused.option.settings = Settings
 String  : paused.option.exit = Exit to Desktop
 
 ##### LIGHTS #####
-Integer : lights.torch.id = 1
-String  : lights.torch.image = lights/default
-Float   : lights.torch.radius = 5.5
-Color   : lights.torch.color = 0.33,0.24,0.15
-Class   : lights.torch.controller = com.fisherevans.wipgame.game.states.play.lights.controllers.StaticController
+String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers
 
-Integer : lights.florescent.id = 2
-String  : lights.florescent.image = lights/long
-Float   : lights.florescent.radius = 12
-Color   : lights.florescent.color = 0.33,0.24,0.15
-Class   : lights.florescent.controller = com.fisherevans.wipgame.game.states.play.lights.controllers.StaticController
+Integer : lights.define.torch.id = 1
+String  : lights.define.torch.image = lights/default
+Float   : lights.define.torch.radius = 5.5
+Color   : lights.define.torch.color = 0.33,0.24,0.15
+Class   : lights.define.torch.controller = %lights.controllerPackage%.StaticController
 
-Integer : lights.bomb_explosion.id = 3
-String  : lights.bomb_explosion.image = lights/default
-Float   : lights.bomb_explosion.radius = 9
-Color   : lights.bomb_explosion.color = 0.4,0.4,0.25
-Class   : lights.bomb_explosion.controller = com.fisherevans.wipgame.game.states.play.lights.controllers.StaticController
+Integer : lights.define.florescent.id = 2
+String  : lights.define.florescent.image = lights/long
+Float   : lights.define.florescent.radius = 12
+Color   : lights.define.florescent.color = 0.33,0.24,0.15
+Class   : lights.define.florescent.controller = %lights.controllerPackage%.StaticController
 
-Integer : lights.laser.id = 4
-String  : lights.laser.image = lights/long
-Float   : lights.laser.radius = 2
-Color   : lights.laser.color = 0.33,0.15,0.15
-Class   : lights.laser.controller = com.fisherevans.wipgame.game.states.play.lights.controllers.StaticController
+Integer : lights.define.bomb_explosion.id = 3
+String  : lights.define.bomb_explosion.image = lights/default
+Float   : lights.define.bomb_explosion.radius = 9
+Color   : lights.define.bomb_explosion.color = 0.4,0.4,0.25
+Class   : lights.define.bomb_explosion.controller = %lights.controllerPackage%.StaticController
 
-Integer : lights.laser_explosion.id = 5
-String  : lights.laser_explosion.image = lights/default
-Float   : lights.laser_explosion.radius = 2
-Color   : lights.laser_explosion.color = 0.33,0.15,0.15
-Class   : lights.laser_explosion.controller = com.fisherevans.wipgame.game.states.play.lights.controllers.StaticController
+Integer : lights.define.laser.id = 4
+String  : lights.define.laser.image = lights/long
+Float   : lights.define.laser.radius = 2
+Color   : lights.define.laser.color = 0.33,0.15,0.15
+Class   : lights.define.laser.controller = %lights.controllerPackage%.StaticController
+
+Integer : lights.define.laser_explosion.id = 5
+String  : lights.define.laser_explosion.image = lights/default
+Float   : lights.define.laser_explosion.radius = 2
+Color   : lights.define.laser_explosion.color = 0.33,0.15,0.15
+Class   : lights.define.laser_explosion.controller = %lights.controllerPackage%.StaticController
 
 ##### ENTITIES #####
 Integer : entities.laser.frameCount = 3

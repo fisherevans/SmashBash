@@ -6,8 +6,12 @@ import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Author: Fisher Evans
@@ -20,7 +24,12 @@ public class Packager {
             "WIPGame.jar",
             "Start.bat"
     };
+
     private static String output = "out/WIPGame";
+
+    public static void main(String[] args) {
+        pack(incrementBuildNumber("res/build.txt"));
+    }
 
     public static void pack(String buildNumber) {
         String outputFilename = output + "-" + buildNumber + ".zip";
@@ -45,7 +54,7 @@ public class Packager {
             ZipParameters parameters = new ZipParameters();
             parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
             parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-            parameters.setIncludeRootFolder(true);
+            parameters.setRootFolderInZip("WIPGame");
 
             for(File file:files) {
                 if(file.isDirectory())
@@ -57,5 +66,28 @@ public class Packager {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static String incrementBuildNumber(String buildNumberFile) {
+        System.out.println("Finding build number...");
+        try {
+            File buildFile = new File(buildNumberFile);
+
+            Scanner in = new Scanner(buildFile);
+            Integer buildNumber = Integer.parseInt(in.nextLine()) + 1;
+            in.close();
+
+
+            FileWriter out = new FileWriter(buildFile);
+            out.append(buildNumber.toString() + "\n");
+            out.append(new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(new Date()));
+            out.close();
+
+            return buildNumber.toString();
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
     }
 }

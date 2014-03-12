@@ -21,7 +21,7 @@ public class Lights {
         _lightSettingsById = new HashMap<>();
         _lightSettingsByName = new HashMap<>();
         LightSettings lightSettings;
-        for(Settings.Setting setting:Settings.getSetting("lights").getChildren()) {
+        for(Settings.Setting setting:Settings.getSetting("lights.define").getChildren()) {
             try {
                 lightSettings = new LightSettings(
                         setting.getName(),
@@ -36,7 +36,6 @@ public class Lights {
             } catch (Exception e) {
                 log.error("Failed to load light: " + setting.toString());
                 log.error(e.toString());
-                break;
             }
         }
     }

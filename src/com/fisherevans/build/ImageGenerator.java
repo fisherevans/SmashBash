@@ -11,6 +11,15 @@ import java.io.File;
  * Date: 2/17/14
  */
 public class ImageGenerator {
+    public static String GENERATE_IMAGES_PREFIX = "128 16,32,48,64,96,128 ";
+
+    public static void main(String[] args) {
+        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/characters png").split(" "));
+        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/entities png").split(" "));
+        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/gui png").split(" "));
+        generateImages((GENERATE_IMAGES_PREFIX + "res/maps png").split(" "));
+    }
+
     public static void generateImages(String[] args) {
         int baseSize = Integer.parseInt(args[0]);
 

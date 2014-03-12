@@ -36,6 +36,7 @@ public class Launcher implements ActionListener {
         loadingFrame.setVisible(true);
 
         try {
+            GameLauncher.loadResources();
             _displayModes = getResolutions();
             initLaunchFrame();
         } catch (Exception e) {

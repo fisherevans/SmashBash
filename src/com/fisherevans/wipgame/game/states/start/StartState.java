@@ -17,6 +17,7 @@ import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
+import com.fisherevans.wipgame.tools.GraphicFunctions;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -69,9 +70,9 @@ public class StartState extends WIPState {
         _menu.setTitle("Main Menu", Fonts.getFont(Config.getTitleSize()));
 
         _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
-        _mapPreviewFade = Images.getImage("backgrounds/maps/fade");
+        _mapPreviewFade = Images.getImage("gui/fade_right");
 
-        _verticalDownFade = Images.getImage("fades/vertical_down");
+        _verticalDownFade = Images.getImage("gui/fade_down");
     }
 
     @Override
@@ -88,13 +89,13 @@ public class StartState extends WIPState {
             _fadingPreviews.get(id).render(graphics);
         _mapPreviewFade.draw(WIP.width() / 2f, 0f, WIP.width() / 4f, WIP.height());
 
-        float fadeSize = Config.getTitleSize();
-        _verticalDownFade.draw(0, 0, WIP.width(), fadeSize);
-        _verticalDownFade.getFlippedCopy(false, true).draw(0, WIP.height()-fadeSize, WIP.width(), fadeSize);
+        float fadeSize = Config.getTitleSize()*2f;
+        _verticalDownFade.draw(0, 0, WIP.width()/2f, fadeSize);
+        _verticalDownFade.getFlippedCopy(false, true).draw(0, WIP.height()-fadeSize, WIP.width()/2f, fadeSize);
 
-        WIP.drawHelpKey(graphics, new Color(1f, 1f, 1f, 0.5f),
-                "F1", "to open the CONTROLS Help Menu",
-                Config.getNormalSize()*2, 10, Config.getSmallSize());
+        GraphicFunctions.drawHelpKey(graphics, new Color(1f, 1f, 1f, 0.5f),
+                "F1", "to open the Controls Help Menu",
+                Config.getNormalSize() * 2, 10, Fonts.TINY);
     }
 
     @Override

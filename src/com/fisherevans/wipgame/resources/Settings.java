@@ -5,6 +5,8 @@ import org.newdawn.slick.Color;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Author: Fisher Evans
@@ -13,6 +15,8 @@ import java.util.*;
 public class Settings {
     public static final String SETTINGS_FILE = "res/settings.prop";
     public static final String COMMENT_PREFIX = "#";
+    public static final String VAR_WALLS = "%";
+    public static final Pattern VAR_PATTERN = Pattern.compile(VAR_WALLS + "((\\.?[a-zA-Z0-9]+)+)" + VAR_WALLS);
     public static final Log log = new Log(Settings.class);
 
     private static Map<String, Setting> _parents;
@@ -25,13 +29,13 @@ public class Settings {
             Scanner in = new Scanner(new File(SETTINGS_FILE));
             String line, type, key, valueString;
             while(in.hasNextLine()) {
-                line = in.nextLine().trim();
+                line = in.nextLine().replaceAll("^ +", "");
                 if(line.length() == 0 || line.startsWith(COMMENT_PREFIX))
                     continue;
                 try {
                     type = line.substring(0, line.indexOf(":")).trim();
                     key = line.substring(line.indexOf(":")+1, line.indexOf("=")).trim();
-                    valueString = line.substring(line.indexOf("=")+1).trim();
+                    valueString = replaceVars(line.substring(line.indexOf("=") + 1).replaceAll("^ +", ""));
                     getSetting(key).setValue(generateValue(type, valueString));
                 } catch(Exception e) {
                     log.error("Failed to read setting line: " + line);
@@ -84,6 +88,16 @@ public class Settings {
                 break;
         }
         return value;
+    }
+
+    private static String replaceVars(String text) {
+        Matcher m = VAR_PATTERN.matcher(text);
+        while(m.find()) {
+            Setting setting = getSetting(m.group().replaceAll(VAR_WALLS, ""));
+            if(!setting.isNull())
+                text = text.replaceAll(m.group(), setting.getValue().toString());
+        }
+        return text;
     }
 
     public static String getString(String key) {

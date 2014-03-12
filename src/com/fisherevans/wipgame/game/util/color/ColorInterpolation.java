@@ -39,4 +39,8 @@ public class ColorInterpolation {
                 _color1.b*interp + _color2.b*inv
         );
     }
+
+    public float getInterp() {
+        return _interp;
+    }
 }
