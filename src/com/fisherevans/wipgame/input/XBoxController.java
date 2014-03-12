@@ -1,7 +1,6 @@
 package com.fisherevans.wipgame.input;
 
 import com.fisherevans.wipgame.log.Log;
-import com.fisherevans.wipgame.resources.Inputs;
 import de.hardcode.jxinput.Axis;
 import de.hardcode.jxinput.Button;
 import de.hardcode.jxinput.Directional;
@@ -15,7 +14,7 @@ import java.util.Map;
  * Author: Fisher Evans
  * Date: 2/19/14
  */
-public class XBoxController extends Controller implements JXInputDirectionalEventListener {
+public class XBoxController extends InputController implements JXInputDirectionalEventListener {
     private static final Log log = new Log(XBoxController.class);
 
     private static final String BUTTON_A = "Button 0";
@@ -58,7 +57,7 @@ public class XBoxController extends Controller implements JXInputDirectionalEven
     private Map<Button, Boolean> _buttonLastState;
 
     public XBoxController(DirectInputDevice controller, int sourceId) {
-        super(sourceId, "xbox");
+        super(sourceId, "gui/inputs/xbox");
         _controller = controller;
 
         log.info("New XBoxController on Input Source " + getSourceId());

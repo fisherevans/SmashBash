@@ -17,13 +17,18 @@ public class Inputs {
     public static final int GLOBAL_INPUT = -1;
 
     public static final Log log = new Log(Inputs.class);
-    public static Map<Integer, Controller> controllers = new HashMap<>();
+    public static Map<Integer, InputController> controllers = new HashMap<>();
     public static KeyboardListener keyboardListener;
 
     public static void load() {
+        KeyboardController kg = new KeyboardController(GLOBAL_INPUT, "gui/inputs/help");
+        kg.setKeyCode(Key.Menu, Input.KEY_ESCAPE);
+        kg.setName("Global");
+        controllers.put(kg.getSourceId(), kg);
+
         int sourceId = 1;
 
-        KeyboardController k1 = new KeyboardController(sourceId++, "key_board-1");
+        KeyboardController k1 = new KeyboardController(sourceId++, "gui/inputs/keyboard-1");
         k1.setKeyCode(Key.Up, Input.KEY_W);
         k1.setKeyCode(Key.Down, Input.KEY_S);
         k1.setKeyCode(Key.Left, Input.KEY_A);
@@ -32,7 +37,7 @@ public class Inputs {
         k1.setKeyCode(Key.Back, Input.KEY_C);
         controllers.put(k1.getSourceId(), k1);
 
-        KeyboardController k2 = new KeyboardController(sourceId++, "key_board-2");
+        KeyboardController k2 = new KeyboardController(sourceId++, "gui/inputs/keyboard-2");
         k2.setKeyCode(Key.Up, Input.KEY_P);
         k2.setKeyCode(Key.Down, Input.KEY_SEMICOLON);
         k2.setKeyCode(Key.Left, Input.KEY_L);
@@ -48,28 +53,24 @@ public class Inputs {
             }
         }
 
-        KeyboardController kg = new KeyboardController(GLOBAL_INPUT, "help");
-        kg.setKeyCode(Key.Menu, Input.KEY_ESCAPE);
-        controllers.put(kg.getSourceId(), kg);
-
         keyboardListener = new KeyboardListener();
         WIP.container.getInput().addKeyListener(keyboardListener);
     }
 
     public static void queryXBoxControllers() {
-        for(Controller controller:controllers.values())
+        for(InputController controller:controllers.values())
             if(controller instanceof XBoxController)
                 ((XBoxController)controller).query();
     }
 
     public static void keyPressed(int keyCode) {
-        for(Controller controller:controllers.values())
+        for(InputController controller:controllers.values())
             if(controller instanceof KeyboardController)
                 ((KeyboardController)controller).keyPressed(keyCode);
     }
 
     public static void keyReleased(int keyCode) {
-        for(Controller controller:controllers.values())
+        for(InputController controller:controllers.values())
             if(controller instanceof KeyboardController)
                 ((KeyboardController)controller).keyReleased(keyCode);
     }

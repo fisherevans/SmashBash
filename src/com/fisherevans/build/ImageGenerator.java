@@ -11,13 +11,17 @@ import java.io.File;
  * Date: 2/17/14
  */
 public class ImageGenerator {
-    public static String GENERATE_IMAGES_PREFIX = "128 16,32,48,64,96,128 ";
+    public static String GENERATE_IMAGES_SIZES = "128 16,32,48,64,96,128";
+    public static String GENERATE_IMAGES_FORMAT = "png";
+    public static String[] GENERATE_IMAGES_FOLDERS = new String[] {
+            "res/img/sprites/characters",
+            "res/img/sprites/entities",
+            "res/maps",
+    };
 
     public static void main(String[] args) {
-        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/characters png").split(" "));
-        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/entities png").split(" "));
-        generateImages((GENERATE_IMAGES_PREFIX + "res/img/sprites/gui png").split(" "));
-        generateImages((GENERATE_IMAGES_PREFIX + "res/maps png").split(" "));
+        for(String folder:GENERATE_IMAGES_FOLDERS)
+           generateImages((GENERATE_IMAGES_SIZES + " " + folder + " " + GENERATE_IMAGES_FORMAT).split(" "));
     }
 
     public static void generateImages(String[] args) {

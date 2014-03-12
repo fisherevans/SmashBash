@@ -17,7 +17,7 @@ public class GraphicFunctions {
     public static String _keyHelpPrefix = "Press  ";
 
     public static void init() {
-        _keyImage = Images.getImage("gui/key");
+        _keyImage = Images.getImage("gui/inputs/key");
     }
 
     public static void drawKey(Graphics gfx, Color color, String key, float x, float y, Font font) {

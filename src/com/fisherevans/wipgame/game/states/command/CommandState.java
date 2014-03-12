@@ -136,6 +136,8 @@ public class CommandState extends OverlayState implements TypingState {
 
     @Override
     public void keyDown(Key key, int inputSource) {
+        if(key == Key.Menu)
+            WIP.enterState(getOverlayedState());
     }
 
     @Override
