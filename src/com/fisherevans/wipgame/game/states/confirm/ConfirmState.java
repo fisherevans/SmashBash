@@ -6,6 +6,7 @@ import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.util.color.ColorInterpolation;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
+import com.fisherevans.wipgame.resources.Settings;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,9 +15,9 @@ import org.newdawn.slick.state.StateBasedGame;
  * Date: 2/15/14
  */
 public class ConfirmState extends WIPState {
-    private static final String YES = "YES";
-    private static final String NO = "NO";
-    private static final int PADDING = Config.SIZES[1];
+    private String _yesText;
+    private String _noText;
+    private static final int PADDING = Config.SPRITE_SIZES[1];
     private static final float ALPHA_SPEED = 6f;
 
     private float _alphaScale = 0f;
@@ -35,13 +36,16 @@ public class ConfirmState extends WIPState {
         _message = message;
         _action = action;
 
-        _font = Fonts.getStrokedFont(Fonts.SMALL);
+        _font = Fonts.getStrokedFont(Config.smallSize);
 
         _fillColor = new Color(0f, 0f, 0f, 0.25f);
         _backgroundColor = new Color(0f, 0f, 0f, 0.75f);
         foregroundColor = new Color(1f, 1f, 1f);
 
-        _selectionColor = new ColorInterpolation(Config.HIGHLIGHT, new Color(0.6f, 0.6f, 0.6f), 6f);
+        _selectionColor = new ColorInterpolation(Config.highlightColor, new Color(0.6f, 0.6f, 0.6f), 6f);
+
+        _yesText = Settings.getString("confirm.yes");
+        _noText = Settings.getString("confirm.no");
     }
 
     @Override
@@ -63,7 +67,7 @@ public class ConfirmState extends WIPState {
 
         float messageWidth = _font.getWidth(_message);
 
-        float noWidth = _font.getWidth(NO);
+        float noWidth = _font.getWidth(_noText);
 
         float boxWidth = messageWidth + PADDING*2;
         float boxHeight = _font.getLineHeight()*2 + PADDING*3;
@@ -80,10 +84,10 @@ public class ConfirmState extends WIPState {
         graphics.drawString(_message, halfWidth - boxWidth / 2f + PADDING, halfHeight - boxHeight / 2f + PADDING);
 
         graphics.setColor(_selectionColor.getInverseColor());
-        graphics.drawString(NO, halfWidth - boxWidth / 2f + PADDING, halfHeight - boxHeight / 2f + _font.getLineHeight() + PADDING * 2);
+        graphics.drawString(_noText, halfWidth - boxWidth / 2f + PADDING, halfHeight - boxHeight / 2f + _font.getLineHeight() + PADDING * 2);
 
         graphics.setColor(_selectionColor.getColor());
-        graphics.drawString(YES, halfWidth-boxWidth/2f + messageWidth - noWidth + PADDING, halfHeight-boxHeight/2f + _font.getLineHeight() + PADDING*2);
+        graphics.drawString(_yesText, halfWidth-boxWidth/2f + messageWidth - noWidth + PADDING, halfHeight-boxHeight/2f + _font.getLineHeight() + PADDING*2);
     }
 
     @Override

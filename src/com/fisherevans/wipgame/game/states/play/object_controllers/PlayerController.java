@@ -30,24 +30,25 @@ public class PlayerController extends CharacterController {
         Rectangle pr = getCharacter().getBody();
 
         if(_jumping) {
-            if(!state(Key.Up) || _jumpTime > GameCharacter.DEFAULT_JUMP_MAX_TIME || !acceptInput || _crouched) {
+            if(!state(Key.Up) || _jumpTime > getCharacter().getDefinition().getJumpTime() || !acceptInput || _crouched) {
                 _jumping = false;
             } else {
                 _jumpTime += delta;
-                pr.getVelocity().setY(GameCharacter.DEFAULT_JUMP_VEL);
+                pr.getVelocity().setY(getCharacter().getDefinition().getJumpVelocity());
             }
         }
 
-        float a = pr.getFloor() == Side.South ? GameCharacter.DEFAULT_X_ACC : GameCharacter.DEFAULT_X_ACC_AIR;
+        float a = pr.getFloor() == Side.South ? getCharacter().getDefinition().getXAcceleration() : getCharacter().getDefinition().getXAccelerationInAir();
         if (state(Key.Right) && !state(Key.Left) && acceptInput && !_crouched) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() < GameCharacter.DEFAULT_X_MAX_MOVE ? a : -a);
+            pr.getAcceleration().setX(pr.getVelocity().getX() < getCharacter().getDefinition().getMaxSpeed() ? a : -a);
             getCharacter().setDirection(Direction.Right);
         } else if (state(Key.Left) && !state(Key.Right) && acceptInput && !_crouched) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() > -GameCharacter.DEFAULT_X_MAX_MOVE ? -a : a);
+            pr.getAcceleration().setX(pr.getVelocity().getX() > -getCharacter().getDefinition().getMaxSpeed() ? -a : a);
             getCharacter().setDirection(Direction.Left);
         } else {
+            float de = pr.getFloor() == null ? getCharacter().getDefinition().getXDeAccelerationInAir() : getCharacter().getDefinition().getXDeAcceleration();
             pr.getAcceleration().setX(0);
-            pr.getVelocity().setX(pr.getVelocity().getX() - a*delta*pr.getVelocity().getX()/ GameCharacter.DEFAULT_X_DE_ACC);
+            pr.getVelocity().setX(pr.getVelocity().getX() - a*delta*pr.getVelocity().getX()/de);
         }
 
         if(_crouched) {

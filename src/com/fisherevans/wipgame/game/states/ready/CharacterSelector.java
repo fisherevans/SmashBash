@@ -6,6 +6,7 @@ import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
 import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.input.Key;
+import com.fisherevans.wipgame.resources.Characters;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
@@ -26,11 +27,11 @@ public class CharacterSelector {
         _profile = new PlayerProfile(inputSource);
         _inputSource = inputSource;
         _readyState = ReadyPlayerState.NotPlaying;
-        _profile.setColor(PlayerProfile.COLORS[colorId]);
+        _profile.setColor(Characters.getColor(colorId));
     }
 
     public void render(Graphics graphics, float x, float y, float width, float height) {
-        Font font = Fonts.getFont(Fonts.LARGE);
+        Font font = Fonts.getFont(Config.largeSize);
         graphics.setFont(font);
         float centerX = x + width/2f;
 
@@ -38,12 +39,12 @@ public class CharacterSelector {
         if(_readyState == ReadyPlayerState.NotPlaying)
             return;
 
-        graphics.drawStringCentered(_profile.getCharacterDefinition().getDisplayName(), centerX, font.getLineHeight() * 3);
+        graphics.drawStringCentered(_profile.getCharacterDefinition().getCode(), centerX, font.getLineHeight() * 3);
 
         float imageAreaHeight = height - font.getLineHeight()*5;
         float imageDrawYCenter = y + font.getLineHeight()*5 + imageAreaHeight/2f;
-        Image image = Sprites.getCharacterSprites(_profile.getCharacterDefinition().getName())
-                .get(Config.largestSize()).getSprite(SpriteType.Idle);
+        Image image = Sprites.getCharacterSprites(_profile.getCharacterDefinition().getCode())
+                .get(Config.hugeSize).getSprite(SpriteType.Idle);
         image = image.getScaledCopy((width*0.666f)/image.getWidth());
         graphics.drawImageCentered(image, centerX, imageDrawYCenter, _profile.getColor());
     }
@@ -76,12 +77,12 @@ public class CharacterSelector {
     }
 
     private void shiftCharacter(int shift) {
-        _profile.setCharacterDefinition(shiftSelection(_profile.getCharacterDefinition(), shift, PlayerProfile.CHARACTERS));
+        _profile.setCharacterDefinition(shiftSelection(_profile.getCharacterDefinition(), shift, Characters.getCharacters()));
     }
 
     private void shiftColor(int shift) {
         do {
-            _profile.setColor(shiftSelection(_profile.getColor(), shift, PlayerProfile.COLORS));
+            _profile.setColor(shiftSelection(_profile.getColor(), shift, Characters.getColors()));
         } while(ReadyState.self.isColorTaken(_profile.getColor(), this));
     }
 

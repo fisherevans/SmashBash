@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.input;
 
 import com.fisherevans.wipgame.resources.Inputs;
+import com.fisherevans.wipgame.resources.Settings;
 import org.newdawn.slick.KeyListener;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class InputController {
         _sourceId = sourceId;
         _helpImageKey = helpImageKey;
         _keyStates = new HashMap<>();
-        _name = "Player " + _sourceId;
+        _name = Settings.getString("word.player") + " " + _sourceId;
     }
 
     public int getSourceId() {

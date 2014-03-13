@@ -95,15 +95,14 @@ public class Launcher implements ActionListener {
     }
 
     private void initLaunchFrame() {
-        String title = Settings.getString("paused.title");
-        _frame = new JFrame(Settings.getString("paused.title") + " " + Settings.getString("game.name"));
+        _frame = new JFrame(Settings.getString("launcher.title"));
         _panel = new JPanel(new MigLayout());
         _frame.add(_panel);
 
         _frame.setResizable(false);
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel labelTitle = new JLabel(Settings.getString("launcher.title") + " " + Settings.getString("game.name"), SwingConstants.CENTER);
+        JLabel labelTitle = new JLabel(Settings.getString("launcher.title"), SwingConstants.CENTER);
         JLabel labelResolution = new JLabel(Settings.getString("launcher.resolution"), SwingConstants.RIGHT);
         JLabel labelFullscreen = new JLabel(Settings.getString("launcher.fullscreen"), SwingConstants.RIGHT);
 

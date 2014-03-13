@@ -3,21 +3,18 @@ package com.fisherevans.wipgame.resources;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
 import com.fisherevans.wipgame.game.states.play.entities.EntitySprite;
-import com.fisherevans.wipgame.game.states.play.lights.LightSettings;
 import com.fisherevans.wipgame.log.Log;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Author: Fisher Evans
  * Date: 2/12/14
  */
 public class Sprites {
-    public static final String[] _characters = { "base" };
+    public static final String[] _characters = { "base", "test" };
 
     public static final String ENTITY_DEFINITIONS = "res/img/sprites/entities.txt";
 
@@ -43,7 +40,7 @@ public class Sprites {
         Map<Integer, CharacterSprite> characterSprites;
         for(String character: _characters) {
             characterSprites = new HashMap<>();
-            for(Integer size: Config.SIZES) {
+            for(Integer size: Config.SPRITE_SIZES) {
                 characterSprites.put(size, new CharacterSprite(
                         Images.getImage("sprites/characters/re-sized/" + size + "/" + character),
                         size*2, size*3));
@@ -58,7 +55,7 @@ public class Sprites {
         for(Settings.Setting setting:Settings.getSetting("entities").getChildren()) {
             try {
                 entitySprites = new HashMap<>();
-                for(Integer size: Config.SIZES) {
+                for(Integer size: Config.SPRITE_SIZES) {
                     entitySprites.put(size, new EntitySprite(
                             Images.getImage("sprites/entities/re-sized/" + size + "/" + setting.getName()),
                             setting.getChild("frameCount").integerValue(),

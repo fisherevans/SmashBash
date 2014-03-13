@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame;
 
 import com.fisherevans.wipgame.game.WIP;
+import com.fisherevans.wipgame.resources.Settings;
 import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.Color;
 
@@ -9,26 +10,29 @@ import org.newdawn.slick.Color;
  * Date: 2/14/14
  */
 public class Config {
-    public static final Integer[] SIZES = { 16, 32, 48, 64, 96, 128 };
-    public static final Color HIGHLIGHT = new Color(0.2f, 0.4f, 0.9f);
+    public static final Integer[] SPRITE_SIZES = { 16, 32, 48, 64, 96, 128 };
 
-    public static Integer largestSize() {
-        return SIZES[SIZES.length-1];
+    public static int smallSize;
+    public static int normalSize;
+    public static int largeSize;
+    public static int hugeSize;
+
+    public static Color highlightColor;
+
+    public static void init() {
+        initSizes();
+        initColors();
     }
 
-    public static Integer getTitleSize() {
-        return getRatioSize(200);
+    private static void initSizes() {
+        int baseSizeId = WIP.width() > 1000 ? 1 : 0;
+        smallSize = SPRITE_SIZES[baseSizeId];
+        normalSize = SPRITE_SIZES[baseSizeId+1];
+        largeSize = SPRITE_SIZES[baseSizeId+2];
+        hugeSize = SPRITE_SIZES[baseSizeId+3];
     }
 
-    public static Integer getNormalSize() {
-        return getRatioSize(400);
-    }
-
-    public static Integer getSmallSize() {
-        return getRatioSize(600);
-    }
-
-    public static Integer getRatioSize(float ratio) {
-        return SIZES[(int)MathUtil.clamp(0, WIP.height()/ratio, SIZES.length-1)];
+    private static void initColors() {
+        highlightColor = Settings.getColor("config.colors.highlight");
     }
 }

@@ -52,19 +52,19 @@ public class ReadyState extends WIPState {
     @Override
     public void render(Graphics graphics) throws SlickException {
         float perWidth = WIP.width()/_players.size();
-        float height = WIP.height() - Fonts.getFont(Fonts.REGULAR).getLineHeight()*2;
+        float height = WIP.height() - Fonts.getFont(Config.normalSize).getLineHeight()*2;
         int id = 0;
         for(CharacterSelector player:_players.values()) {
             player.render(graphics, perWidth*id, 0, perWidth, height);
             id++;
         }
 
-        graphics.setFont(Fonts.getFont(Fonts.REGULAR));
+        graphics.setFont(Fonts.getFont(Config.normalSize));
         graphics.setColor(Color.lightGray);
         if(meetPlayCount()) {
-            graphics.drawStringCentered("Press Select to Begin Play!", WIP.width()/2f, WIP.height()-graphics.getFont().getLineHeight());
+            graphics.drawStringCentered("TODO Press Select to Begin Play!", WIP.width()/2f, WIP.height()-graphics.getFont().getLineHeight());
         } else {
-            graphics.drawStringCentered("Need at least " + PLAYERS_NEEDED + " Players READY to Play...",
+            graphics.drawStringCentered("TODO Need at least " + PLAYERS_NEEDED + " Players READY to Play...",
                     WIP.width()/2f, WIP.height()-graphics.getFont().getLineHeight());
         }
     }

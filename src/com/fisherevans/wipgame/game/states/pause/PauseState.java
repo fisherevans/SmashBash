@@ -33,19 +33,20 @@ public class PauseState extends WIPState {
 
     public PauseState(WIPState otherState) {
         _otherState = otherState;
-        _pauseFont  = Fonts.getStrokedFont(Fonts.HUGE);
+        _pauseFont  = Fonts.getStrokedFont(Config.largeSize);
         _pauseText = Settings.getString("paused.title");
         // TODO
-        _menu = new Menu(0, Config.SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Fonts.SMALL));
-        _menu.add(new RunnableOption("Resume", new Runnable() {
+        _menu = new Menu(0, Config.SPRITE_SIZES[1], Menu.Orientation.Center, true, Fonts.getStrokedFont(Config.smallSize));
+        _menu.add(new RunnableOption(Settings.getString("paused.option.resume"), new Runnable() {
             @Override
             public void run() {
                 _stateBasedGame.enterState(_otherState.getID());
             }
         }));
-        _menu.add(new DummyOption("Settings"));
-        _menu.add(new EndGameOption("End Game"));
-        _menu.add(new QuitOption("Exit to Desktop"));
+        _menu.add(new DummyOption(Settings.getString("paused.option.settings")));
+        _menu.add(new EndGameOption(Settings.getString("paused.option.endGame")));
+        _menu.add(new QuitOption(Settings.getString("paused.option.exit")));
+        _menu.setTitle(Settings.getString("paused.title"), Fonts.getStrokedFont(Config.largeSize));
     }
 
     @Override
@@ -64,14 +65,9 @@ public class PauseState extends WIPState {
         graphics.setColor(_backgroundColor);
         graphics.fillRect(0, 0, WIP.container.getWidth(), WIP.container.getHeight());
 
-        graphics.setColor(_foregroundColor);
-        graphics.setFont(_pauseFont);
-        float textWidth = _pauseFont.getWidth(_pauseText);
         float startY = (WIP.height() - _pauseFont.getLineHeight())/2f;
 
-        graphics.drawString(_pauseText, (WIP.width() - textWidth)/2f, startY + _menu.getStartYOffset());
-
-        _menu.render(graphics, WIP.width()/2f, startY + _pauseFont.getLineHeight() + Config.SIZES[0]);
+        _menu.render(graphics, WIP.width()/2f, startY + _pauseFont.getLineHeight() + Config.SPRITE_SIZES[0]);
     }
 
     @Override

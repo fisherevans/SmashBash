@@ -23,6 +23,7 @@ import com.fisherevans.wipgame.input.XBoxController;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
+import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -89,17 +90,11 @@ public class PlayState extends WIPState {
         _deadCharacters = new LinkedList<>();
         _characters = new LinkedList<>();
         GameCharacter c;
-        boolean weapon = true;
+        Rectangle body;
         for(PlayerProfile profile:WIP.gameSettings.players) {
-            c = new GameCharacter(this, "Player " + profile.getInput(), profile.getColor(), new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f),
-                    profile.getCharacterDefinition().getName(), WIP.gameSettings.lives, WIP.gameSettings.health);
+            body = new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f);
+            c = new GameCharacter(this, "Player " + profile.getInput(), profile.getColor(), body, profile.getCharacterDefinition());
             c.setController(new PlayerController(c, profile.getInput()));
-            c.setPrimarySkill(new LaserSkill(c));
-            if(weapon)
-                c.setSecondarySkill(new CrazyLaserSkill(c));
-            else
-                c.setSecondarySkill(new BombSkill(c));
-            weapon =! weapon;
             _characters.add(c);
             _gameObjects.add(c);
         }
@@ -193,14 +188,14 @@ public class PlayState extends WIPState {
         gfx.clear();
         gfx.setColor(Color.darkGray);
         gfx.fillRect(0, 0, WIP.container.getWidth(), WIP.container.getHeight());
-        gfx.setFont(Fonts.getFont(Fonts.HUGE));
+        gfx.setFont(Fonts.getFont(Config.largeSize));
         gfx.setColor(Color.white);
 
         float zoom = _camera.getCurrentZoom();
 
-        int size = Config.SIZES[0];
-        for(int sizeId = 1;sizeId < Config.SIZES.length;sizeId++) {
-            if(zoom >= Config.SIZES[sizeId-1]) size = Config.SIZES[sizeId];
+        int size = Config.SPRITE_SIZES[0];
+        for(int sizeId = 1;sizeId < Config.SPRITE_SIZES.length;sizeId++) {
+            if(zoom >= Config.SPRITE_SIZES[sizeId-1]) size = Config.SPRITE_SIZES[sizeId];
         }
 
         _screenWidth = WIP.container.getWidth()/zoom;
@@ -239,50 +234,43 @@ public class PlayState extends WIPState {
                     image.getWidth()*gameObject.getImageFlipScale()*zoomScale,
                     image.getHeight()*zoomScale);
         }
+        gfx.setFont(Fonts.getStrokedFont(Config.smallSize));
+        float height = zoom/10;
+        Color playNameColor = new Color(1f, 1f, 1f, MathUtil.clamp(0.15f, zoom/128f, 1f));
         for(GameCharacter character:_characters) {
             body = character.getBody();
             float health = character.getHealth()/((float)character.getMaxHealth());
             float s1 = character.getPrimarySkill() == null ? 0f : character.getPrimarySkill().getCharge();
             float s2 = character.getSecondarySkill() == null ? 0f : character.getSecondarySkill().getCharge();
             float baseX = body.getCenterX()*zoom + shiftX - zoom/2f;
-            float baseY = (_baseMap.getHeight() - body.getCenterY() + 1f) * zoom + shiftY - zoom - 50;
+            float baseY = (_baseMap.getHeight() - body.getCenterY() + 1f) * zoom + shiftY - zoom - 5*height;
 
             gfx.setColor(Color.blue.darker().darker());
-            gfx.fillRect(baseX, baseY + 20, zoom, 10 - 1);
+            gfx.fillRect(baseX, baseY + height*2, zoom, height - 1);
             gfx.setColor(Color.red.darker().darker());
-            gfx.fillRect(baseX, baseY, zoom, 10 - 1);
+            gfx.fillRect(baseX, baseY, zoom, height - 1);
             gfx.setColor(Color.green.darker().darker());
-            gfx.fillRect(baseX, baseY + 10, zoom, 10 - 1);
+            gfx.fillRect(baseX, baseY + height, zoom, height - 1);
 
             gfx.setColor(Color.red);
-            gfx.fillRect(baseX, baseY, zoom * health, 10);
+            gfx.fillRect(baseX, baseY, zoom * health, height);
             gfx.setColor(Color.green);
-            gfx.fillRect(baseX, baseY + 10, zoom * s1, 10);
+            gfx.fillRect(baseX, baseY + height, zoom * s1, height);
             gfx.setColor(Color.blue);
-            gfx.fillRect(baseX, baseY + 20, zoom * s2, 10);
+            gfx.fillRect(baseX, baseY + height*2, zoom * s2, height);
+
+            gfx.setColor(playNameColor);
+            gfx.drawStringCentered("Player " + character.getController().getInputSource() + " [" + character.getLives() + "]",
+                    baseX + zoom/2f, baseY-gfx.getFont().getLineHeight());
         }
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
-        gfx.setColor(Color.white);
-        gfx.setFont(Fonts.getStrokedFont(Fonts.TINY));
-        GameCharacter c;
-        for(int i = 0;i < _characters.size();i++) {
-            c = _characters.get(i);
-            gfx.drawString(c.getName(), 300, 10 + 30*i);
-            gfx.drawString("Lives " + c.getLives(), 460, 10 + 30*i);
-            gfx.drawString("Health " + c.getHealth(), 560, 10 + 30*i);
-            if(c.getPrimarySkill() != null)
-                gfx.drawString("Primary " + c.getPrimarySkill().getCharge(), 660, 10 + 30*i);
-            if(c.getSecondarySkill() != null)
-                gfx.drawString("Secondary " + c.getSecondarySkill().getCharge(), 760, 10 + 30*i);
-        }
-
-        gfx.setFont(Fonts.getStrokedFont(Fonts.LARGE));
-        gfx.drawString(String.format("%d:%02d", (int)(_timeLeft/60), (int)(_timeLeft%60f)), 20, 20);
+        gfx.setFont(Fonts.getStrokedFont(Config.normalSize));
+        gfx.drawStringCentered(String.format("%d:%02d", (int) (_timeLeft / 60), (int) (_timeLeft % 60f)), WIP.width() / 2f, gfx.getFont().getLineHeight());
 
         if(_gameOver) {
-            gfx.setFont(Fonts.getStrokedFont(Fonts.HUGE));
+            gfx.setFont(Fonts.getStrokedFont(Config.largeSize));
             gfx.drawStringCentered("WINNER", WIP.width()/2f, WIP.height()/3f);
         }
 
@@ -311,6 +299,8 @@ public class PlayState extends WIPState {
             gfx.setColor(Color.blue);
             gfx.drawLine(WIP.width()/2f, 0f, WIP.width()/2f, WIP.height());
             gfx.drawLine(0f, WIP.height()/2f, WIP.width(), WIP.height()/2f);
+
+            gfx.setFont(Fonts.getStrokedFont(Config.smallSize));
 
             gfx.drawString("Zoom: " + zoom, 10, 10);
             gfx.drawString("Res: " + size , 10, 30);
@@ -471,5 +461,9 @@ public class PlayState extends WIPState {
 
     public LightManager getLightManager() {
         return _lightManager;
+    }
+
+    public boolean isGameOver() {
+        return _gameOver;
     }
 }

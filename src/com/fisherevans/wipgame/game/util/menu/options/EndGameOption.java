@@ -4,6 +4,7 @@ import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.states.confirm.ConfirmState;
 import com.fisherevans.wipgame.game.states.start.StartState;
 import com.fisherevans.wipgame.game.util.menu.MenuOption;
+import com.fisherevans.wipgame.resources.Settings;
 
 /**
  * Author: Fisher Evans
@@ -16,7 +17,7 @@ public class EndGameOption extends MenuOption {
 
     @Override
     public void action() {
-        ConfirmState.enter(WIP.currentState(), "Are you sure you want to end the game?", new Runnable() {
+        ConfirmState.enter(WIP.currentState(), Settings.getString("confirm.endGameText"), new Runnable() {
             @Override
             public void run() {
                 WIP.enterNewState(new StartState());

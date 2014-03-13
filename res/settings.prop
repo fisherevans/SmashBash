@@ -1,11 +1,18 @@
 ##### MESSAGES #####
 String  : game.name = Some Game Title
 
-String  : launcher.title = Launcher
+String  : key.f1 = F1
+
+String  : word.infinite = Infinite
+String  : word.player = Player
+
+Color   : config.colors.highlight = 0.2,0.4,0.9
+
+String  : launcher.title = %game.name% Launcher
 String  : launcher.resolution = Resolution
-String  : launcher.fullscreen = Render In
+String  : launcher.fullscreen = Render Mode
 String  : launcher.fullscreen.true = Fullscreen
-String  : launcher.fullscreen.false = Window
+String  : launcher.fullscreen.false = Windowed
 String  : launcher.launch = Launch
 
 String  : loading.prefix = Loading  
@@ -14,17 +21,76 @@ String  : loading.resource.fonts = Fonts
 String  : loading.resource.sprites = Sprite
 String  : loading.resource.lights.define.= Lights
 String  : loading.resource.maps = Maps
+String  : loading.resource.characters = Characters
 String  : loading.resource.inputs = Inputs
 String  : loading.resource.states = States
 String  : loading.resource.graphicFunctions = Graphic Functions
+String  : loading.resource.config = Configuration
 String  : loading.complete = Complete
+
+String  : start.title = MAIN MENU
+String  : start.map = Map
+String  : start.lives = Lives
+String  : start.health = Health
+String  : start.timeLimit = Time Limit
+String  : start.timeLimit.minutes = Minutes
+String  : start.play = Play
+String  : start.exit = Exit to Desktop
+String  : start.helpMenu = to open the Controls Help Menu
 
 String  : paused.title = PAUSED
 String  : paused.option.resume = Resume
 String  : paused.option.settings = Settings
+String  : paused.option.endGame = End Game
 String  : paused.option.exit = Exit to Desktop
 
+String  : confirm.endGameText = Are you sure you want to end the game?
+String  : confirm.quitText = Are you sure you want to quit?
+String  : confirm.yes = YES 
+String  : confirm.no = NO  
+
+String  : helpMenu.title = Control Menu
+String  : helpMenu.footer = Press any input key to return...
+
 String  : keyboardListener.alphabet = abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$^&*()_+-=[]\;',./{}|"<>?`~ #%:
+
+##### CHARACTERS #####
+String  : characters.skillPackage = com.fisherevans.wipgame.game.states.play.combat_elements.skills
+String  : characters.skillNames.laser = %characters.skillPackage%.LaserSkill
+String  : characters.skillNames.crazyLaser = %characters.skillPackage%.CrazyLaserSkill
+String  : characters.skillNames.bomb = %characters.skillPackage%.BombSkill
+
+String  : characters.default.name = Not Named
+Class   : characters.default.primarySkill = %characters.skillNames.laser%
+Class   : characters.default.secondarySkill = %characters.skillNames.crazyLaser%
+Float   : characters.default.maxSpeed = 8
+Float   : characters.default.xAcceleration = 70
+Float   : characters.default.xDeAcceleration = 4
+Float   : characters.default.xAccelerationInAir = 30
+Float   : characters.default.xDeAccelerationInAir = 10
+Float   : characters.default.jumpVelocity = 12
+Float   : characters.default.jumpTime = 0.25
+Float   : characters.default.healthScale = 1
+
+String  : characters.define.base.name = Base
+Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
+Class   : characters.define.base.secondarySkill = %characters.skillNames.crazyLaser%
+
+String  : characters.define.test.name = Test
+Class   : characters.define.test.primarySkill = %characters.skillNames.laser%
+Class   : characters.define.test.secondarySkill = %characters.skillNames.bomb%
+Float   : characters.define.test.maxSpeed = 5
+Float   : characters.define.test.xAcceleration = 35
+Float   : characters.define.test.xAccelerationInAir = 15
+Float   : characters.default.healthScale = 1.5
+
+Color   : characters.colors.white = 1f, 1f, 1f
+Color   : characters.colors.blue = 0.38431373f, 0.627451f, 0.7490196f
+Color   : characters.colors.purple = 0.627451f, 0.38431373f, 0.7490196f
+Color   : characters.colors.red = 0.7490196f, 0.3764706f, 0.3764706f
+Color   : characters.colors.green = 0.3764706f, 0.7490196f, 0.4392157f
+Color   : characters.colors.yellow = 0.7411765f, 0.6666667f, 0.36862746f
+Color   : characters.colors.grey = 0.5019608f, 0.5019608f, 0.5019608f
 
 ##### LIGHTS #####
 String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers

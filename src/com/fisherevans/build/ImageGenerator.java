@@ -1,5 +1,6 @@
 package com.fisherevans.build;
 
+import com.fisherevans.wipgame.Config;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
@@ -11,7 +12,6 @@ import java.io.File;
  * Date: 2/17/14
  */
 public class ImageGenerator {
-    public static String GENERATE_IMAGES_SIZES = "128 16,32,48,64,96,128";
     public static String GENERATE_IMAGES_FORMAT = "png";
     public static String[] GENERATE_IMAGES_FOLDERS = new String[] {
             "res/img/sprites/characters",
@@ -20,8 +20,11 @@ public class ImageGenerator {
     };
 
     public static void main(String[] args) {
+        String sizeList = Config.SPRITE_SIZES[Config.SPRITE_SIZES.length-1] + " ";
+        for(Integer integer:Config.SPRITE_SIZES)
+            sizeList += (integer != Config.SPRITE_SIZES[0] ? "," : "") + integer;
         for(String folder:GENERATE_IMAGES_FOLDERS)
-           generateImages((GENERATE_IMAGES_SIZES + " " + folder + " " + GENERATE_IMAGES_FORMAT).split(" "));
+           generateImages((sizeList + " " + folder + " " + GENERATE_IMAGES_FORMAT).split(" "));
     }
 
     public static void generateImages(String[] args) {

@@ -17,6 +17,7 @@ import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.resources.Maps;
+import com.fisherevans.wipgame.resources.Settings;
 import com.fisherevans.wipgame.tools.GraphicFunctions;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
@@ -45,13 +46,13 @@ public class StartState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _maps = new MapProfileSetting<MapProfile>("Map", new MapProfile(WIP.gameSettings.map), Maps.getProfiles());
-        _lives = new NumberSetting("Lives", 1, WIP.gameSettings.lives, 10);
-        _health = new NumberSetting("Health", 50, WIP.gameSettings.health, 200, 25);
-        _time = new TimeSetting("Time Limit", "Minutes", 1, WIP.gameSettings.time, 11);
+        _maps = new MapProfileSetting(Settings.getString("start.map"), new MapProfile(WIP.gameSettings.map), Maps.getProfiles());
+        _lives = new NumberSetting(Settings.getString("start.lives"), 1, WIP.gameSettings.lives, 10);
+        _health = new NumberSetting(Settings.getString("start.health"), 50, WIP.gameSettings.health, 200, 25);
+        _time = new TimeSetting(Settings.getString("start.timeLimit"), Settings.getString("start.timeLimit.minutes"), 1, WIP.gameSettings.time, 11);
 
-        _menu = new Menu(Config.getNormalSize(), Config.getNormalSize(), Menu.Orientation.Left, true, true, WIP.width()/2f, Fonts.getFont(Config.getNormalSize()));
-        _menu.add(new RunnableOption("Play", new Runnable() {
+        _menu = new Menu(Config.normalSize, Config.normalSize, Menu.Orientation.Left, true, true, WIP.width()/2f, Fonts.getFont(Config.normalSize));
+        _menu.add(new RunnableOption(Settings.getString("start.play"), new Runnable() {
             @Override
             public void run() {
                 WIP.gameSettings.map = _maps.getSelected().getName();
@@ -66,8 +67,8 @@ public class StartState extends WIPState {
         _menu.add(_lives);
         _menu.add(_health);
         _menu.add(_time);
-        _menu.add(new QuitOption("Exit to Desktop"));
-        _menu.setTitle("Main Menu", Fonts.getFont(Config.getTitleSize()));
+        _menu.add(new QuitOption(Settings.getString("start.exit")));
+        _menu.setTitle(Settings.getString("start.title"), Fonts.getFont(Config.hugeSize));
 
         _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
         _mapPreviewFade = Images.getImage("gui/fade_right");
@@ -89,13 +90,13 @@ public class StartState extends WIPState {
             _fadingPreviews.get(id).render(graphics);
         _mapPreviewFade.draw(WIP.width() / 2f, 0f, WIP.width() / 4f, WIP.height());
 
-        float fadeSize = Config.getTitleSize()*2f;
+        float fadeSize = Config.largeSize*2f;
         _verticalDownFade.draw(0, 0, WIP.width()/2f, fadeSize);
         _verticalDownFade.getFlippedCopy(false, true).draw(0, WIP.height()-fadeSize, WIP.width()/2f, fadeSize);
 
         GraphicFunctions.drawHelpKey(graphics, new Color(1f, 1f, 1f, 0.5f),
-                "F1", "to open the Controls Help Menu",
-                Config.getNormalSize() * 2, 10, Config.getSmallSize());
+                Settings.getString("key.f1"), Settings.getString("start.helpMenu"),
+                Config.normalSize * 2, 10, Config.smallSize);
     }
 
     @Override

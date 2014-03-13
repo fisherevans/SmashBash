@@ -2,11 +2,14 @@ package com.fisherevans.wipgame.game.states.play.characters;
 
 import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.fizzics.components.Vector;
+import com.fisherevans.wipgame.game.WIP;
+import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.CharacterController;
 import com.fisherevans.wipgame.log.Log;
+import com.fisherevans.wipgame.resources.Characters;
 import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -18,13 +21,6 @@ import java.util.Map;
  * Date: 2/11/14
  */
 public class GameCharacter extends GameObject {
-    public static final float DEFAULT_JUMP_VEL = 12f;
-    public static final float DEFAULT_JUMP_MAX_TIME = 0.25f;
-    public static final float DEFAULT_X_ACC = 70f;
-    public static final float DEFAULT_X_DE_ACC = 4f;
-    public static final float DEFAULT_X_ACC_AIR = 30f;
-    public static final float DEFAULT_X_MAX_MOVE = 8f;
-
     public static final float ANIMATIONS_PER_SECOND = 8f;
 
     public static final Log log = new Log(GameCharacter.class);
@@ -50,26 +46,38 @@ public class GameCharacter extends GameObject {
 
     private Skill _primarySkill, _secondarySkill;
 
-    public GameCharacter(PlayState playState, String name, Color color, Rectangle body, String characterSpriteName, Integer lives, Integer health) {
+    private CharacterDefinition _definition;
+
+    public GameCharacter(PlayState playState, String name, Color color, Rectangle body, CharacterDefinition definition) {
         super(body);
 
         _playState = playState;
-
         _name = name;
         _color = color;
-
         _state = CharacterState.IDLE;
         _lastState = _state;
-
         _stateLength = 0f;
-
-        _characterSprites = Sprites.getCharacterSprites(characterSpriteName);
-
-        _lives = lives;
-        _maxHealth = health;
-        _health = _maxHealth;
+        _definition = definition;
+        _characterSprites = _definition.getSprites();
 
         setDirectionBasedOnVelocity(false);
+
+        _lives = WIP.gameSettings.lives;
+        _maxHealth = (int)(WIP.gameSettings.health*_definition.getHealthScale());
+        _health = _maxHealth;
+
+        try {
+            _primarySkill = (Skill) _definition.getPrimarySkill().getConstructor(GameObject.class).newInstance(this);
+        } catch(Exception e) {
+            log.error("Failed to load primary skill for: " + definition.getCode());
+            log.error(e.toString());
+        }
+        try {
+            _secondarySkill = (Skill) _definition.getSecondarySkill().getConstructor(GameObject.class).newInstance(this);
+        } catch(Exception e) {
+            log.error("Failed to load secondary skill for: " + definition.getCode());
+            log.error(e.toString());
+        }
     }
 
     @Override
@@ -83,7 +91,7 @@ public class GameCharacter extends GameObject {
         if(_currentAction != null && _currentAction.getDuration() < _currentActionDuration)
             _currentAction = null;
 
-        if(_controller != null && !isDead())
+        if(_controller != null && !isDead() && !PlayState.current.isGameOver())
             _controller.update(delta);
 
         if(getState() == _lastState)
@@ -234,5 +242,9 @@ public class GameCharacter extends GameObject {
 
     public Integer getMaxHealth() {
         return _maxHealth;
+    }
+
+    public CharacterDefinition getDefinition() {
+        return _definition;
     }
 }

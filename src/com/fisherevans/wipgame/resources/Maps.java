@@ -26,9 +26,9 @@ public class Maps {
             Map<Integer, TiledMap> sizedMaps = new HashMap<Integer, TiledMap>();
             try {
                 sizedMaps.put(BASE, new TiledMap(mapLocation));
-                for(Integer size: Config.SIZES) {
+                for(Integer size: Config.SPRITE_SIZES) {
                     sizedMaps.put(size, new TiledMap(mapLocation, _mapRoot + "re-sized/" + size,
-                            size/((float)(Config.SIZES[Config.SIZES.length-1]))));
+                            size/((float)(Config.SPRITE_SIZES[Config.SPRITE_SIZES.length-1]))));
                 }
             } catch (SlickException e) {
                 e.printStackTrace();

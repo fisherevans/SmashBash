@@ -3,28 +3,23 @@ package com.fisherevans.wipgame.game.states.loading;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
-import com.fisherevans.wipgame.game.states.play.PlayState;
-import com.fisherevans.wipgame.game.states.ready.ReadyState;
 import com.fisherevans.wipgame.game.states.start.StartState;
 import com.fisherevans.wipgame.resources.Inputs;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.*;
 import com.fisherevans.wipgame.tools.GraphicFunctions;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
-import java.io.IOException;
 
 /**
  * Author: Fisher Evans
  * Date: 2/10/14
  */
 public class LoadingState extends WIPState {
-    private final static int FONT_SIZE = Config.SIZES[1];
-    private final static int FONT_BIG_SIZE = Config.SIZES[3];
+    private final static int FONT_SIZE = Config.SPRITE_SIZES[1];
+    private final static int FONT_BIG_SIZE = Config.SPRITE_SIZES[3];
     private final static float FADE_SPEED = 0.75f;
 
 
@@ -73,8 +68,8 @@ public class LoadingState extends WIPState {
 
         graphics.setFont(_font);
         graphics.drawString(_loadingMessage + _currentlyLoading,
-                Config.SIZES[0],
-                WIP.container.getHeight() - _font.getLineHeight() - Config.SIZES[0]);
+                Config.SPRITE_SIZES[0],
+                WIP.container.getHeight() - _font.getLineHeight() - Config.SPRITE_SIZES[0]);
 
         graphics.setColor(new Color(0f, 0f, 0f, _fade));
         graphics.fillRect(0, 0, WIP.width(), WIP.height());
@@ -104,11 +99,15 @@ public class LoadingState extends WIPState {
                         case 7: Lights.load(); break;
                         case 8: _currentlyLoading = Settings.getString("loading.resource.maps"); break;
                         case 9: Maps.load(); break;
-                        case 10: _currentlyLoading = Settings.getString("loading.resource.inputs"); break;
-                        case 11: Inputs.load(); break;
-                        case 12: _currentlyLoading = Settings.getString("loading.resource.states"); break;
-                        case 13: GraphicFunctions.init(); break;
-                        case 14: _currentlyLoading = Settings.getString("loading.resource.graphicFunctions"); break;
+                        case 10: _currentlyLoading = Settings.getString("loading.resource.characters"); break;
+                        case 11: Characters.init(); break;
+                        case 12: _currentlyLoading = Settings.getString("loading.resource.inputs"); break;
+                        case 13: Inputs.load(); break;
+                        case 14: _currentlyLoading = Settings.getString("loading.resource.states"); break;
+                        case 15: GraphicFunctions.init(); break;
+                        case 16: _currentlyLoading = Settings.getString("loading.resource.graphicFunctions"); break;
+                        case 17: Config.init(); break;
+                        case 18: _currentlyLoading = Settings.getString("loading.resource.config"); break;
                         default: {
                             StartState startState = new StartState();
                             startState.init();

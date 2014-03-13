@@ -1,15 +1,10 @@
 package com.fisherevans.wipgame.game.states.play.entities;
 
 import com.fisherevans.fizzics.components.Rectangle;
-import com.fisherevans.fizzics.components.Vector;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
-import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
-import com.fisherevans.wipgame.game.states.play.lights.Light;
-import com.fisherevans.wipgame.game.states.play.lights.LightSettings;
 import com.fisherevans.wipgame.log.Log;
-import com.fisherevans.wipgame.resources.Lights;
 import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -44,7 +39,7 @@ public class Entity extends GameObject {
         super(body);
         _entitySprites = Sprites.getEntitySprites(entitySpriteName);
         if(lifeSpan == 0) {
-            _lifeSpan = _entitySprites.get(Config.SIZES[0]).getTotalAnimationTime();
+            _lifeSpan = _entitySprites.get(Config.SPRITE_SIZES[0]).getTotalAnimationTime();
         } else
             _lifeSpan = lifeSpan;
         _lifeTime = 0;

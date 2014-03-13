@@ -1,5 +1,6 @@
 package com.fisherevans.wipgame.game.states.results;
 
+import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.input.Key;
@@ -32,7 +33,7 @@ public class ResultsState extends WIPState {
 
     @Override
     public void render(Graphics graphics) throws SlickException {
-        graphics.setFont(Fonts.getFont(Fonts.HUGE));
+        graphics.setFont(Fonts.getFont(Config.largeSize));
         graphics.setColor(Color.white);
         graphics.drawString("Results", 10, 10);
     }

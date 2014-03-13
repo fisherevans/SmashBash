@@ -13,12 +13,6 @@ import java.util.Map;
  * Date: 2/10/14
  */
 public class Fonts {
-    public final static Integer TINY = Config.SIZES[0];
-    public final static Integer SMALL = Config.SIZES[1];
-    public final static Integer REGULAR = Config.SIZES[2];
-    public final static Integer LARGE = Config.SIZES[3];
-    public final static Integer HUGE = Config.SIZES[4];
-
     public final static String FONT_FOLDER = "res/fonts/angel/";
 
     private static Map<Integer, AngelCodeFont> _fonts, _strokedFonts;
@@ -28,7 +22,7 @@ public class Fonts {
     public static void load() throws SlickException {
         _fonts = new HashMap<>();
         _strokedFonts = new HashMap<>();
-        for(Integer size:Config.SIZES)
+        for(Integer size:Config.SPRITE_SIZES)
             loadFont(size);
     }
 
