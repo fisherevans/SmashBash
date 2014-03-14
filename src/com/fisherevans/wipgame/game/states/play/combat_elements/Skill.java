@@ -3,6 +3,7 @@ package com.fisherevans.wipgame.game.states.play.combat_elements;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
+import com.fisherevans.wipgame.log.Log;
 
 /**
  * Author: Fisher Evans
@@ -10,6 +11,9 @@ import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
  */
 public abstract class Skill {
     public static float MAX_CHARGE = 1f;
+
+    public static Log log = new Log(Skill.class);
+
     private float _charge, _usageCost, _regenRate;
     private GameObject _owner;
 
@@ -67,5 +71,16 @@ public abstract class Skill {
 
     public void setOwner(GameObject owner) {
         _owner = owner;
+    }
+
+    public static Skill getSkill(Class clazz, GameObject owner) {
+        Skill skill = null;
+        try {
+            skill = (Skill) clazz.getConstructor(GameObject.class).newInstance(owner);
+        } catch(Exception e) {
+            log.error("Failed to load secondary skill for: " + clazz.getName());
+            log.error(e.toString());
+        }
+        return skill;
     }
 }

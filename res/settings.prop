@@ -71,6 +71,7 @@ Float   : characters.default.xDeAccelerationInAir = 10
 Float   : characters.default.jumpVelocity = 12
 Float   : characters.default.jumpTime = 0.25
 Float   : characters.default.healthScale = 1
+Float   : characters.default.framesPerSecond = 8
 
 String  : characters.define.base.name = Base
 Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
@@ -83,6 +84,7 @@ Float   : characters.define.test.maxSpeed = 5
 Float   : characters.define.test.xAcceleration = 35
 Float   : characters.define.test.xAccelerationInAir = 15
 Float   : characters.default.healthScale = 1.5
+Float   : characters.default.framesPerSecond = 8
 
 Color   : characters.colors.white = 1f, 1f, 1f
 Color   : characters.colors.blue = 0.38431373f, 0.627451f, 0.7490196f

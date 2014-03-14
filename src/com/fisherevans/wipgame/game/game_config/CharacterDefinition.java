@@ -15,7 +15,7 @@ public class CharacterDefinition {
     private Class _primarySkill, _secondarySkill;
     private Float _maxSpeed, _xAcceleration, _xDeAcceleration, _xAccelerationInAir, _xDeAccelerationInAir;
     private Float _jumpVelocity, _jumpTime;
-    private Float _healthScale;
+    private Float _healthScale, _framesPerSecond;
 
     public void setCode(String code) {
         _code = code;
@@ -116,6 +116,14 @@ public class CharacterDefinition {
 
     public void setHealthScale(Float healthScale) {
         _healthScale = healthScale;
+    }
+
+    public Float getFramesPerSecond() {
+        return _framesPerSecond;
+    }
+
+    public void setFramesPerSecond(Float framesPerSecond) {
+        _framesPerSecond = framesPerSecond;
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.CharacterController;
 import com.fisherevans.wipgame.log.Log;
-import com.fisherevans.wipgame.resources.Characters;
-import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
@@ -21,32 +19,22 @@ import java.util.Map;
  * Date: 2/11/14
  */
 public class GameCharacter extends GameObject {
-    public static final float ANIMATIONS_PER_SECOND = 8f;
 
     public static final Log log = new Log(GameCharacter.class);
 
     private String _name;
-
     private CharacterController _controller;
-
     private Map<Integer, CharacterSprite> _characterSprites;
     private Color _color;
-
     private CharacterState _state, _lastState;
-
     private float _stateLength;
-
     private Integer _lives, _maxHealth, _health;
-
     private PlayState _playState;
-
     private CharacterAction _currentAction;
-
     private float _currentActionDuration;
-
     private Skill _primarySkill, _secondarySkill;
-
     private CharacterDefinition _definition;
+    public float _framesPerSecond;
 
     public GameCharacter(PlayState playState, String name, Color color, Rectangle body, CharacterDefinition definition) {
         super(body);
@@ -66,18 +54,10 @@ public class GameCharacter extends GameObject {
         _maxHealth = (int)(WIP.gameSettings.health*_definition.getHealthScale());
         _health = _maxHealth;
 
-        try {
-            _primarySkill = (Skill) _definition.getPrimarySkill().getConstructor(GameObject.class).newInstance(this);
-        } catch(Exception e) {
-            log.error("Failed to load primary skill for: " + definition.getCode());
-            log.error(e.toString());
-        }
-        try {
-            _secondarySkill = (Skill) _definition.getSecondarySkill().getConstructor(GameObject.class).newInstance(this);
-        } catch(Exception e) {
-            log.error("Failed to load secondary skill for: " + definition.getCode());
-            log.error(e.toString());
-        }
+        _primarySkill = Skill.getSkill(_definition.getPrimarySkill(), this);
+        _secondarySkill = Skill.getSkill(_definition.getSecondarySkill(), this);
+
+        _framesPerSecond = definition.getFramesPerSecond();
     }
 
     @Override
@@ -108,7 +88,7 @@ public class GameCharacter extends GameObject {
             switch(getState()) {
                 case FALLING: image = getSpriteCopy(size, SpriteType.Falling); break;
                 case STRAFING: {
-                    switch((int)((_stateLength*ANIMATIONS_PER_SECOND)%4f)) {
+                    switch((int)((_stateLength* _framesPerSecond)%4f)) {
                         case 0: image = getSpriteCopy(size, SpriteType.Walking1); break;
                         case 1: image = getSpriteCopy(size, SpriteType.Walking2); break;
                         case 2: image = getSpriteCopy(size, SpriteType.Walking3); break;

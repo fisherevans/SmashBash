@@ -104,6 +104,8 @@ public class Characters {
             definition.setJumpTime(base.getJumpTime());
         if(definition.getHealthScale() == null)
             definition.setHealthScale(base.getHealthScale());
+        if(definition.getFramesPerSecond() == null)
+            definition.setFramesPerSecond(base.getFramesPerSecond());
         return definition;
     }
 
@@ -121,6 +123,7 @@ public class Characters {
         definition.setJumpVelocity(baseSetting.getChild("jumpVelocity").floatValue());
         definition.setJumpTime(baseSetting.getChild("jumpTime").floatValue());
         definition.setHealthScale(baseSetting.getChild("healthScale").floatValue());
+        definition.setFramesPerSecond(baseSetting.getChild("framesPerSecond").floatValue());
         return definition;
     }
 }
