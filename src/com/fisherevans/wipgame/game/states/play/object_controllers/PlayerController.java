@@ -30,25 +30,41 @@ public class PlayerController extends CharacterController {
         Rectangle pr = getCharacter().getBody();
 
         if(_jumping) {
-            if(!state(Key.Up) || _jumpTime > getCharacter().getDefinition().getJumpTime() || !acceptInput || _crouched) {
+            if(!state(Key.Up) || _jumpTime > getCharacter().getDefinition().jumpTime || !acceptInput || _crouched) {
                 _jumping = false;
             } else {
                 _jumpTime += delta;
-                pr.getVelocity().setY(getCharacter().getDefinition().getJumpVelocity());
+                pr.getVelocity().setY(getCharacter().getDefinition().jumpVelocity);
             }
         }
 
-        float a = pr.getFloor() == Side.South ? getCharacter().getDefinition().getXAcceleration() : getCharacter().getDefinition().getXAccelerationInAir();
-        if (state(Key.Right) && !state(Key.Left) && acceptInput && !_crouched) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() < getCharacter().getDefinition().getMaxSpeed() ? a : -a);
-            getCharacter().setDirection(Direction.Right);
-        } else if (state(Key.Left) && !state(Key.Right) && acceptInput && !_crouched) {
-            pr.getAcceleration().setX(pr.getVelocity().getX() > -getCharacter().getDefinition().getMaxSpeed() ? -a : a);
-            getCharacter().setDirection(Direction.Left);
-        } else {
-            float de = pr.getFloor() == null ? getCharacter().getDefinition().getXDeAccelerationInAir() : getCharacter().getDefinition().getXDeAcceleration();
-            pr.getAcceleration().setX(0);
-            pr.getVelocity().setX(pr.getVelocity().getX() - a*delta*pr.getVelocity().getX()/de);
+        Direction moveDirection = null;
+        if(state(Key.Right) && !state(Key.Left) && acceptInput && !_crouched) moveDirection = Direction.Right;
+        else if(state(Key.Left) && !state(Key.Right) && acceptInput && !_crouched) moveDirection = Direction.Left;
+        float maxSpeed, acc;
+        if(!(moveDirection == null && getCharacter().getBody().getFloor() != null)) { // not on floor not moving (let friction do its job)
+            if(getCharacter().getBody().getFloor() == null) {
+                if(moveDirection == null) { // air resistance
+                    maxSpeed = 0;
+                    acc = getCharacter().getDefinition().airDeAcceleration;
+                } else {
+                    maxSpeed = getCharacter().getDefinition().maxAirSpeed;
+                    acc = getCharacter().getDefinition().airAcceleration;
+                }
+            } else {
+                maxSpeed = getCharacter().getDefinition().maxLandSpeed;
+                acc = getCharacter().getDefinition().landAcceleration;
+            }
+            if(moveDirection == Direction.Left) {
+                maxSpeed *= -1f;
+                acc *= -1f;
+            } else if(moveDirection == null)
+                acc *= -1*Math.signum(getCharacter().getBody().getVelocity().getX());
+            Rectangle body = getCharacter().getBody();
+            if((maxSpeed < 0 && maxSpeed > body.getVelocity().getX()) ||
+                    (maxSpeed > 0 && maxSpeed < body.getVelocity().getX()))
+                acc *= -1;
+            body.getVelocity().setX(body.getVelocity().getX() + acc*delta);
         }
 
         if(_crouched) {
@@ -83,6 +99,10 @@ public class PlayerController extends CharacterController {
             getCharacter().setCurrentAction(null);
             _crouched = true;
             getCharacter().getBody().setHeight(CROUCHING_HEIGHT);
+        } else if(key == Key.Right) {
+            getCharacter().setDirection(Direction.Right);
+        } else if(key == Key.Left) {
+            getCharacter().setDirection(Direction.Left);
         }
     }
 

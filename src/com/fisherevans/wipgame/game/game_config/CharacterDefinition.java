@@ -10,16 +10,20 @@ import java.util.Map;
  * Date: 2/23/14
  */
 public class CharacterDefinition {
-    private String _code, _name;
+    private String _code;
     private Map<Integer, CharacterSprite> _sprites;
-    private Class _primarySkill, _secondarySkill;
-    private Float _maxSpeed, _xAcceleration, _xDeAcceleration, _xAccelerationInAir, _xDeAccelerationInAir;
-    private Float _jumpVelocity, _jumpTime;
-    private Float _healthScale, _framesPerSecond;
 
-    public void setCode(String code) {
+    public String name;
+    public Class primarySkill, secondarySkill;
+    public Float maxLandSpeed, landAcceleration;
+    public Float maxAirSpeed, airAcceleration, airDeAcceleration;
+    public Float jumpVelocity, jumpTime;
+    public Float healthScale, framesPerSecond;
+
+    public CharacterDefinition(String code) {
         _code = code;
-        _sprites = Sprites.getCharacterSprites(_code);
+        _sprites = Sprites.getCharacterSprites(code);
+
     }
 
     public Map<Integer, CharacterSprite> getSprites() {
@@ -28,102 +32,6 @@ public class CharacterDefinition {
 
     public String getCode() {
         return _code;
-    }
-
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        _name = name;
-    }
-
-    public Class getPrimarySkill() {
-        return _primarySkill;
-    }
-
-    public void setPrimarySkill(Class primarySkill) {
-        _primarySkill = primarySkill;
-    }
-
-    public Class getSecondarySkill() {
-        return _secondarySkill;
-    }
-
-    public void setSecondarySkill(Class secondarySkill) {
-        _secondarySkill = secondarySkill;
-    }
-
-    public Float getMaxSpeed() {
-        return _maxSpeed;
-    }
-
-    public void setMaxSpeed(Float maxSpeed) {
-        _maxSpeed = maxSpeed;
-    }
-
-    public Float getXAcceleration() {
-        return _xAcceleration;
-    }
-
-    public void setXAcceleration(Float xAcceleration) {
-        _xAcceleration = xAcceleration;
-    }
-
-    public Float getXDeAcceleration() {
-        return _xDeAcceleration;
-    }
-
-    public void setXDeAcceleration(Float xDeAcceleration) {
-        _xDeAcceleration = xDeAcceleration;
-    }
-
-    public Float getXAccelerationInAir() {
-        return _xAccelerationInAir;
-    }
-
-    public void setXAccelerationInAir(Float xAccelerationInAir) {
-        _xAccelerationInAir = xAccelerationInAir;
-    }
-
-    public Float getXDeAccelerationInAir() {
-        return _xDeAccelerationInAir;
-    }
-
-    public void setXDeAccelerationInAir(Float xDeAccelerationInAir) {
-        _xDeAccelerationInAir = xDeAccelerationInAir;
-    }
-
-    public Float getJumpVelocity() {
-        return _jumpVelocity;
-    }
-
-    public void setJumpVelocity(Float jumpVelocity) {
-        _jumpVelocity = jumpVelocity;
-    }
-
-    public Float getJumpTime() {
-        return _jumpTime;
-    }
-
-    public void setJumpTime(Float jumpTime) {
-        _jumpTime = jumpTime;
-    }
-
-    public Float getHealthScale() {
-        return _healthScale;
-    }
-
-    public void setHealthScale(Float healthScale) {
-        _healthScale = healthScale;
-    }
-
-    public Float getFramesPerSecond() {
-        return _framesPerSecond;
-    }
-
-    public void setFramesPerSecond(Float framesPerSecond) {
-        _framesPerSecond = framesPerSecond;
     }
 
     @Override

@@ -51,13 +51,13 @@ public class GameCharacter extends GameObject {
         setDirectionBasedOnVelocity(false);
 
         _lives = WIP.gameSettings.lives;
-        _maxHealth = (int)(WIP.gameSettings.health*_definition.getHealthScale());
+        _maxHealth = (int)(WIP.gameSettings.health*_definition.healthScale);
         _health = _maxHealth;
 
-        _primarySkill = Skill.getSkill(_definition.getPrimarySkill(), this);
-        _secondarySkill = Skill.getSkill(_definition.getSecondarySkill(), this);
+        _primarySkill = Skill.getSkill(_definition.primarySkill, this);
+        _secondarySkill = Skill.getSkill(_definition.secondarySkill, this);
 
-        _framesPerSecond = definition.getFramesPerSecond();
+        _framesPerSecond = definition.framesPerSecond;
     }
 
     @Override

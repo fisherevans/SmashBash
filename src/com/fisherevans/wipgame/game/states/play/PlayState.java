@@ -132,7 +132,7 @@ public class PlayState extends WIPState {
             //System.out.println();
         }
         Rectangle r;
-        float friction = 0f;
+        float friction = 30f;
         for(int y = 0;y < _baseMap.getHeight();y++) {
             float width = 0;
             for(int x = 0;x <= _baseMap.getWidth();x++) {

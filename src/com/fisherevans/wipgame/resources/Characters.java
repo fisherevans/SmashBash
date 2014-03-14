@@ -1,8 +1,10 @@
 package com.fisherevans.wipgame.resources;
 
 import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
+import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.Color;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import java.util.Map;
  * Date: 3/13/14
  */
 public class Characters {
+    public static final Log log = new Log(Characters.class);
+
     private static Map<String, CharacterDefinition> _characterMap;
     private static String[] _characterCodes;
     private static CharacterDefinition[] _characters;
@@ -82,48 +86,30 @@ public class Characters {
 
     private static CharacterDefinition getCharacterDefinition(CharacterDefinition base, Settings.Setting baseSetting) {
         CharacterDefinition definition = getCharacterDefinition(baseSetting);
-        if(definition.getName() == null)
-            definition.setName(base.getName());
-        if(definition.getPrimarySkill() == null)
-            definition.setPrimarySkill(base.getPrimarySkill());
-        if(definition.getSecondarySkill() == null)
-            definition.setSecondarySkill(base.getSecondarySkill());
-        if(definition.getMaxSpeed() == null)
-            definition.setMaxSpeed(base.getMaxSpeed());
-        if(definition.getXAcceleration() == null)
-            definition.setXAcceleration(base.getXAcceleration());
-        if(definition.getXDeAcceleration() == null)
-            definition.setXDeAcceleration(base.getXDeAcceleration());
-        if(definition.getXAccelerationInAir() == null)
-            definition.setXAccelerationInAir(base.getXAccelerationInAir());
-        if(definition.getXDeAccelerationInAir() == null)
-            definition.setXDeAccelerationInAir(base.getXDeAccelerationInAir());
-        if(definition.getJumpVelocity() == null)
-            definition.setJumpVelocity(base.getJumpVelocity());
-        if(definition.getJumpTime() == null)
-            definition.setJumpTime(base.getJumpTime());
-        if(definition.getHealthScale() == null)
-            definition.setHealthScale(base.getHealthScale());
-        if(definition.getFramesPerSecond() == null)
-            definition.setFramesPerSecond(base.getFramesPerSecond());
+        for(Field field:CharacterDefinition.class.getFields()) {
+            try {
+                if(field.get(definition) == null)
+                    field.set(definition, field.get(base));
+            } catch (Exception e) {
+                log.error("Failed setting character property from base: " + field.getName());
+                log.error(e.toString());
+            }
+        }
         return definition;
     }
 
     private static CharacterDefinition getCharacterDefinition(Settings.Setting baseSetting) {
-        CharacterDefinition definition = new CharacterDefinition();
-        definition.setCode(baseSetting.getName());
-        definition.setName(baseSetting.getChild("name").stringValue());
-        definition.setPrimarySkill(baseSetting.getChild("primarySkill").classValue());
-        definition.setSecondarySkill(baseSetting.getChild("secondarySkill").classValue());
-        definition.setMaxSpeed(baseSetting.getChild("maxSpeed").floatValue());
-        definition.setXAcceleration(baseSetting.getChild("xAcceleration").floatValue());
-        definition.setXDeAcceleration(baseSetting.getChild("xDeAcceleration").floatValue());
-        definition.setXAccelerationInAir(baseSetting.getChild("xAccelerationInAir").floatValue());
-        definition.setXDeAccelerationInAir(baseSetting.getChild("xDeAccelerationInAir").floatValue());
-        definition.setJumpVelocity(baseSetting.getChild("jumpVelocity").floatValue());
-        definition.setJumpTime(baseSetting.getChild("jumpTime").floatValue());
-        definition.setHealthScale(baseSetting.getChild("healthScale").floatValue());
-        definition.setFramesPerSecond(baseSetting.getChild("framesPerSecond").floatValue());
+        CharacterDefinition definition = new CharacterDefinition(baseSetting.getName());
+        Field field;
+        for(Settings.Setting setting:baseSetting.getChildren()) {
+            try {
+                field = CharacterDefinition.class.getField(setting.getName());
+                field.set(definition, setting.getValue());
+            } catch (Exception e) {
+                log.error("Failed setting character property: " + setting.getName());
+                log.error(e.toString());
+            }
+        }
         return definition;
     }
 }
