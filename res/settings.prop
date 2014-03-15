@@ -77,6 +77,10 @@ String  : characters.define.base.name = Base
 Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.base.secondarySkill = %characters.skillNames.crazyLaser%
 
+String  : characters.define.mario.name = Mario
+Class   : characters.define.mario.primarySkill = %characters.skillNames.laser%
+Class   : characters.define.mario.secondarySkill = %characters.skillNames.crazyLaser%
+
 String  : characters.define.test.name = Test
 Class   : characters.define.test.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.test.secondarySkill = %characters.skillNames.bomb%

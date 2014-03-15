@@ -14,13 +14,14 @@ public abstract class Skill {
 
     public static Log log = new Log(Skill.class);
 
-    private float _charge, _usageCost, _regenRate;
-    private GameObject _owner;
+    private float _charge, _usageCost, _regenRate, _animationTime;
+    private GameCharacter _owner;
 
-    public Skill(float usageCost, float regenRate, GameObject owner) {
+    public Skill(float usageCost, float regenRate, float animationTime, GameCharacter owner) {
         _charge = MAX_CHARGE;
         _usageCost = usageCost;
         _regenRate = regenRate;
+        _animationTime = animationTime;
         _owner = owner;
     }
 
@@ -31,12 +32,16 @@ public abstract class Skill {
             _charge = MAX_CHARGE;
     }
 
-    public void useSkill() {
+    public boolean useSkill() {
         if(_usageCost <= _charge) {
+            if(_owner.getState() == CharacterState.CROUCHED)
+                return false;
             if(executeSkill()) {
                 _charge -= _usageCost;
+                return true;
             }
         }
+        return false;
     }
 
     public abstract boolean executeSkill();
@@ -65,18 +70,26 @@ public abstract class Skill {
         _regenRate = regenRate;
     }
 
-    public GameObject getOwner() {
+    public GameCharacter getOwner() {
         return _owner;
     }
 
-    public void setOwner(GameObject owner) {
+    public void setOwner(GameCharacter owner) {
         _owner = owner;
     }
 
-    public static Skill getSkill(Class clazz, GameObject owner) {
+    public float getAnimationTime() {
+        return _animationTime;
+    }
+
+    public void setAnimationTime(float animationTime) {
+        _animationTime = animationTime;
+    }
+
+    public static Skill getSkill(Class clazz, GameCharacter owner) {
         Skill skill = null;
         try {
-            skill = (Skill) clazz.getConstructor(GameObject.class).newInstance(owner);
+            skill = (Skill) clazz.getConstructor(GameCharacter.class).newInstance(owner);
         } catch(Exception e) {
             log.error("Failed to load secondary skill for: " + clazz.getName());
             log.error(e.toString());

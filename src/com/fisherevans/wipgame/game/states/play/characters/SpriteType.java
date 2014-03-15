@@ -10,7 +10,8 @@ public enum SpriteType {
     Walking1,
     Walking2,
     Walking3,
-    Shooting,
+    Primary,
+    Secondary,
     Down,
     Crouched;
 }

@@ -14,8 +14,6 @@ import java.util.Map;
  * Date: 2/12/14
  */
 public class Sprites {
-    public static final String[] _characters = { "base", "test" };
-
     public static final String ENTITY_DEFINITIONS = "res/img/sprites/entities.txt";
 
     public static final float PADDING_PERCENTAGE = 0.5f;
@@ -38,14 +36,14 @@ public class Sprites {
     private static void loadCharacters() {
         _characterSpriteMap = new HashMap<>();
         Map<Integer, CharacterSprite> characterSprites;
-        for(String character: _characters) {
+        for(Settings.Setting setting:Settings.getSetting("characters.define").getChildren()) {
             characterSprites = new HashMap<>();
             for(Integer size: Config.SPRITE_SIZES) {
                 characterSprites.put(size, new CharacterSprite(
-                        Images.getImage("sprites/characters/re-sized/" + size + "/" + character),
+                        Images.getImage("sprites/characters/re-sized/" + size + "/" + setting.getName()),
                         size*2, size*3));
             }
-            _characterSpriteMap.put(character, characterSprites);
+            _characterSpriteMap.put(setting.getName(), characterSprites);
         }
     }
 

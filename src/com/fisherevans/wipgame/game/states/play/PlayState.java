@@ -8,7 +8,9 @@ import com.fisherevans.wipgame.game.game_config.PlayerProfile;
 import com.fisherevans.wipgame.game.WIP;
 import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
+import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
+import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.game.states.play.combat_elements.AreaEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.BombSkill;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.CrazyLaserSkill;
@@ -439,11 +441,13 @@ public class PlayState extends WIPState {
             for(GameCharacter character:_characters) {
                 if(character.getController() != null && character.acceptInput()) {
                     if(character.getController().getInputSource() == inputSource) {
-                        if(key == Key.Select && character.getPrimarySkill() != null)
-                            character.getPrimarySkill().useSkill();
-                        else if(key == Key.Back && character.getSecondarySkill() != null)
-                            character.getSecondarySkill().useSkill();
-
+                        if(key == Key.Select && character.getPrimarySkill() != null) {
+                            if(character.getPrimarySkill().useSkill())
+                                character.setCurrentAction(new CharacterAction(SpriteType.Primary, character.getPrimarySkill().getAnimationTime(), false));
+                        } else if(key == Key.Back && character.getSecondarySkill() != null) {
+                            if(character.getSecondarySkill().useSkill())
+                                character.setCurrentAction(new CharacterAction(SpriteType.Secondary, character.getSecondarySkill().getAnimationTime(), false));
+                        }
                         character.getController().down(key);
                     }
                 }
