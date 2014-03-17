@@ -1,8 +1,13 @@
 package com.fisherevans.wipgame.game.game_config;
 
-import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
-import com.fisherevans.wipgame.resources.Sprites;
+import com.fisherevans.wipgame.Config;
+import com.fisherevans.wipgame.resources.Images;
+import com.fisherevans.wipgame.graphics.CharacterSprite;
+import com.fisherevans.wipgame.tools.MathUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,8 +15,10 @@ import java.util.Map;
  * Date: 2/23/14
  */
 public class CharacterDefinition {
+
     private String _code;
-    private Map<Integer, CharacterSprite> _sprites;
+    private List<Map<Integer, CharacterSprite>> _spriteList;
+    private Integer[] _spriteIds;
 
     public String name;
     public Class primarySkill, secondarySkill;
@@ -19,19 +26,40 @@ public class CharacterDefinition {
     public Float maxAirSpeed, airAcceleration, airDeAcceleration;
     public Float jumpVelocity, jumpTime;
     public Float healthScale, framesPerSecond;
+    public Integer spriteCount;
 
     public CharacterDefinition(String code) {
         _code = code;
-        _sprites = Sprites.getCharacterSprites(code);
-
     }
 
-    public Map<Integer, CharacterSprite> getSprites() {
-        return _sprites;
+    public void loadSprites() {
+        _spriteList = new ArrayList<>();
+        Map<Integer, CharacterSprite> spriteMap;
+        for(int spriteId = 0;spriteId < spriteCount;spriteId++) {
+            spriteMap = new HashMap<>();
+            for(Integer size:Config.SPRITE_SIZES) {
+                spriteMap.put(size, new CharacterSprite(Images.getImage("sprites/characters/re-sized/" + size + "/" + _code),
+                        0, size*3*spriteId, size*2, size*3));
+            }
+            _spriteList.add(spriteMap);
+        }
+        _spriteIds = MathUtil.getIncrementedArray(spriteCount);
     }
 
     public String getCode() {
         return _code;
+    }
+
+    public List<Map<Integer, CharacterSprite>> getSpriteList() {
+        return _spriteList;
+    }
+
+    public Map<Integer, CharacterSprite> getSprite(int id) {
+        return _spriteList.get(id);
+    }
+
+    public Integer[] getSpriteIds() {
+        return _spriteIds;
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
-import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.entities.Laser;
 

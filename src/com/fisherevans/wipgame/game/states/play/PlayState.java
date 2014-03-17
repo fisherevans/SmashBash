@@ -10,7 +10,6 @@ import com.fisherevans.wipgame.game.WIPState;
 import com.fisherevans.wipgame.game.states.pause.PauseState;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
-import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
 import com.fisherevans.wipgame.game.states.play.combat_elements.AreaEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.BombSkill;
 import com.fisherevans.wipgame.game.states.play.combat_elements.skills.CrazyLaserSkill;
@@ -95,7 +94,7 @@ public class PlayState extends WIPState {
         Rectangle body;
         for(PlayerProfile profile:WIP.gameSettings.players) {
             body = new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f);
-            c = new GameCharacter(this, "Player " + profile.getInput(), profile.getColor(), body, profile.getCharacterDefinition());
+            c = new GameCharacter(this, "Player " + profile.getInput(), profile.getSpriteId(), body, profile.getCharacterDefinition());
             c.setController(new PlayerController(c, profile.getInput()));
             _characters.add(c);
             _gameObjects.add(c);
@@ -258,7 +257,7 @@ public class PlayState extends WIPState {
             gfx.fillRect(baseX, baseY, zoom * health, height);
             gfx.setColor(Color.green);
             gfx.fillRect(baseX, baseY + height, zoom * s1, height);
-            gfx.setColor(Color.blue);
+            gfx.setColor(Color.blue.brighter());
             gfx.fillRect(baseX, baseY + height*2, zoom * s2, height);
 
             gfx.setColor(playNameColor);
@@ -439,16 +438,22 @@ public class PlayState extends WIPState {
             WIP.enterNewState(new PauseState(this));
         } else if(!_gameOver) {
             for(GameCharacter character:_characters) {
-                if(character.getController() != null && character.acceptInput()) {
-                    if(character.getController().getInputSource() == inputSource) {
+                if(character.getController() != null && character.getController().getInputSource() == inputSource) {
+                    if(character.acceptInput()) {
                         if(key == Key.Select && character.getPrimarySkill() != null) {
                             if(character.getPrimarySkill().useSkill())
-                                character.setCurrentAction(new CharacterAction(SpriteType.Primary, character.getPrimarySkill().getAnimationTime(), false));
+                                character.setCurrentAction(character.getPrimarySkill().getCharacterAction());
                         } else if(key == Key.Back && character.getSecondarySkill() != null) {
                             if(character.getSecondarySkill().useSkill())
-                                character.setCurrentAction(new CharacterAction(SpriteType.Secondary, character.getSecondarySkill().getAnimationTime(), false));
+                                character.setCurrentAction(character.getSecondarySkill().getCharacterAction());
                         }
                         character.getController().down(key);
+                    }
+                    if(character.getDirectionMethod() == GameObject.DirectionMethod.Input) {
+                        if(key == Key.Right)
+                            character.setDirection(Direction.Right);
+                        else if(key == Key.Left)
+                            character.setDirection(Direction.Left);
                     }
                 }
             }
@@ -469,5 +474,9 @@ public class PlayState extends WIPState {
 
     public boolean isGameOver() {
         return _gameOver;
+    }
+
+    public World getWorld() {
+        return _world;
     }
 }

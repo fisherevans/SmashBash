@@ -99,10 +99,6 @@ public class PlayerController extends CharacterController {
             getCharacter().setCurrentAction(null);
             _crouched = true;
             getCharacter().getBody().setHeight(CROUCHING_HEIGHT);
-        } else if(key == Key.Right) {
-            getCharacter().setDirection(Direction.Right);
-        } else if(key == Key.Left) {
-            getCharacter().setDirection(Direction.Left);
         }
     }
 

@@ -13,13 +13,13 @@ import java.util.Map;
 public class PlayerProfile {
     private int _input;
     private CharacterDefinition _characterDefinition;
-    private Color _color;
+    private int _spriteId;
     private boolean _ready;
 
     public PlayerProfile(int input) {
         _input = input;
-        _characterDefinition = Characters.getCharacter(0);
-        _color = Characters.getColor(0);
+        _characterDefinition = Characters.getCharacterDefinitions()[0];
+        _spriteId = 0;
         _ready = false;
     }
 
@@ -35,12 +35,12 @@ public class PlayerProfile {
         _characterDefinition = characterDefinition;
     }
 
-    public Color getColor() {
-        return _color;
+    public int getSpriteId() {
+        return _spriteId;
     }
 
-    public void setColor(Color color) {
-        _color = color;
+    public void setSpriteId(int spriteId) {
+        _spriteId = spriteId;
     }
 
     public boolean isReady() {

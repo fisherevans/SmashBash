@@ -41,7 +41,7 @@ public class ReadyState extends WIPState {
         int colorId = 0;
         for(Integer input: Inputs.controllers.keySet())
             if(input != Inputs.GLOBAL_INPUT)
-                _players.put(input, new CharacterSelector(input, colorId++));
+                _players.put(input, new CharacterSelector(input));
     }
 
     @Override
@@ -113,13 +113,6 @@ public class ReadyState extends WIPState {
                 profiles.add(player.getProfile());
         WIP.gameSettings.players = profiles;
         WIP.enterNewState(new PlayState(), new FadeOutTransition(), new FadeInTransition());
-    }
-
-    public boolean isColorTaken(Color color, CharacterSelector exclude) {
-        for(CharacterSelector characterSelector:_players.values())
-            if(characterSelector != exclude && characterSelector.getProfile().getColor().equals(color))
-                return true;
-        return false;
     }
 
     @Override

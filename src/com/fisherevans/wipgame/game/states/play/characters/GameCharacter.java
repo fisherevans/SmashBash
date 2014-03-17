@@ -8,6 +8,7 @@ import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.combat_elements.Skill;
 import com.fisherevans.wipgame.game.states.play.object_controllers.CharacterController;
+import com.fisherevans.wipgame.graphics.CharacterSprite;
 import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -25,7 +26,6 @@ public class GameCharacter extends GameObject {
     private String _name;
     private CharacterController _controller;
     private Map<Integer, CharacterSprite> _characterSprites;
-    private Color _color;
     private CharacterState _state, _lastState;
     private float _stateLength;
     private Integer _lives, _maxHealth, _health;
@@ -36,26 +36,27 @@ public class GameCharacter extends GameObject {
     private CharacterDefinition _definition;
     public float _framesPerSecond;
 
-    public GameCharacter(PlayState playState, String name, Color color, Rectangle body, CharacterDefinition definition) {
+    public GameCharacter(PlayState playState, String name, int spriteId, Rectangle body, CharacterDefinition definition) {
         super(body);
 
         _playState = playState;
         _name = name;
-        _color = color;
         _state = CharacterState.IDLE;
         _lastState = _state;
         _stateLength = 0f;
         _definition = definition;
-        _characterSprites = _definition.getSprites();
+        _characterSprites = _definition.getSprite(spriteId);
 
-        setDirectionBasedOnVelocity(false);
+        setDirectionMethod(DirectionMethod.Input);
 
         _lives = WIP.gameSettings.lives;
         _maxHealth = (int)(WIP.gameSettings.health*_definition.healthScale);
         _health = _maxHealth;
 
         _primarySkill = Skill.getSkill(_definition.primarySkill, this);
+        _primarySkill.setCharacterAction(new CharacterAction(CharacterSprite.Type.Primary, getPrimarySkill().getAnimationTime(), false));
         _secondarySkill = Skill.getSkill(_definition.secondarySkill, this);
+        _secondarySkill.setCharacterAction(new CharacterAction(CharacterSprite.Type.Secondary, getSecondarySkill().getAnimationTime(), false));
 
         _framesPerSecond = definition.framesPerSecond;
     }
@@ -86,21 +87,20 @@ public class GameCharacter extends GameObject {
             image = getSpriteCopy(size, _currentAction.getSpriteType());
         } else {
             switch(getState()) {
-                case FALLING: image = getSpriteCopy(size, SpriteType.Falling); break;
+                case FALLING: image = getSpriteCopy(size, CharacterSprite.Type.Falling); break;
                 case STRAFING: {
                     switch((int)((_stateLength* _framesPerSecond)%4f)) {
-                        case 0: image = getSpriteCopy(size, SpriteType.Walking1); break;
-                        case 1: image = getSpriteCopy(size, SpriteType.Walking2); break;
-                        case 2: image = getSpriteCopy(size, SpriteType.Walking3); break;
-                        default: image = getSpriteCopy(size, SpriteType.Walking2); break;
+                        case 0: image = getSpriteCopy(size, CharacterSprite.Type.Walking1); break;
+                        case 1: image = getSpriteCopy(size, CharacterSprite.Type.Walking2); break;
+                        case 2: image = getSpriteCopy(size, CharacterSprite.Type.Walking3); break;
+                        default: image = getSpriteCopy(size, CharacterSprite.Type.Walking2); break;
                     }
                     break;
                 }
-                case IDLE: image = getSpriteCopy(size, SpriteType.Idle); break;
-                case CROUCHED: image = getSpriteCopy(size, SpriteType.Crouched); break;
+                case IDLE: image = getSpriteCopy(size, CharacterSprite.Type.Idle); break;
+                case CROUCHED: image = getSpriteCopy(size, CharacterSprite.Type.Crouched); break;
             }
         }
-        image.setImageColor(_color.r, _color.g, _color.b);
         return image;
     }
 
@@ -109,11 +109,11 @@ public class GameCharacter extends GameObject {
 
     }
 
-    public Image getSpriteCopy(int size, SpriteType type) {
+    public Image getSpriteCopy(int size, CharacterSprite.Type type) {
         CharacterSprite characterSprite = _characterSprites.get(size);
         if(characterSprite == null)
             return null;
-        Image sprite = characterSprite.getSprite(type);
+        Image sprite = characterSprite.getFrame(type);
         if(sprite == null)
             return null;
         return sprite.copy();
@@ -214,10 +214,6 @@ public class GameCharacter extends GameObject {
 
     public void setPrimarySkill(Skill primarySkill) {
         _primarySkill = primarySkill;
-    }
-
-    public Color getColor() {
-        return _color;
     }
 
     public Integer getMaxHealth() {

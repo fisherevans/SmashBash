@@ -1,6 +1,7 @@
 package com.fisherevans.wipgame.game.states.play.combat_elements;
 
 import com.fisherevans.wipgame.game.states.play.GameObject;
+import com.fisherevans.wipgame.game.states.play.characters.CharacterAction;
 import com.fisherevans.wipgame.game.states.play.characters.CharacterState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.log.Log;
@@ -16,6 +17,8 @@ public abstract class Skill {
 
     private float _charge, _usageCost, _regenRate, _animationTime;
     private GameCharacter _owner;
+
+    private CharacterAction _characterAction = null;
 
     public Skill(float usageCost, float regenRate, float animationTime, GameCharacter owner) {
         _charge = MAX_CHARGE;
@@ -84,6 +87,14 @@ public abstract class Skill {
 
     public void setAnimationTime(float animationTime) {
         _animationTime = animationTime;
+    }
+
+    public CharacterAction getCharacterAction() {
+        return _characterAction;
+    }
+
+    public void setCharacterAction(CharacterAction characterAction) {
+        _characterAction = characterAction;
     }
 
     public static Skill getSkill(Class clazz, GameCharacter owner) {

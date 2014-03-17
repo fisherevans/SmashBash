@@ -18,8 +18,8 @@ String  : launcher.launch = Launch
 String  : loading.prefix = Loading  
 String  : loading.resource.images = Images
 String  : loading.resource.fonts = Fonts
-String  : loading.resource.sprites = Sprite
-String  : loading.resource.lights.define.= Lights
+String  : loading.resource.entities = Entities
+String  : loading.resource.lights = Lights
 String  : loading.resource.maps = Maps
 String  : loading.resource.characters = Characters
 String  : loading.resource.inputs = Inputs
@@ -59,10 +59,13 @@ String  : characters.skillPackage = com.fisherevans.wipgame.game.states.play.com
 String  : characters.skillNames.laser = %characters.skillPackage%.LaserSkill
 String  : characters.skillNames.crazyLaser = %characters.skillPackage%.CrazyLaserSkill
 String  : characters.skillNames.bomb = %characters.skillPackage%.BombSkill
+String  : characters.skillNames.fireball = %characters.skillPackage%.FireballSkill
+String  : characters.skillNames.marioSlam = %characters.skillPackage%.MarioSlamSkill
 
 String  : characters.default.name = Not Named
 Class   : characters.default.primarySkill = %characters.skillNames.laser%
 Class   : characters.default.secondarySkill = %characters.skillNames.crazyLaser%
+Integer : characters.default.spriteCount = 1
 Float   : characters.default.maxLandSpeed = 8
 Float   : characters.default.landAcceleration = 50
 Float   : characters.default.maxAirSpeed = 8
@@ -74,21 +77,26 @@ Float   : characters.default.healthScale = 1
 Float   : characters.default.framesPerSecond = 8
 
 String  : characters.define.base.name = Base
+Integer : characters.define.base.spriteCount = 4
 Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.base.secondarySkill = %characters.skillNames.crazyLaser%
 
 String  : characters.define.mario.name = Mario
-Class   : characters.define.mario.primarySkill = %characters.skillNames.laser%
-Class   : characters.define.mario.secondarySkill = %characters.skillNames.crazyLaser%
+Integer : characters.define.mario.spriteCount = 4
+Class   : characters.define.mario.primarySkill = %characters.skillNames.fireball%
+Class   : characters.define.mario.secondarySkill = %characters.skillNames.marioSlam%
+Float   : characters.define.mario.maxLandSpeed = 10
+Float   : characters.define.mario.airAcceleration = 50
+Float   : characters.define.mario.jumpVelocity = 14
 
 String  : characters.define.test.name = Test
+Integer : characters.define.test.spriteCount = 4
 Class   : characters.define.test.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.test.secondarySkill = %characters.skillNames.bomb%
 Float   : characters.define.test.maxLandSpeed = 5
 Float   : characters.define.test.landAcceleration = 35
 Float   : characters.define.test.airAcceleration = 15
-Float   : characters.default.healthScale = 1.5
-Float   : characters.default.framesPerSecond = 8
+Float   : characters.define.test.healthScale = 1.5
 
 Color   : characters.colors.white = 1f, 1f, 1f
 Color   : characters.colors.blue = 0.38431373f, 0.627451f, 0.7490196f
@@ -146,3 +154,9 @@ Float   : entities.bomb.secondsPerFrame = 0.2
 
 Integer : entities.bomb_explosion.frameCount = 4
 Float   : entities.bomb_explosion.secondsPerFrame = 0.065
+
+Integer : entities.fireball.frameCount = 4
+Float   : entities.fireball.secondsPerFrame = 0.075
+
+Integer : entities.slam_wave.frameCount = 4
+Float   : entities.slam_wave.secondsPerFrame = 0.05

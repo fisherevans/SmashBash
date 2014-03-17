@@ -4,8 +4,9 @@ import com.fisherevans.fizzics.components.Rectangle;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.states.play.GameObject;
 import com.fisherevans.wipgame.game.states.play.PlayState;
+import com.fisherevans.wipgame.graphics.EntitySprite;
 import com.fisherevans.wipgame.log.Log;
-import com.fisherevans.wipgame.resources.Sprites;
+import com.fisherevans.wipgame.resources.Entities;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
@@ -37,13 +38,15 @@ public class Entity extends GameObject {
 
     public Entity(Rectangle body, String entitySpriteName, float lifeSpan, Color color) {
         super(body);
-        _entitySprites = Sprites.getEntitySprites(entitySpriteName);
+        _entitySprites = Entities.getEntitySprites(entitySpriteName);
         if(lifeSpan == 0) {
             _lifeSpan = _entitySprites.get(Config.SPRITE_SIZES[0]).getTotalAnimationTime();
         } else
             _lifeSpan = lifeSpan;
         _lifeTime = 0;
         _color = color;
+
+        setFlipTime(0.001f);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class Entity extends GameObject {
         _lifeTime += delta;
         if(_lifeSpan > 0 &&  _lifeTime >= _lifeSpan && !_dead) {
             _dead = true;
+            _lifeTime = _lifeSpan - 0.0001f;
             PlayState.current.removeGameObject(this);
             destroy();
         }

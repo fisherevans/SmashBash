@@ -8,10 +8,7 @@ import com.fisherevans.wipgame.game.states.play.PlayState;
 import com.fisherevans.wipgame.game.states.play.characters.GameCharacter;
 import com.fisherevans.wipgame.game.states.play.combat_elements.AreaEffect;
 import com.fisherevans.wipgame.game.states.play.combat_elements.areas.CircleArea;
-import com.fisherevans.wipgame.game.states.play.combat_elements.effects.DirectionalForceEffect;
-import com.fisherevans.wipgame.game.states.play.combat_elements.effects.HealthDeltaEffect;
-import com.fisherevans.wipgame.game.states.play.combat_elements.effects.RadialForceEffect;
-import com.fisherevans.wipgame.game.states.play.combat_elements.effects.RadialHealthDeltaEffect;
+import com.fisherevans.wipgame.game.states.play.combat_elements.effects.*;
 import com.fisherevans.wipgame.game.states.play.lights.Light;
 import com.fisherevans.wipgame.log.Log;
 import com.fisherevans.wipgame.resources.Lights;
@@ -52,7 +49,8 @@ public class Bomb extends Entity implements IntersectionListener {
         PlayState.current.addAreaEffect(new AreaEffect()
                 .addArea(new CircleArea(center, radius))
                 .addEffect(new HealthDeltaEffect(damage))
-                .addEffect(new RadialForceEffect(force, center)));
+                .addEffect(new RadialForceEffect(force, center))
+                .addEffect(new KnockdownEffect(1.5f)));
     }
 
     @Override

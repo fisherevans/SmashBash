@@ -1,5 +1,6 @@
 package com.fisherevans.wipgame.game.states.play.characters;
 
+import com.fisherevans.wipgame.graphics.CharacterSprite;
 import org.newdawn.slick.Image;
 
 /**
@@ -7,17 +8,17 @@ import org.newdawn.slick.Image;
  * Date: 2/27/14
  */
 public class CharacterAction {
-    private SpriteType _spriteType;
+    private CharacterSprite.Type _spriteType;
     private float _duration;
     private boolean _preventInput;
 
-    public CharacterAction(SpriteType spriteType, float duration, boolean preventInput) {
+    public CharacterAction(CharacterSprite.Type spriteType, float duration, boolean preventInput) {
         _spriteType = spriteType;
         _duration = duration;
         _preventInput = preventInput;
     }
 
-    public SpriteType getSpriteType() {
+    public CharacterSprite.Type getSpriteType() {
         return _spriteType;
     }
 

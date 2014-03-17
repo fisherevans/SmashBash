@@ -93,8 +93,8 @@ public class LoadingState extends WIPState {
                         case 1: Images.load(); break;
                         case 2: _currentlyLoading = Settings.getString("loading.resource.fonts"); break;
                         case 3: Fonts.load(); break;
-                        case 4: _currentlyLoading = Settings.getString("loading.resource.sprites"); break;
-                        case 5: Sprites.load(); break;
+                        case 4: _currentlyLoading = Settings.getString("loading.resource.entities"); break;
+                        case 5: Entities.load(); break;
                         case 6: _currentlyLoading = Settings.getString("loading.resource.lights"); break;
                         case 7: Lights.load(); break;
                         case 8: _currentlyLoading = Settings.getString("loading.resource.maps"); break;

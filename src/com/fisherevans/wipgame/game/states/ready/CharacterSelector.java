@@ -3,12 +3,10 @@ package com.fisherevans.wipgame.game.states.ready;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
 import com.fisherevans.wipgame.game.game_config.PlayerProfile;
-import com.fisherevans.wipgame.game.states.play.characters.CharacterSprite;
-import com.fisherevans.wipgame.game.states.play.characters.SpriteType;
+import com.fisherevans.wipgame.graphics.CharacterSprite;
 import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.resources.Characters;
 import com.fisherevans.wipgame.resources.Fonts;
-import com.fisherevans.wipgame.resources.Sprites;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
@@ -23,11 +21,11 @@ public class CharacterSelector {
     private PlayerProfile _profile;
     private ReadyPlayerState _readyState;
 
-    public CharacterSelector(int inputSource, int colorId) {
+    public CharacterSelector(int inputSource) {
         _profile = new PlayerProfile(inputSource);
         _inputSource = inputSource;
         _readyState = ReadyPlayerState.NotPlaying;
-        _profile.setColor(Characters.getColor(colorId));
+        _profile.setSpriteId(0);
     }
 
     public void render(Graphics graphics, float x, float y, float width, float height) {
@@ -43,10 +41,9 @@ public class CharacterSelector {
 
         float imageAreaHeight = height - font.getLineHeight()*5;
         float imageDrawYCenter = y + font.getLineHeight()*5 + imageAreaHeight/2f;
-        Image image = Sprites.getCharacterSprites(_profile.getCharacterDefinition().getCode())
-                .get(Config.hugeSize).getSprite(SpriteType.Idle);
-        image = image.getScaledCopy((width*0.666f)/image.getWidth());
-        graphics.drawImageCentered(image, centerX, imageDrawYCenter, _profile.getColor());
+        Image image = _profile.getCharacterDefinition().getSprite(_profile.getSpriteId())
+                .get(Config.hugeSize).getFrame(CharacterSprite.Type.Idle);
+        graphics.drawImageCentered(image, centerX, imageDrawYCenter, Color.white);
     }
 
     public void keyDown(Key key) {
@@ -77,13 +74,12 @@ public class CharacterSelector {
     }
 
     private void shiftCharacter(int shift) {
-        _profile.setCharacterDefinition(shiftSelection(_profile.getCharacterDefinition(), shift, Characters.getCharacters()));
+        _profile.setSpriteId(0);
+        _profile.setCharacterDefinition(shiftSelection(_profile.getCharacterDefinition(), shift, Characters.getCharacterDefinitions()));
     }
 
     private void shiftColor(int shift) {
-        do {
-            _profile.setColor(shiftSelection(_profile.getColor(), shift, Characters.getColors()));
-        } while(ReadyState.self.isColorTaken(_profile.getColor(), this));
+        _profile.setSpriteId(shiftSelection(_profile.getSpriteId(), shift, _profile.getCharacterDefinition().getSpriteIds()));
     }
 
     private static <T> T shiftSelection(T current, int shift, T[] list) {
