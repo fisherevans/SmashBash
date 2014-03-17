@@ -33,11 +33,11 @@ public class CharacterSelector {
         graphics.setFont(font);
         float centerX = x + width/2f;
 
-        graphics.drawStringCentered(_readyState.name(), centerX, y + font.getLineHeight());
+        graphics.drawStringCentered(_readyState.name(), centerX, y + font.getLineHeight()*2);
         if(_readyState == ReadyPlayerState.NotPlaying)
             return;
 
-        graphics.drawStringCentered(_profile.getCharacterDefinition().getCode(), centerX, font.getLineHeight() * 3);
+        graphics.drawStringCentered(_profile.getCharacterDefinition().name, centerX, font.getLineHeight() * 4);
 
         float imageAreaHeight = height - font.getLineHeight()*5;
         float imageDrawYCenter = y + font.getLineHeight()*5 + imageAreaHeight/2f;

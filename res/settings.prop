@@ -76,7 +76,7 @@ Float   : characters.default.jumpTime = 0.25
 Float   : characters.default.healthScale = 1
 Float   : characters.default.framesPerSecond = 8
 
-String  : characters.define.base.name = Base
+String  : characters.define.base.name = Shooter
 Integer : characters.define.base.spriteCount = 4
 Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.base.secondarySkill = %characters.skillNames.crazyLaser%
@@ -89,7 +89,7 @@ Float   : characters.define.mario.maxLandSpeed = 10
 Float   : characters.define.mario.airAcceleration = 50
 Float   : characters.define.mario.jumpVelocity = 14
 
-String  : characters.define.test.name = Test
+String  : characters.define.test.name = Bomber
 Integer : characters.define.test.spriteCount = 4
 Class   : characters.define.test.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.test.secondarySkill = %characters.skillNames.bomb%

@@ -67,6 +67,9 @@ public class ReadyState extends WIPState {
             graphics.drawStringCentered("TODO Need at least " + PLAYERS_NEEDED + " Players READY to Play...",
                     WIP.width()/2f, WIP.height()-graphics.getFont().getLineHeight());
         }
+        graphics.setFont(Fonts.getFont(Config.smallSize));
+        graphics.setColor(Color.lightGray);
+        graphics.drawStringCentered("Use Up/Down to choose a character. Use Left/Right to choose a style.", WIP.width()/2f, graphics.getFont().getLineHeight());
     }
 
     @Override
