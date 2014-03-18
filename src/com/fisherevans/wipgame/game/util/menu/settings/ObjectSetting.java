@@ -17,7 +17,7 @@ public class ObjectSetting<T> extends MenuSetting {
 
     public ObjectSetting(String displayName, T selected, T[] objects) {
         super(displayName);
-        _objects = new ArrayList<>();
+        _objects = new ArrayList<T>();
         for(T object:objects)
             _objects.add(object);
         select(selected);

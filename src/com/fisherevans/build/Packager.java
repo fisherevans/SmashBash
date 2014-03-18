@@ -35,7 +35,7 @@ public class Packager {
         String outputFilename = output + "-" + buildNumber + ".zip";
         System.out.println("Packaging game into: " + outputFilename);
         try {
-            ArrayList<File> files = new ArrayList<>();
+            ArrayList<File> files = new ArrayList<File>();
             File tempFile;
             for(String fileName:include) {
                 tempFile = new File(fileName);

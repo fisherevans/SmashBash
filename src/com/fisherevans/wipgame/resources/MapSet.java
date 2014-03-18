@@ -27,7 +27,7 @@ public class MapSet {
     public MapSet(String code) {
         _code = code;
 
-        _maps = new HashMap<>();
+        _maps = new HashMap<Integer, TiledMap>();
         String mapLocation = MAP_ROOT + _code + ".tmx";
         _maps = new HashMap<Integer, TiledMap>();
         try {

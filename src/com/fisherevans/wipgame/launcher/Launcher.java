@@ -28,8 +28,8 @@ public class Launcher implements ActionListener {
     private JPanel _panel;
     private Resolution _currentResolution;
 
-    private JComboBox<Resolution> _comboBoxResolution;
-    private JComboBox<String> _comboBoxFullscreen;
+    private JComboBox _comboBoxResolution;
+    private JComboBox _comboBoxFullscreen;
 
     public Launcher() {
         JFrame loadingFrame = getLoadingFrame();

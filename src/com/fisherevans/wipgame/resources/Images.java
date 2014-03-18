@@ -21,7 +21,7 @@ public class Images {
     private static Map<String, Image> _images = null;
 
     public static void load() throws SlickException, IOException {
-        _images = new HashMap<>();
+        _images = new HashMap<String, Image>();
         loadImages(IMAGE_LOCATIONS);
     }
 

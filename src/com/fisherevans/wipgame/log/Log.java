@@ -21,7 +21,7 @@ public class Log {
     public static boolean printStdOut = true;
 
     static {
-        levels = new HashMap<>();
+        levels = new HashMap<Class, LogLevel>();
     }
 
     private Class _clazz;

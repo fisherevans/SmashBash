@@ -20,7 +20,7 @@ public class InputController {
     public InputController(int sourceId, String helpImageKey) {
         _sourceId = sourceId;
         _helpImageKey = helpImageKey;
-        _keyStates = new HashMap<>();
+        _keyStates = new HashMap<Key, Boolean>();
         _name = Settings.getString("word.player") + " " + _sourceId;
     }
 

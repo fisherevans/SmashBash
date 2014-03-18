@@ -18,8 +18,8 @@ public class Lights {
     public static Map<String, LightSettings> _lightSettingsByName;
 
     public static void load() {
-        _lightSettingsById = new HashMap<>();
-        _lightSettingsByName = new HashMap<>();
+        _lightSettingsById = new HashMap<Integer, LightSettings>();
+        _lightSettingsByName = new HashMap<String, LightSettings>();
         LightSettings lightSettings;
         for(Settings.Setting setting:Settings.getSetting("lights.define").getChildren()) {
             try {

@@ -22,7 +22,7 @@ public class Event extends CommandObject {
         try {
             String channel = c.next();
             Long action = Long.parseLong(c.next());
-            List<Object> args = new ArrayList<>();
+            List<Object> args = new ArrayList<Object>();
             String arg;
             while(true) {
                 arg = c.next();

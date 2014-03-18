@@ -47,7 +47,7 @@ public class Menu {
         _highlightWidth = highlightWidth;
         _font = font;
 
-        _options = new ArrayList<>();
+        _options = new ArrayList<MenuOption>();
         _currentSelection = 0;
     }
 

@@ -86,11 +86,11 @@ public class PlayState extends WIPState {
         generateCollisionBodies();
 
 
-        _gameObjects = new LinkedList<>();
-        _gameObjectsToAdd = new LinkedList<>();
-        _gameObjectsToRemove = new LinkedList<>();
-        _deadCharacters = new LinkedList<>();
-        _characters = new LinkedList<>();
+        _gameObjects = new LinkedList<GameObject>();
+        _gameObjectsToAdd = new LinkedList<GameObject>();
+        _gameObjectsToRemove = new LinkedList<GameObject>();
+        _deadCharacters = new LinkedList<GameCharacter>();
+        _characters = new LinkedList<GameCharacter>();
         GameCharacter c;
         Rectangle body;
         int respawnId = 0;
@@ -114,7 +114,7 @@ public class PlayState extends WIPState {
 
         _timeLeft = WIP.gameSettings.time*60;
 
-        _areaEffects = new LinkedList<>();
+        _areaEffects = new LinkedList<AreaEffect>();
     }
 
     @Override
@@ -175,7 +175,7 @@ public class PlayState extends WIPState {
                 }
             }
         }
-        _respawnPoints = new LinkedList<>();
+        _respawnPoints = new LinkedList<Vector>();
         for(int x = 0;x < _baseMap.getWidth();x++) {
             for(int y = 0;y <= _baseMap.getHeight();y++) {
                 tile = y < tiles.length ? tiles[y][x] : 0;

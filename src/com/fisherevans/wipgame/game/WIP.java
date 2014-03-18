@@ -42,7 +42,7 @@ public class WIP extends StateBasedGame {
 
     public static final Log log = new Log(WIP.class);
 
-    public static Map<Integer, Class> overlayStates = new HashMap<>();
+    public static Map<Integer, Class> overlayStates = new HashMap<Integer, Class>();
 
     public WIP(String name) {
         super(name);

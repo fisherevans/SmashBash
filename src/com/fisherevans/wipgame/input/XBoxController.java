@@ -17,16 +17,16 @@ import java.util.Map;
 public class XBoxController extends InputController implements JXInputDirectionalEventListener {
     private static final Log log = new Log(XBoxController.class);
 
-    private static final String BUTTON_A = "Button 0";
-    private static final String BUTTON_B = "Button 1";
-    private static final String BUTTON_X = "Button 2";
-    private static final String BUTTON_Y = "Button 3";
-    private static final String BUTTON_LT = "Button 4";
-    private static final String BUTTON_RT = "Button 5";
-    private static final String BUTTON_SELECT = "Button 6";
-    private static final String BUTTON_START = "Button 7";
-    private static final String BUTTON_LA = "Button 8";
-    private static final String BUTTON_RA = "Button 9";
+    private static final int BUTTON_A = 0;
+    private static final int BUTTON_B = 1;
+    private static final int BUTTON_X = 2;
+    private static final int BUTTON_Y = 3;
+    private static final int BUTTON_LT = 4;
+    private static final int BUTTON_RT = 5;
+    private static final int BUTTON_SELECT = 6;
+    private static final int BUTTON_START = 7;
+    private static final int BUTTON_LA = 8;
+    private static final int BUTTON_RA = 9;
 
     private static final int DIRECTION_UP = 0;
     private static final int DIRECTION_RIGHT = 9000;
@@ -65,8 +65,8 @@ public class XBoxController extends InputController implements JXInputDirectiona
         for(int directionalId = 0;directionalId < _controller.getNumberOfDirectionals();directionalId++)
             JXInputEventManager.addListener(this, _controller.getDirectional(directionalId));
 
-        _buttonMap = new HashMap<>();
-        _buttonLastState = new HashMap<>();
+        _buttonMap = new HashMap<Button, String>();
+        _buttonLastState = new HashMap<Button, Boolean>();
         Button button;
         for(int buttonId = 0;buttonId < _controller.getNumberOfButtons();buttonId++) {
             button = _controller.getButton(buttonId);
@@ -74,8 +74,8 @@ public class XBoxController extends InputController implements JXInputDirectiona
             _buttonLastState.put(button, false);
         }
 
-        _axisMap = new HashMap<>();
-        _axisLastState = new HashMap<>();
+        _axisMap = new HashMap<Axis, Integer>();
+        _axisLastState = new HashMap<Axis, Double>();
         Axis axis;
         for(int axisId = 0;axisId < _controller.getNumberOfAxes();axisId++) {
             axis = _controller.getAxis(axisId);
@@ -130,7 +130,7 @@ public class XBoxController extends InputController implements JXInputDirectiona
             boolean state = button.getState();
             if(state != _buttonLastState.get(button)) {
                 _buttonLastState.put(button, state);
-                switch(buttonId) {
+                switch(Integer.parseInt(buttonId.substring(buttonId.length()-1))) {
                     case BUTTON_A:
                         sendKeyState(Key.Select, state);
                         continue;

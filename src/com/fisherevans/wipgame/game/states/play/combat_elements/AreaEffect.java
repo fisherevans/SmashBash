@@ -16,8 +16,8 @@ public class AreaEffect {
     private SetType _setType;
 
     public AreaEffect() {
-        _areas = new LinkedList<>();
-        _effects = new LinkedList<>();
+        _areas = new LinkedList<Area>();
+        _effects = new LinkedList<Effect>();
         _set = new GameCharacter[0];
         _setType = SetType.Exclusive;
     }
@@ -25,8 +25,8 @@ public class AreaEffect {
     public AreaEffect(SetType setType, GameCharacter ... set) {
         _setType = setType;
         _set = set;
-        _areas = new LinkedList<>();
-        _effects = new LinkedList<>();
+        _areas = new LinkedList<Area>();
+        _effects = new LinkedList<Effect>();
     }
 
     public AreaEffect addArea(Area area) {

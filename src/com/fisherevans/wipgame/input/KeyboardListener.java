@@ -23,8 +23,8 @@ public class KeyboardListener implements KeyListener {
     public static final Log log = new Log(KeyboardListener.class);
 
     private boolean shift = false;
-    private Map<Integer, KeyDownAction> keyDownActions = new HashMap<>();
-    private Map<Integer, KeyUpAction> keyUpActions = new HashMap<>();
+    private Map<Integer, KeyDownAction> keyDownActions = new HashMap<Integer, KeyDownAction>();
+    private Map<Integer, KeyUpAction> keyUpActions = new HashMap<Integer, KeyUpAction>();
     private String alphabet;
 
     public KeyboardListener() {

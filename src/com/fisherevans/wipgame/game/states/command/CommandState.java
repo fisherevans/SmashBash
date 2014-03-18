@@ -33,13 +33,13 @@ public class CommandState extends OverlayState implements TypingState {
 
     public static Log log = new Log(CommandState.class);
 
-    private static List<ConsoleText> _console = new LinkedList<>();
+    private static List<ConsoleText> _console = new LinkedList<ConsoleText>();
     private static String _inputLine = "";
     public static boolean acceptInput = false;
 
-    private static Map<String, Object> _variables = new HashMap<>();
-    private static Map<String, CommandObject> _commands = new HashMap<>();
-    private static List<String> _history = new ArrayList<>();
+    private static Map<String, Object> _variables = new HashMap<String, Object>();
+    private static Map<String, CommandObject> _commands = new HashMap<String, CommandObject>();
+    private static List<String> _history = new ArrayList<String>();
 
     private static int _cursor = 0;
     private static int _currentHistory = 0;

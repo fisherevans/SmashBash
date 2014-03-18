@@ -8,7 +8,7 @@ import java.util.List;
  * Date: 2/10/14
  */
 public class GameSettings {
-    public List<PlayerProfile> players = new ArrayList<>();
+    public List<PlayerProfile> players = new ArrayList<PlayerProfile>();
     public int health = 100;
     public int lives = 5;
     public int time = 6;

@@ -52,7 +52,7 @@ public class MarioSlamSkill extends Skill {
 
         private SlamListener(GameCharacter owner) {
             _owner = owner;
-            _damaged = new LinkedList<>();
+            _damaged = new LinkedList<Rectangle>();
         }
 
         @Override

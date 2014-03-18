@@ -14,7 +14,7 @@ public class CharacterSprite extends Sprite {
 
     public CharacterSprite(Image baseImage, int x, int y, int width, int height) {
         super(baseImage, x, y, width, height, Type.values().length);
-        _typeMap = new HashMap<>();
+        _typeMap = new HashMap<Type, Integer>();
         Type[] types = Type.values();
         for(int id = 0;id < types.length;id++)
             _typeMap.put(types[id], id);

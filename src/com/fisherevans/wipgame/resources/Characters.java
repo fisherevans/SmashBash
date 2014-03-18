@@ -26,7 +26,7 @@ public class Characters {
 
     public static void init() {
         _baseDefinition = getCharacterDefinition(Settings.getSetting("characters.default"));
-        _characterMap = new HashMap<>();
+        _characterMap = new HashMap<String, CharacterDefinition>();
         for(Settings.Setting setting:Settings.getSetting("characters.define").getChildren())
             addCharacterDefinition(getCharacterDefinition(_baseDefinition, setting));
 

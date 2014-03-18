@@ -37,7 +37,7 @@ public class ReadyState extends WIPState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         self = this;
-        _players = new HashMap<>();
+        _players = new HashMap<Integer, CharacterSelector>();
         int colorId = 0;
         for(Integer input: Inputs.controllers.keySet())
             if(input != Inputs.GLOBAL_INPUT)
@@ -110,7 +110,7 @@ public class ReadyState extends WIPState {
     }
 
     private void goToPlayState() {
-        List<PlayerProfile> profiles = new ArrayList<>(_players.size());
+        List<PlayerProfile> profiles = new ArrayList<PlayerProfile>(_players.size());
         for(CharacterSelector player:_players.values())
             if(player.getReadyState() == ReadyPlayerState.Ready)
                 profiles.add(player.getProfile());

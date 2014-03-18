@@ -17,7 +17,7 @@ public class Inputs {
     public static final int GLOBAL_INPUT = -1;
 
     public static final Log log = new Log(Inputs.class);
-    public static Map<Integer, InputController> controllers = new HashMap<>();
+    public static Map<Integer, InputController> controllers = new HashMap<Integer, InputController>();
     public static KeyboardListener keyboardListener;
 
     public static void load() {

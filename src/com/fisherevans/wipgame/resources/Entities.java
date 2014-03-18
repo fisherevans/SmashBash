@@ -18,11 +18,11 @@ public class Entities {
     private static Map<String, Map<Integer, EntitySprite>> _entitySpriteMap;
 
     public static void load() throws FileNotFoundException {
-        _entitySpriteMap = new HashMap<>();
+        _entitySpriteMap = new HashMap<String, Map<Integer, EntitySprite>>();
         Map<Integer, EntitySprite> entitySprites;
         for(Settings.Setting setting:Settings.getSetting("entities").getChildren()) {
             try {
-                entitySprites = new HashMap<>();
+                entitySprites = new HashMap<Integer, EntitySprite>();
                 for(Integer size: Config.SPRITE_SIZES) {
                     entitySprites.put(size, new EntitySprite(
                             Images.getImage("sprites/entities/re-sized/" + size + "/" + setting.getName()),

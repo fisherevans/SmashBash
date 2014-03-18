@@ -33,10 +33,10 @@ public class CharacterDefinition {
     }
 
     public void loadSprites() {
-        _spriteList = new ArrayList<>();
+        _spriteList = new ArrayList<Map<Integer, CharacterSprite>>();
         Map<Integer, CharacterSprite> spriteMap;
         for(int spriteId = 0;spriteId < spriteCount;spriteId++) {
-            spriteMap = new HashMap<>();
+            spriteMap = new HashMap<Integer, CharacterSprite>();
             for(Integer size:Config.SPRITE_SIZES) {
                 spriteMap.put(size, new CharacterSprite(Images.getImage("sprites/characters/re-sized/" + size + "/" + _code),
                         0, size*3*spriteId, size*2, size*3));

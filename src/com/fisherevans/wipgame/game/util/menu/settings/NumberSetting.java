@@ -75,7 +75,7 @@ public class NumberSetting extends MenuSetting {
 
     @Override
     public List<Object> getAvailableOptions() {
-        List<Object> options = new ArrayList<>();
+        List<Object> options = new ArrayList<Object>();
         for(int id = _min;id <= _max;id++)
             options.add(id);
         return options;

@@ -8,7 +8,7 @@ import java.util.Map;
  * Date: 3/12/14
  */
 public class KeyboardController extends InputController {
-    private Map<Key, Integer> _keyMap = new HashMap<>();
+    private Map<Key, Integer> _keyMap = new HashMap<Key, Integer>();
 
     public KeyboardController(int sourceId, String helpImageKey) {
         super(sourceId, helpImageKey);

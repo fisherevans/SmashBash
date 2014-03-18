@@ -15,17 +15,17 @@ import java.util.regex.Pattern;
  * Date: 3/11/14
  */
 public class Settings {
+    public enum DataType { String, Boolean, Integer, Float, Double, Color, Class }
+
     public static final String SETTINGS_FILE = "res/settings.prop";
     public static final String COMMENT_PREFIX = "#";
     public static final String VAR_WALLS = "%";
     public static final Pattern VAR_PATTERN = Pattern.compile(VAR_WALLS + "((\\.?[a-zA-Z0-9]+)+)" + VAR_WALLS);
     public static final Log log = new Log(Settings.class);
 
-    private static Map<String, Setting> _parents;
     private static Setting _rootSetting;
 
     public static void init() {
-        _parents = new HashMap<>();
         _rootSetting = new Setting("root");
         try {
             Scanner in = new Scanner(new File(SETTINGS_FILE));
@@ -62,30 +62,30 @@ public class Settings {
 
     private static Object generateValue(String type, String stringValue) throws Exception {
         Object value = null;
-        switch(type.toLowerCase()) {
-            case "string":
+        switch(DataType.valueOf(type)) {
+            case String:
                 value = stringValue;
                 break;
-            case "boolean":
+            case Boolean:
                 value = new Boolean(stringValue);
                 break;
-            case "float":
+            case Float:
                 value = new Float(stringValue);
                 break;
-            case "integer":
+            case Integer:
                 value = new Integer(stringValue);
                 break;
-            case "double":
+            case Double:
                 value = new Double(stringValue);
                 break;
-            case "color":
+            case Color:
                 String[] comps = stringValue.split(",");
                 Color color = new Color(new Float(comps[0]), new Float(comps[1]), new Float(comps[2]));
                 if(comps.length > 3)
                     color.a = new Float(comps[3]);
                 value = color;
                 break;
-            case "class":
+            case Class:
                 value = Class.forName(stringValue);
                 break;
         }
@@ -166,7 +166,7 @@ public class Settings {
             _value = null;
             _clazz = Object.class;
 
-            _children = new HashMap<>();
+            _children = new HashMap<String, Setting>();
         }
 
         public Collection<Setting> getChildren() {

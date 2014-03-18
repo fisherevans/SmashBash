@@ -48,7 +48,7 @@ public class LightManager {
             System.exit(1);
         }
 
-        _lights = new LinkedList<>();
+        _lights = new LinkedList<Light>();
         TiledMap map = _playState.getBaseMap();
         int lightsLayer = map.getLayerIndex("lights");
         int[] tileData;

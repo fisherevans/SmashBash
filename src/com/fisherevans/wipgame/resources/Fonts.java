@@ -20,8 +20,8 @@ public class Fonts {
     private static Font _baseFont;
 
     public static void load() throws SlickException {
-        _fonts = new HashMap<>();
-        _strokedFonts = new HashMap<>();
+        _fonts = new HashMap<Integer, AngelCodeFont>();
+        _strokedFonts = new HashMap<Integer, AngelCodeFont>();
         for(Integer size:Config.SPRITE_SIZES)
             loadFont(size);
     }

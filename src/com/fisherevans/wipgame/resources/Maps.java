@@ -14,7 +14,7 @@ public class Maps {
     private static MapSet _baseMap;
 
     public static void load() {
-        _mapSetMap = new HashMap<>();
+        _mapSetMap = new HashMap<String, MapSet>();
         _baseMap = new MapSet("default", null);
         Settings.populate(Settings.getSetting("maps.default"), _baseMap);
         MapSet mapProfile;
