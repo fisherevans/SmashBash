@@ -1,4 +1,4 @@
-WIPGame
+SmashBash
 =======
 Tools/Depencencies
 - Java 1.6_45
