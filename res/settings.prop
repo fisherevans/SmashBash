@@ -55,7 +55,7 @@ String  : helpMenu.footer = Press any input key to return...
 String  : keyboardListener.alphabet = abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$^&*()_+-=[]\;',./{}|"<>?`~ #%:
 
 ##### CHARACTERS #####
-String  : characters.skillPackage = com.fisherevans.wipgame.game.states.play.combat_elements.skills
+String  : characters.skillPackage = com.fisherevans.smash_bash.game.states.play.combat_elements.skills
 String  : characters.skillNames.laser = %characters.skillPackage%.LaserSkill
 String  : characters.skillNames.crazyLaser = %characters.skillPackage%.CrazyLaserSkill
 String  : characters.skillNames.bomb = %characters.skillPackage%.BombSkill
@@ -120,7 +120,7 @@ String  : maps.define.test2.preview = backgrounds/maps/test2
 Integer : maps.define.test2.sequence = 2
 
 ##### LIGHTS #####
-String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers
+String  : lights.controllerPackage = com.fisherevans.smash_bash.game.states.play.lights.controllers
 
 Integer : lights.define.torch.id = 1
 String  : lights.define.torch.image = lights/default

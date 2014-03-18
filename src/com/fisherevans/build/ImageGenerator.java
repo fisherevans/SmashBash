@@ -1,6 +1,6 @@
 package com.fisherevans.build;
 
-import com.fisherevans.wipgame.Config;
+import com.fisherevans.smash_bash.Config;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
