@@ -1,7 +1,8 @@
 package com.fisherevans.wipgame.resources;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
+
+import java.util.*;
 
 /**
  * Author: Fisher Evans
@@ -24,8 +25,17 @@ public class Maps {
             Settings.replaceNulls(_baseMap, mapProfile);
             _mapSetMap.put(mapProfile.getCode(), mapProfile);
         }
-        _mapCodes = _mapSetMap.keySet().toArray(new String[0]);
-        _mapSets = _mapSetMap.values().toArray(new MapSet[0]);
+
+        List<MapSet> mapSetList = new ArrayList<MapSet>(_mapSetMap.values());
+        Collections.sort(mapSetList, new MapSet.MapSetComparator());
+        _mapCodes = new String[mapSetList.size()];
+        _mapSets = new MapSet[mapSetList.size()];
+        int id = 0;
+        for(MapSet ms:mapSetList) {
+            _mapCodes[id] = ms.getCode();
+            _mapSets[id] = ms;
+            id++;
+        }
     }
 
     public static Map<String, MapSet> getMapSetMap() {

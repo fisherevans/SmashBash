@@ -6,10 +6,7 @@ import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.Color;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Author: Fisher Evans
@@ -30,8 +27,16 @@ public class Characters {
         for(Settings.Setting setting:Settings.getSetting("characters.define").getChildren())
             addCharacterDefinition(getCharacterDefinition(_baseDefinition, setting));
 
-        _characterCodes = _characterMap.keySet().toArray(new String[0]);
-        _characterDefinitions = _characterMap.values().toArray(new CharacterDefinition[0]);
+        List<CharacterDefinition> characterDefinitionsList = new ArrayList<CharacterDefinition>(_characterMap.values());
+        Collections.sort(characterDefinitionsList, new CharacterDefinition.CharacterDefinitionComparator());
+        _characterCodes = new String[characterDefinitionsList.size()];
+        _characterDefinitions = new CharacterDefinition[characterDefinitionsList.size()];
+        int id = 0;
+        for(CharacterDefinition d:characterDefinitionsList) {
+            _characterCodes[id] = d.getCode();
+            _characterDefinitions[id] = d;
+            id++;
+        }
     }
 
     public static CharacterDefinition getCharacter(String code) {

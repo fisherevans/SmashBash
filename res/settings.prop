@@ -75,11 +75,13 @@ Float   : characters.default.jumpVelocity = 12
 Float   : characters.default.jumpTime = 0.25
 Float   : characters.default.healthScale = 1
 Float   : characters.default.framesPerSecond = 8
+Integer : characters.default.sequence = 0
 
 String  : characters.define.base.name = Shooter
 Integer : characters.define.base.spriteCount = 4
 Class   : characters.define.base.primarySkill = %characters.skillNames.laser%
 Class   : characters.define.base.secondarySkill = %characters.skillNames.crazyLaser%
+Integer : characters.define.base.sequence = 1
 
 String  : characters.define.mario.name = Mario
 Integer : characters.define.mario.spriteCount = 4
@@ -88,6 +90,7 @@ Class   : characters.define.mario.secondarySkill = %characters.skillNames.marioS
 Float   : characters.define.mario.maxLandSpeed = 10
 Float   : characters.define.mario.airAcceleration = 50
 Float   : characters.define.mario.jumpVelocity = 14
+Integer : characters.define.mario.sequence = 2
 
 String  : characters.define.test.name = Bomber
 Integer : characters.define.test.spriteCount = 4
@@ -97,6 +100,7 @@ Float   : characters.define.test.maxLandSpeed = 5
 Float   : characters.define.test.landAcceleration = 35
 Float   : characters.define.test.airAcceleration = 15
 Float   : characters.define.test.healthScale = 1.5
+Integer : characters.define.test.sequence = 3
 
 ##### MAPS #####
 String  : maps.default.name = Not Named
@@ -104,13 +108,16 @@ String  : maps.default.background = backgrounds/test
 String  : maps.default.preview = backgrounds/maps/unknown
 Color   : maps.default.baseColor = 0.5,0.5,0.5
 Float   : maps.default.gravity = -37
+Integer : maps.default.sequence = 0
 
 String  : maps.define.bubbly.name = Bubbly
 String  : maps.define.bubbly.background = backgrounds/bubbly
+Integer : maps.define.bubbly.sequence = 1
 
 String  : maps.define.test2.name = Gridlock
 String  : maps.define.test2.background = backgrounds/test
 String  : maps.define.test2.preview = backgrounds/maps/test2
+Integer : maps.define.test2.sequence = 2
 
 ##### LIGHTS #####
 String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers

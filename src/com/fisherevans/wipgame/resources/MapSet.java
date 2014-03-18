@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class MapSet {
     public Color baseColor;
     public String name, preview, background;
     public Float gravity;
+
+    public Integer sequence;
 
     public MapSet(String code) {
         _code = code;
@@ -60,5 +63,12 @@ public class MapSet {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static class MapSetComparator implements Comparator<MapSet> {
+        @Override
+        public int compare(MapSet o1, MapSet o2) {
+            return o1.sequence - o2.sequence;
+        }
     }
 }

@@ -3,12 +3,10 @@ package com.fisherevans.wipgame.game.game_config;
 import com.fisherevans.wipgame.Config;
 import com.fisherevans.wipgame.resources.Images;
 import com.fisherevans.wipgame.graphics.CharacterSprite;
+import com.fisherevans.wipgame.resources.MapSet;
 import com.fisherevans.wipgame.tools.MathUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Author: Fisher Evans
@@ -27,6 +25,8 @@ public class CharacterDefinition {
     public Float jumpVelocity, jumpTime;
     public Float healthScale, framesPerSecond;
     public Integer spriteCount;
+
+    public Integer sequence;
 
     public CharacterDefinition(String code) {
         _code = code;
@@ -66,5 +66,12 @@ public class CharacterDefinition {
     public boolean equals(Object obj) {
         return (obj instanceof CharacterDefinition)
                 && ((CharacterDefinition) obj).getCode().equals(_code);
+    }
+
+    public static class CharacterDefinitionComparator implements Comparator<CharacterDefinition> {
+        @Override
+        public int compare(CharacterDefinition o1, CharacterDefinition o2) {
+            return o1.sequence - o2.sequence;
+        }
     }
 }

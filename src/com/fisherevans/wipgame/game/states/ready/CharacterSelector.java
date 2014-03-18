@@ -58,10 +58,10 @@ public class CharacterSelector {
         if(_readyState == ReadyPlayerState.Selecting) {
             switch(key) {
                 case Up:
-                    shiftCharacter(1);
+                    shiftCharacter(-1);
                     break;
                 case Down:
-                    shiftCharacter(-1);
+                    shiftCharacter(1);
                     break;
                 case Left:
                     shiftColor(-1);
