@@ -1,10 +1,5 @@
 package com.fisherevans.wipgame.resources;
 
-import com.fisherevans.wipgame.Config;
-import com.fisherevans.wipgame.game.game_config.MapProfile;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,42 +8,39 @@ import java.util.Map;
  * Date: 2/14/14
  */
 public class Maps {
-    public static final int BASE = -1;
-
-    private static String _mapRoot = "res/maps/";
-    private static String[] _mapNames = { "test3", "test2", "test" };
-    private static Map<String, Map<Integer, TiledMap>> _mapMap;
+    private static Map<String, MapSet> _mapSetMap;
+    private static String[] _mapCodes;
+    private static MapSet[] _mapSets;
+    private static MapSet _baseMap;
 
     public static void load() {
-        _mapMap = new HashMap<>();
-        for(String mapName:_mapNames) {
-            String mapLocation = _mapRoot + mapName + ".tmx";
-            Map<Integer, TiledMap> sizedMaps = new HashMap<Integer, TiledMap>();
-            try {
-                sizedMaps.put(BASE, new TiledMap(mapLocation));
-                for(Integer size: Config.SPRITE_SIZES) {
-                    sizedMaps.put(size, new TiledMap(mapLocation, _mapRoot + "re-sized/" + size,
-                            size/((float)(Config.SPRITE_SIZES[Config.SPRITE_SIZES.length-1]))));
-                }
-            } catch (SlickException e) {
-                e.printStackTrace();
-            }
-            _mapMap.put(mapName, sizedMaps);
+        _mapSetMap = new HashMap<>();
+        _baseMap = new MapSet("default", null);
+        Settings.populate(Settings.getSetting("maps.default"), _baseMap);
+        MapSet mapProfile;
+        for(Settings.Setting mapSetting:Settings.getSetting("maps.define").getChildren()) {
+            mapProfile = new MapSet(mapSetting.getName());
+            Settings.populate(mapSetting, mapProfile);
+            Settings.replaceNulls(_baseMap, mapProfile);
+            _mapSetMap.put(mapProfile.getCode(), mapProfile);
         }
+        _mapCodes = _mapSetMap.keySet().toArray(new String[0]);
+        _mapSets = _mapSetMap.values().toArray(new MapSet[0]);
     }
 
-    public static Map<Integer, TiledMap> getSizedMaps(String name) {
-        return _mapMap.get(name);
+    public static Map<String, MapSet> getMapSetMap() {
+        return _mapSetMap;
     }
 
-    public static TiledMap getSizedMap(String name, Integer size) {
-        return _mapMap.get(name).get(size);
+    public static MapSet getMapSet(String code) {
+        return _mapSetMap.get(code);
     }
 
-    public static MapProfile[] getProfiles() {
-        MapProfile[] profiles = new MapProfile[_mapNames.length];
-        for(int id = 0;id < _mapNames.length;id++)
-            profiles[id] = new MapProfile(_mapNames[id]);
-        return profiles;
+    public static String[] getMapCodes() {
+        return _mapCodes;
+    }
+
+    public static MapSet[] getMapSets() {
+        return _mapSets;
     }
 }

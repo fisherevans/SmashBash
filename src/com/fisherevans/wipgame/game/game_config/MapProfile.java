@@ -29,7 +29,7 @@ public class MapProfile {
 
     @Override
     public String toString() {
-        return Maps.getSizedMap(_name, Maps.BASE).getMapProperty("name", "Unknown");
+        return Maps.getMapSet(_name).name;
     }
 
     @Override

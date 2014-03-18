@@ -1,9 +1,11 @@
 package com.fisherevans.wipgame.resources;
 
+import com.fisherevans.wipgame.game.game_config.CharacterDefinition;
 import com.fisherevans.wipgame.log.Log;
 import org.newdawn.slick.Color;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -126,6 +128,31 @@ public class Settings {
 
     public static Class getClass(String key) {
         return getSetting(key).classValue();
+    }
+
+    public static void populate(Setting parent, Object box) {
+        Field field;
+        for(Settings.Setting setting:parent.getChildren()) {
+            try {
+                field = box.getClass().getField(setting.getName());
+                field.set(box, setting.getValue());
+            } catch (Exception e) {
+                log.error("Failed populating property: " + setting.getName());
+                log.error(e.toString());
+            }
+        }
+    }
+
+    public static void replaceNulls(Object base, Object into) {
+        for(Field field:base.getClass().getFields()) {
+            try {
+                if(field.get(into) == null)
+                    field.set(into, field.get(base));
+            } catch (Exception e) {
+                log.error("Failed updating null property from base: " + field.getName());
+                log.error(e.toString());
+            }
+        }
     }
 
     public static class Setting {

@@ -98,13 +98,19 @@ Float   : characters.define.test.landAcceleration = 35
 Float   : characters.define.test.airAcceleration = 15
 Float   : characters.define.test.healthScale = 1.5
 
-Color   : characters.colors.white = 1f, 1f, 1f
-Color   : characters.colors.blue = 0.38431373f, 0.627451f, 0.7490196f
-Color   : characters.colors.purple = 0.627451f, 0.38431373f, 0.7490196f
-Color   : characters.colors.red = 0.7490196f, 0.3764706f, 0.3764706f
-Color   : characters.colors.green = 0.3764706f, 0.7490196f, 0.4392157f
-Color   : characters.colors.yellow = 0.7411765f, 0.6666667f, 0.36862746f
-Color   : characters.colors.grey = 0.5019608f, 0.5019608f, 0.5019608f
+##### MAPS #####
+String  : maps.default.name = Not Named
+String  : maps.default.background = backgrounds/test
+String  : maps.default.preview = backgrounds/maps/unknown
+Color   : maps.default.baseColor = 0.5,0.5,0.5
+Float   : maps.default.gravity = -37
+
+String  : maps.define.bubbly.name = Bubbly
+String  : maps.define.bubbly.background = backgrounds/bubbly
+
+String  : maps.define.test2.name = Gridlock
+String  : maps.define.test2.background = backgrounds/test
+String  : maps.define.test2.preview = backgrounds/maps/test2
 
 ##### LIGHTS #####
 String  : lights.controllerPackage = com.fisherevans.wipgame.game.states.play.lights.controllers

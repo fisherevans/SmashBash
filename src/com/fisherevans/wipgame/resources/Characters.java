@@ -52,31 +52,14 @@ public class Characters {
 
     private static CharacterDefinition getCharacterDefinition(CharacterDefinition base, Settings.Setting baseSetting) {
         CharacterDefinition definition = getCharacterDefinition(baseSetting);
-        for(Field field:CharacterDefinition.class.getFields()) {
-            try {
-                if(field.get(definition) == null)
-                    field.set(definition, field.get(base));
-            } catch (Exception e) {
-                log.error("Failed setting character property from base: " + field.getName());
-                log.error(e.toString());
-            }
-        }
+        Settings.replaceNulls(base, definition);
         definition.loadSprites();
         return definition;
     }
 
     private static CharacterDefinition getCharacterDefinition(Settings.Setting baseSetting) {
         CharacterDefinition definition = new CharacterDefinition(baseSetting.getName());
-        Field field;
-        for(Settings.Setting setting:baseSetting.getChildren()) {
-            try {
-                field = CharacterDefinition.class.getField(setting.getName());
-                field.set(definition, setting.getValue());
-            } catch (Exception e) {
-                log.error("Failed setting character property: " + setting.getName());
-                log.error(e.toString());
-            }
-        }
+        Settings.populate(baseSetting, definition);
         return definition;
     }
 }

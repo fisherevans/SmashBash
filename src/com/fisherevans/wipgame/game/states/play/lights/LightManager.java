@@ -90,11 +90,11 @@ public class LightManager {
 
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // overlay
         //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
-        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive
-        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive
+        //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
         //_currentColorScale = 1f;
         float lx, ly, radius;
-        float brightest = 0f, localBrightest;
+        float brightest = getHighestComponent(_baseColor), localBrightest;
         Image lightImage;
         for(Light light:_lights) {
             lx = light.getPosition().getX();

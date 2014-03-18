@@ -6,7 +6,7 @@
   <property name="light_b" value="20"/>
   <property name="light_g" value="15"/>
   <property name="light_r" value="10"/>
-  <property name="name" value="Test Map #2"/>
+  <property name="name" value="Gridlock"/>
  </properties>
  <tileset firstgid="1" name="collision" tilewidth="128" tileheight="128">
   <image source="colission.png" width="256" height="256"/>

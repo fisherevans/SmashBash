@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="54" height="32" tilewidth="128" tileheight="128">
+ <properties>
+  <property name="background" value="backgrounds/bubbly"/>
+  <property name="gravity" value="-37"/>
+  <property name="light_b" value="255"/>
+  <property name="light_g" value="255"/>
+  <property name="light_r" value="255"/>
+  <property name="name" value="Bubbly"/>
+ </properties>
+ <tileset firstgid="1" name="collision" tilewidth="128" tileheight="128">
+  <image source="colission.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="lights" tilewidth="128" tileheight="128">
+  <image source="lights.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="21" name="bubbly" tilewidth="128" tileheight="128">
+  <image source="bubbly.png" width="1280" height="1280"/>
+ </tileset>
+ <layer name="collision" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1USQ6AMAis/v/Rnkwa0so2tNgwiRdbZkGktULhHNyL6wrng87GRR6K2Tl9T2tH5/ROljnlvM/OsiOrd6+Pr1n0ePH2Bd1fRI+y5kJ4Qfjh9puWR6vHPT00+1K6t5HQZEFpcNpIRPKPeDU60t7PZsiqI4H2fu9xxUyNdLQ1Xr2suaw1kn/Tsl+9vZLWSbWsntDfn6u16Gjuc3k8My3hRsxDZAaPfkZuj4co3hV5Zh6ieFdn6j1E8e7K9Or/kXsnTs1VKJyEB4iT7/IAGwAA
+  </data>
+ </layer>
+ <layer name="lights" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ8HFAAAAAAAAPwYlIPOdAAbAAA=
+  </data>
+ </layer>
+ <layer name="background" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1WywqDQAz0J/RQBD0Ixf7/B9bSBmTJY0yyFWUHctBsJpk1G7frGhqug36zwVhj+bW43hkbxbTZbKyx/Frc5IyNYt3sZayx/Frc6oxFwfXDUhjqL9+XsZyf489AtB9G5nlvkq82ov1wZu0aov0wFrEeXTQfM/sze389XHP3PQ9aD3vryNR1FDQfM3VRLdRP3HxDMPzWIvVIc7HUVean2Y3eB6R9kvg5zGAuKSfyrWh2o7ksXYg+7z8a1fQBzW40F8e7dHYegtRX+33Q7oPePAgi5xXpqYz7oGeuIOul84royrgPRnVJ33gunrk5JvEd6Z9nwa/lQWDF0XmV5rLGd6QmiT/jnBzJh3Ja6y09kX81xT8Yi+bRuDn+bFhzIGPfanBHaqjF+w89Ug21eP+taV9DLd6zNFH+K3Kfibvqami4E95AoeQBABsAAA==
+  </data>
+ </layer>
+ <layer name="foreground" width="54" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3VwQnAIBAEQMtIGjD9d5gG7qFkxSAz4Edw/axnawB5TyDjLvZ6IJezVb3ZJfEOOMtMJ2bm3Ujv9ZEv/L8k7JyBK87+5R7zfd5VrJXZyXwAAMa9WCIP4gAbAAA=
+  </data>
+ </layer>
+</map>

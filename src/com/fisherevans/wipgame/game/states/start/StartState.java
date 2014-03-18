@@ -14,10 +14,7 @@ import com.fisherevans.wipgame.game.util.menu.settings.NumberSetting;
 import com.fisherevans.wipgame.game.util.menu.settings.ObjectSetting;
 import com.fisherevans.wipgame.game.util.menu.settings.TimeSetting;
 import com.fisherevans.wipgame.input.Key;
-import com.fisherevans.wipgame.resources.Fonts;
-import com.fisherevans.wipgame.resources.Images;
-import com.fisherevans.wipgame.resources.Maps;
-import com.fisherevans.wipgame.resources.Settings;
+import com.fisherevans.wipgame.resources.*;
 import com.fisherevans.wipgame.tools.GraphicFunctions;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
@@ -33,7 +30,7 @@ public class StartState extends WIPState {
     private Menu _menu;
 
     private NumberSetting _lives, _health, _time;
-    private ObjectSetting<MapProfile> _maps;
+    private ObjectSetting<MapSet> _maps;
 
     private Image _mapPreviewFade, _verticalDownFade;
     private MapPreviewDisplay _mapPreview;
@@ -46,7 +43,7 @@ public class StartState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _maps = new MapProfileSetting(Settings.getString("start.map"), new MapProfile(WIP.gameSettings.map), Maps.getProfiles());
+        _maps = new MapProfileSetting(Settings.getString("start.map"), Maps.getMapSet(Maps.getMapCodes()[0]), Maps.getMapSets());
         _lives = new NumberSetting(Settings.getString("start.lives"), 1, WIP.gameSettings.lives, 10);
         _health = new NumberSetting(Settings.getString("start.health"), 50, WIP.gameSettings.health, 200, 25);
         _time = new TimeSetting(Settings.getString("start.timeLimit"), Settings.getString("start.timeLimit.minutes"), 1, WIP.gameSettings.time, 11);
@@ -55,7 +52,7 @@ public class StartState extends WIPState {
         _menu.add(new RunnableOption(Settings.getString("start.play"), new Runnable() {
             @Override
             public void run() {
-                WIP.gameSettings.map = _maps.getSelected().getName();
+                WIP.gameSettings.map = _maps.getSelected().getCode();
                 WIP.gameSettings.lives = _lives.getCurrent();
                 WIP.gameSettings.health = _health.getCurrent();
                 WIP.gameSettings.time = _time.getCurrent();
@@ -70,7 +67,7 @@ public class StartState extends WIPState {
         _menu.add(new QuitOption(Settings.getString("start.exit")));
         _menu.setTitle(Settings.getString("start.title"), Fonts.getFont(Config.hugeSize));
 
-        _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
+        _mapPreview = new MapPreviewDisplay(Images.getImage(_maps.getSelected().preview));
         _mapPreviewFade = Images.getImage("gui/fade_right");
 
         _verticalDownFade = Images.getImage("gui/fade_down");
@@ -130,7 +127,7 @@ public class StartState extends WIPState {
 
     public void updateCurrentMap() {
         _fadingPreviews.add(_mapPreview);
-        _mapPreview = new MapPreviewDisplay(_maps.getSelected().getPreviewImage());
+        _mapPreview = new MapPreviewDisplay(Images.getImage(_maps.getSelected().preview));
     }
 
     private class MapPreviewDisplay {

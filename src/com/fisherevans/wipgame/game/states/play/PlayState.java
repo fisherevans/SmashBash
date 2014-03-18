@@ -23,6 +23,7 @@ import com.fisherevans.wipgame.input.Key;
 import com.fisherevans.wipgame.input.XBoxController;
 import com.fisherevans.wipgame.resources.Fonts;
 import com.fisherevans.wipgame.resources.Images;
+import com.fisherevans.wipgame.resources.MapSet;
 import com.fisherevans.wipgame.resources.Maps;
 import com.fisherevans.wipgame.tools.MathUtil;
 import org.newdawn.slick.*;
@@ -54,6 +55,7 @@ public class PlayState extends WIPState {
 
     private float _screenHeight, _screenWidth;
 
+    private MapSet _mapSet;
     private TiledMap _baseMap;
 
     private float _gravity;
@@ -73,13 +75,12 @@ public class PlayState extends WIPState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        _baseMap = Maps.getSizedMap(WIP.gameSettings.map, Maps.BASE);
+        _mapSet = Maps.getMapSet(WIP.gameSettings.map);
+        _baseMap = _mapSet.getMap(MapSet.BASE_ID);
 
-        _gravity = Float.parseFloat(_baseMap.getMapProperty("gravity", "" + DEFAULT_GRAVITY));
-        _lightColor = new Color(Integer.parseInt(_baseMap.getMapProperty("light_r", "" + DEFAULT_LIGHT_R)),
-                Integer.parseInt(_baseMap.getMapProperty("light_g", "" + DEFAULT_LIGHT_B)),
-                Integer.parseInt(_baseMap.getMapProperty("light_b", "" + DEFAULT_LIGHT_G)));
-        _backgroundImage = Images.getImage(_baseMap.getMapProperty("background", DEFAULT_BACKGROUND));
+        _gravity = _mapSet.gravity;
+        _lightColor = _mapSet.baseColor;
+        _backgroundImage = Images.getImage(_mapSet.background);
 
         _world = new World(_gravity);
         generateCollisionBodies();
@@ -92,8 +93,10 @@ public class PlayState extends WIPState {
         _characters = new LinkedList<>();
         GameCharacter c;
         Rectangle body;
+        int respawnId = 0;
         for(PlayerProfile profile:WIP.gameSettings.players) {
-            body = new Rectangle(19f + profile.getInput(), _baseMap.getHeight()-9f, 1f, 2f);
+            Vector spawnV = _respawnPoints.get(respawnId++);
+            body = new Rectangle(spawnV.getX(), spawnV.getY(), 1f, 2f);
             c = new GameCharacter(this, "Player " + profile.getInput(), profile.getSpriteId(), body, profile.getCharacterDefinition());
             c.setController(new PlayerController(c, profile.getInput()));
             _characters.add(c);
@@ -220,6 +223,7 @@ public class PlayState extends WIPState {
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("collision"));
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("lights"));
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("background"));
+
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("foreground"));
 
         Image image;
@@ -267,6 +271,7 @@ public class PlayState extends WIPState {
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
+        gfx.setColor(Color.white);
         gfx.setFont(Fonts.getStrokedFont(Config.normalSize));
         gfx.drawStringCentered(String.format("%d:%02d", (int) (_timeLeft / 60), (int) (_timeLeft % 60f)), WIP.width() / 2f, gfx.getFont().getLineHeight());
 
@@ -309,12 +314,12 @@ public class PlayState extends WIPState {
             gfx.drawString("Cam  : " + (int)_camera.getCurrentPosition().getX() + ", " + (int)_camera.getCurrentPosition().getY(), 10, 80);
             gfx.drawString("FPS  : " + WIP.container.getFPS(), 10, 100);
         }
-        gfx.flush();
+        //gfx.flush();
     }
 
     private void drawMapLayer(int size, float zoom, int startX, int startY, float shiftX, float shiftY, int layerId)
     {
-        TiledMap map = Maps.getSizedMap(WIP.gameSettings.map, size);
+        TiledMap map = _mapSet.getMap(size);
         Image tile;
         for(int y = startY+1;y >= startY-_screenHeight-1;y--)
         {
@@ -406,7 +411,7 @@ public class PlayState extends WIPState {
     public void characterDied(GameCharacter character) {
         if(character.getLives() > 0) {
             character.revive();
-            character.getBody().setBottomLeft(new Vector(11f, _baseMap.getHeight()-15f));
+            character.getBody().setBottomLeft(_respawnPoints.get((int)(Math.random()*_respawnPoints.size())));
         } else {
             removeGameObject(character);
             _deadCharacters.add(character);
