@@ -21,11 +21,11 @@ public class Packager {
     private static String[] include = new String[] {
             "res",
             "dll",
-            "WIPGame.jar",
+            "SmashBash.jar",
             "Start.bat"
     };
 
-    private static String output = "out/WIPGame";
+    private static String output = "out/SmashBash";
 
     public static void main(String[] args) {
         pack(incrementBuildNumber("res/build.txt"));
@@ -53,8 +53,8 @@ public class Packager {
             ZipFile zipArchive = new ZipFile(outputFilename);
             ZipParameters parameters = new ZipParameters();
             parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
-            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-            parameters.setRootFolderInZip("WIPGame");
+            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_ULTRA);
+            parameters.setRootFolderInZip("SmashBash-" + buildNumber);
 
             for(File file:files) {
                 if(file.isDirectory())

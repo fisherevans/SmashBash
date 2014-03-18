@@ -1,2 +1,2 @@
 @ECHO OFF
-start javaw -jar WIPGame.jar
+start javaw -jar SmashBash.jar

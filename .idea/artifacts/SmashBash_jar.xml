@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="WIPGame:jar">
+  <artifact type="jar" name="SmashBash:jar">
     <output-path>$PROJECT_DIR$</output-path>
-    <root id="archive" name="WIPGame.jar">
+    <root id="archive" name="SmashBash.jar">
       <element id="module-output" name="WIPGame" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/zip4j_1.3.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/slick2d/jorbis-0.0.15.jar" path-in-jar="/" />
