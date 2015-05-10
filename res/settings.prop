@@ -61,6 +61,7 @@ String  : characters.skillNames.crazyLaser = %characters.skillPackage%.CrazyLase
 String  : characters.skillNames.bomb = %characters.skillPackage%.BombSkill
 String  : characters.skillNames.fireball = %characters.skillPackage%.FireballSkill
 String  : characters.skillNames.marioSlam = %characters.skillPackage%.MarioSlamSkill
+String  : characters.skillNames.uppercut = %characters.skillPackage%.UppercutSkill
 
 String  : characters.default.name = Not Named
 Class   : characters.default.primarySkill = %characters.skillNames.laser%
@@ -94,11 +95,9 @@ Integer : characters.define.mario.sequence = 2
 
 String  : characters.define.test.name = Bomber
 Integer : characters.define.test.spriteCount = 4
-Class   : characters.define.test.primarySkill = %characters.skillNames.laser%
-Class   : characters.define.test.secondarySkill = %characters.skillNames.bomb%
+Class   : characters.define.test.primarySkill = %characters.skillNames.bomb%
+Class   : characters.define.test.secondarySkill = %characters.skillNames.uppercut%
 Float   : characters.define.test.maxLandSpeed = 5
-Float   : characters.define.test.landAcceleration = 35
-Float   : characters.define.test.airAcceleration = 15
 Float   : characters.define.test.healthScale = 1.5
 Integer : characters.define.test.sequence = 3
 
@@ -106,13 +105,14 @@ Integer : characters.define.test.sequence = 3
 String  : maps.default.name = Not Named
 String  : maps.default.background = backgrounds/test
 String  : maps.default.preview = backgrounds/maps/unknown
-Color   : maps.default.baseColor = 0.5,0.5,0.5
+Color   : maps.default.baseColor = 0.05,0.075,0.1
 Float   : maps.default.gravity = -37
 Integer : maps.default.sequence = 0
 
-String  : maps.define.bubbly.name = Bubbly
-String  : maps.define.bubbly.background = backgrounds/bubbly
-Integer : maps.define.bubbly.sequence = 1
+String  : maps.define.cartoon.name = Cartoon
+String  : maps.define.cartoon.background = backgrounds/bubbly
+Color   : maps.define.cartoon.baseColor = 0.9,0.9,0.9
+Integer : maps.define.cartoon.sequence = 1
 
 String  : maps.define.test2.name = Gridlock
 String  : maps.define.test2.background = backgrounds/test
@@ -125,31 +125,31 @@ String  : lights.controllerPackage = com.fisherevans.smash_bash.game.states.play
 Integer : lights.define.torch.id = 1
 String  : lights.define.torch.image = lights/default
 Float   : lights.define.torch.radius = 5.5
-Color   : lights.define.torch.color = 0.33,0.24,0.15
+Color   : lights.define.torch.color = 0.8,0.6,0.4
 Class   : lights.define.torch.controller = %lights.controllerPackage%.StaticController
 
 Integer : lights.define.florescent.id = 2
 String  : lights.define.florescent.image = lights/long
 Float   : lights.define.florescent.radius = 12
-Color   : lights.define.florescent.color = 0.33,0.24,0.15
+Color   : lights.define.florescent.color = 0.8,0.6,0.4
 Class   : lights.define.florescent.controller = %lights.controllerPackage%.StaticController
 
 Integer : lights.define.bomb_explosion.id = 3
 String  : lights.define.bomb_explosion.image = lights/default
 Float   : lights.define.bomb_explosion.radius = 9
-Color   : lights.define.bomb_explosion.color = 0.4,0.4,0.25
+Color   : lights.define.bomb_explosion.color = 1,1,0.9
 Class   : lights.define.bomb_explosion.controller = %lights.controllerPackage%.StaticController
 
 Integer : lights.define.laser.id = 4
 String  : lights.define.laser.image = lights/long
 Float   : lights.define.laser.radius = 2
-Color   : lights.define.laser.color = 0.33,0.15,0.15
+Color   : lights.define.laser.color = 0.7,0.3,0.3
 Class   : lights.define.laser.controller = %lights.controllerPackage%.StaticController
 
 Integer : lights.define.laser_explosion.id = 5
 String  : lights.define.laser_explosion.image = lights/default
 Float   : lights.define.laser_explosion.radius = 2
-Color   : lights.define.laser_explosion.color = 0.33,0.15,0.15
+Color   : lights.define.laser_explosion.color = 0.7,0.3,0.3
 Class   : lights.define.laser_explosion.controller = %lights.controllerPackage%.StaticController
 
 ##### ENTITIES #####

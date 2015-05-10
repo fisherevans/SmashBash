@@ -36,6 +36,8 @@ public class LightManager {
 
     private float _currentColorScale, _targetColorScale;
 
+    public boolean autoLevelLight = false;
+
     public LightManager(PlayState playState, Color baseColor, int width, int height) {
         _playState = playState;
         _baseColor = baseColor;
@@ -85,13 +87,13 @@ public class LightManager {
         float hw = screenWidth/2f;
         float hh = screenHeight/2f;
 
-        _gfx.setColor(_baseColor.scaleCopy(_currentColorScale));
+        _gfx.setColor(_baseColor.scaleCopy(autoLevelLight ? _currentColorScale : 1f));
         _gfx.fillRect(0, 0, _lightFBO.getWidth(), _lightFBO.getHeight());
 
         //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // overlay
         //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive
-        //GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
+        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE); // additive
+        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE); // overlay with alpha
         //_currentColorScale = 1f;
         float lx, ly, radius;
         float brightest = getHighestComponent(_baseColor), localBrightest;
@@ -104,7 +106,7 @@ public class LightManager {
                 && ly + radius > cy - hh && ly - radius < cy + hh) {
                 lightImage = light.getImage();
                 lightImage.draw((lx-radius)*zoom + shiftX, (_playState.getBaseMap().getHeight()-ly-radius)*zoom + shiftY,
-                        radius*2*zoom, radius*2*zoom, light.getColor().scaleCopy(_currentColorScale));
+                        radius*2*zoom, radius*2*zoom, light.getColor().scaleCopy(autoLevelLight ? _currentColorScale : 1f));
                 localBrightest = getHighestComponent(light.getColor());
                 if(localBrightest > brightest)
                     brightest = localBrightest;

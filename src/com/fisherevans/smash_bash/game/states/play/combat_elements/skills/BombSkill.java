@@ -13,8 +13,8 @@ import com.fisherevans.smash_bash.game.states.play.entities.Bomb;
  * Date: 3/3/14
  */
 public class BombSkill extends Skill {
-    public static final float USAGE_COST = 0.75f;
-    public static final float REGEN_RATE = 0.45f;
+    public static final float USAGE_COST = 0.5f;
+    public static final float REGEN_RATE = 0.25f;
 
     public BombSkill(GameCharacter owner) {
         super(USAGE_COST, REGEN_RATE, 0.4f, owner);

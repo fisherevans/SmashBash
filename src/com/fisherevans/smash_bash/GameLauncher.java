@@ -22,6 +22,14 @@ public class GameLauncher {
 
     public static void main(String[] args) {
         try {
+            String dllFolder = "dll/x86";
+            if(System.getProperty("os.arch").contains("64"))
+                dllFolder = "dll/x64";
+            System.setProperty("java.library.path", new File(dllFolder).getAbsolutePath());
+            Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+            fieldSysPath.setAccessible(true);
+            fieldSysPath.set(null, null);
+
             new Launcher();
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,12 +42,6 @@ public class GameLauncher {
             logBuildVersion();
             EventRouter.init();
             Settings.init();
-
-            String dllFolder = "dll";
-            System.setProperty("java.library.path", new File(dllFolder).getAbsolutePath());
-            Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
-            fieldSysPath.setAccessible(true);
-            fieldSysPath.set(null, null);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

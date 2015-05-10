@@ -34,12 +34,6 @@ import java.util.List;
  * Date: 2/10/14
  */
 public class PlayState extends SmashBashState {
-    public static final float DEFAULT_GRAVITY = -37f;
-    public static final int DEFAULT_LIGHT_R = 255;
-    public static final int DEFAULT_LIGHT_G = 255;
-    public static final int DEFAULT_LIGHT_B = 255;
-    public static final String DEFAULT_BACKGROUND = "background/test";
-
     public static PlayState current = null;
 
     private World _world;
@@ -219,8 +213,7 @@ public class PlayState extends SmashBashState {
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("collision"));
         //drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("lights"));
         drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("background"));
-
-        drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("foreground"));
+        drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("midground"));
 
         Image image;
         float zoomScale;
@@ -264,6 +257,8 @@ public class PlayState extends SmashBashState {
             gfx.drawStringCentered("Player " + character.getController().getInputSource() + " [" + character.getLives() + "]",
                     baseX + zoom/2f, baseY-gfx.getFont().getLineHeight());
         }
+
+        drawMapLayer(size, zoom, startX, startY, shiftX, shiftY, _baseMap.getLayerIndex("foreground"));
 
         _lightManager.render(gfx, zoom, _camera, _screenWidth, _screenHeight, shiftX, shiftY);
 
@@ -360,8 +355,10 @@ public class PlayState extends SmashBashState {
 
             if(!_areaEffects.isEmpty()) {
                 for(AreaEffect effect:_areaEffects) {
-                    for(GameCharacter character:_characters)
-                        effect.process(character);
+                    if(!_characters.isEmpty()) {
+                        for(GameCharacter character:_characters)
+                            effect.process(character);
+                    }
                 }
                 _areaEffects.clear();
             }
